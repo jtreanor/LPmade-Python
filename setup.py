@@ -3,7 +3,13 @@ setup.py file for LPmade netlib
 """
 
 from distutils.core import setup, Extension
+from distutils.sysconfig import get_config_vars
+import os
 
+(opt,) = get_config_vars('OPT')
+os.environ['OPT'] = " ".join(
+    flag for flag in opt.split() if flag != '-Wstrict-prototypes'
+)
 
 net_lib_module = Extension('_netlib',
                            sources=['netlib.i','netlib/WeightedNetwork.cpp','netlib/Statistics.cpp',
@@ -38,6 +44,7 @@ net_lib_module = Extension('_netlib',
 									"netlib/LinkPredictor/RootedPageRankLinkPredictor.cpp",          
 									"netlib/LinkPredictor/WeightedTriangleLinkPredictor.cpp"],
 			                       swig_opts=['-c++'],
+                				   #extra_compile_args=['-Wall -Werror -O3 -D NDEBUG']
                            )
 
 setup (name = 'netlib',
