@@ -25,7 +25,7 @@ from netlib import *
 network = WeightedNetwork.readNetworkNamed("COMPLETE.net")
 
 #Calculate Katz measure between vertices 1 and 10
-katz = KatzLinkPredictor(network)
+katz = KatzLinkPredictor(network,5,0.005)
 katz_measure = katz.generateScore(1,10)
 ```
 
