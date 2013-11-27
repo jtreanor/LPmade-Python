@@ -14,12 +14,14 @@ To install the Python module simply run the following command:
 
 The API is largely identical to the C++ library. For example:
 
-```from netlib import *
+```
+from netlib import *
 
 network = WeightedNetwork.readNetworkNamed("COMPLETE.net")
 
 katz = KatzLinkPredictor(network)
-katz_measure = katz.generateScore(1,10)```
+katz_measure = katz.generateScore(1,10)
+```
 
 ## License
 
