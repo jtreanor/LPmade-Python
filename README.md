@@ -12,6 +12,10 @@ To install the Python module simply run the following command:
 
 ``sudo python setup.py install``
 
+Or:
+
+``sudo python3 setup.py install``
+
 The API is largely identical to the C++ library. For example:
 
 ```
