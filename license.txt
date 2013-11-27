@@ -1,0 +1,4 @@
+====================
+LPmade
+====================
+This file contains license information for LPmade and its components. The LPmade software package as an aggregate is released under the GNU GENERAL PUBLIC LICENSE Version 3. That license is available in the file './gpl-3.0.txt'.
