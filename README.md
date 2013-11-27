@@ -16,10 +16,8 @@ The API is largely identical to the C++ library. For example:
 
 ``from netlib import *
 
-#Load network file from disk.
 network = WeightedNetwork.readNetworkNamed("COMPLETE.net")
 
-#Calculate the Katz measure
 katz = KatzLinkPredictor(network)
 katz_measure = katz.generateScore(1,10)``
 
