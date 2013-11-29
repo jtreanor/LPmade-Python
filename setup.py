@@ -4,7 +4,6 @@ setup.py file for LPmade netlib
 
 from distutils.core import setup, Extension
 from distutils.sysconfig import get_config_vars
-import platform
 import os
 
 (opt,) = get_config_vars('OPT')
@@ -44,8 +43,7 @@ net_lib_module = Extension('_netlib',
 									"netlib/LinkPredictor/JPageRankLinkPredictor.cpp",              
 									"netlib/LinkPredictor/RootedPageRankLinkPredictor.cpp",          
 									"netlib/LinkPredictor/WeightedTriangleLinkPredictor.cpp"],
-			                       swig_opts=['-c++'],
-                				   extra_compile_args=(['-stdlib=libstdc++'] if platform.system() == "Darwin" else [] )
+			                       swig_opts=['-c++']
                            )
 
 setup (name = 'netlib',

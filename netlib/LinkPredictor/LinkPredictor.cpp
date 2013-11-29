@@ -25,7 +25,7 @@ LinkPredictor::~LinkPredictor() {
 }
 
 double LinkPredictor::generateScoreIfNotNeighbors( vertex_t a, vertex_t b) {
-	if ((completeNetwork.hasEdgeExt(a,b)) || a == b) {
+	if ((completeNetwork.hasEdgeExt(network.translateIntToExt(a),network.translateIntToExt(b))) || a == b) {
 		return 0;
 	}
 	return this->generateScore(a,b);
