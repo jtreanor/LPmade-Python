@@ -30,7 +30,8 @@ class LinkPredictor {
 		LinkPredictor( const WeightedNetwork& );
 		virtual ~LinkPredictor();
 		virtual double generateScore( vertex_t, vertex_t ) = 0;
-		void printOutNeighborScores( unsigned int degree );
+		double generateScoreIfNotNeighbors( vertex_t, vertex_t );
+		void printOutNeighborScoress( unsigned int degree );
 		void printInNeighborScores( unsigned int degree );
 };
 

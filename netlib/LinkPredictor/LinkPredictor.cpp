@@ -24,7 +24,14 @@ LinkPredictor::LinkPredictor( const WeightedNetwork& network ) : network(network
 LinkPredictor::~LinkPredictor() {
 }
 
-void LinkPredictor::printOutNeighborScores( unsigned int degree ) {
+double LinkPredictor::generateScoreIfNotNeighbors( vertex_t a, vertex_t b) {
+	if ((network.hasEdge(a,b)) || a == b) {
+		return 0;
+	}
+	return this->generateScore(a,b);
+}
+
+void LinkPredictor::printOutNeighborScoress( unsigned int degree ) {
 	// if the degree is 0, do all-pairs predictions
 	if( degree == 0 ) {
 		for( vertex_t vertex = 0; vertex < network.vertexCount(); ++vertex ) {
