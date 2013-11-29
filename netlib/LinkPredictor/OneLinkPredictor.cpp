@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "OneLinkPredictor.h"
 
-OneLinkPredictor::OneLinkPredictor( const WeightedNetwork& network ) : LinkPredictor( network ) {
+OneLinkPredictor::OneLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 }
 
 OneLinkPredictor::~OneLinkPredictor() {

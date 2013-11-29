@@ -18,7 +18,7 @@ class CommonNeighborLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		CommonNeighborLinkPredictor( const WeightedNetwork& );
+		CommonNeighborLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~CommonNeighborLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "PreferentialAttachmentLinkPredictor.h"
 
-PreferentialAttachmentLinkPredictor::PreferentialAttachmentLinkPredictor( const WeightedNetwork& network ) : LinkPredictor(network) {
+PreferentialAttachmentLinkPredictor::PreferentialAttachmentLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 }
 
 PreferentialAttachmentLinkPredictor::~PreferentialAttachmentLinkPredictor() {

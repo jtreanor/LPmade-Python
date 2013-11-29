@@ -15,7 +15,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 using std::stack;
 using std::make_pair;
 
-PathCountLinkPredictor::PathCountLinkPredictor( const WeightedNetwork& network, unsigned int l ) : LinkPredictor(network), l(l) {
+PathCountLinkPredictor::PathCountLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,unsigned int l ) : LinkPredictor(network,completeNetwork), l(l) {
 }
 
 PathCountLinkPredictor::~PathCountLinkPredictor() {

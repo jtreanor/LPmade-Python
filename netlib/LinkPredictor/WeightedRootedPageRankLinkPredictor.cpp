@@ -11,7 +11,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 #include "WeightedRootedPageRankLinkPredictor.h"
 #include "../Statistics.h"
 
-WeightedRootedPageRankLinkPredictor::WeightedRootedPageRankLinkPredictor( const WeightedNetwork& network, double alpha ) : LinkPredictor(network), alpha(alpha) {
+WeightedRootedPageRankLinkPredictor::WeightedRootedPageRankLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,double alpha ) : LinkPredictor(network,completeNetwork), alpha(alpha) {
 }
 
 WeightedRootedPageRankLinkPredictor::~WeightedRootedPageRankLinkPredictor() {

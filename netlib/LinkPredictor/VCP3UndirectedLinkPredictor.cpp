@@ -15,7 +15,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 using std::cout;
 using std::cerr;
 
-VCP3UndirectedLinkPredictor::VCP3UndirectedLinkPredictor( const WeightedNetwork& network ) : LinkPredictor( network ) {
+VCP3UndirectedLinkPredictor::VCP3UndirectedLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 }
 
 VCP3UndirectedLinkPredictor::DetailedNeighbors VCP3UndirectedLinkPredictor::computeDetailedNeighbors( const neighbor_set_t& inNeighbors, const neighbor_set_t& outNeighbors, vertex_t avoidance ) const {

@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "IDegreeLinkPredictor.h"
 
-IDegreeLinkPredictor::IDegreeLinkPredictor( const WeightedNetwork& network ) : LinkPredictor( network ) {
+IDegreeLinkPredictor::IDegreeLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 }
 
 IDegreeLinkPredictor::~IDegreeLinkPredictor() {

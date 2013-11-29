@@ -35,7 +35,7 @@ class MRLPLinkPredictor : public LinkPredictor {
 		void edgeProfile( vertex_t, vertex_t, unsigned long[] );
 	protected:
 	public:
-		MRLPLinkPredictor( const WeightedNetwork& );
+		MRLPLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~MRLPLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

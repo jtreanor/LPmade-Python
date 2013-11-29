@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "SimRankLinkPredictor.h"
 
-SimRankLinkPredictor::SimRankLinkPredictor( const WeightedNetwork& network, double C ) : LinkPredictor(network), C(C), scores(network.simRank(C)) {
+SimRankLinkPredictor::SimRankLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,double C ) : LinkPredictor(network,completeNetwork), C(C), scores(network.simRank(C)) {
 }
 
 SimRankLinkPredictor::~SimRankLinkPredictor() {

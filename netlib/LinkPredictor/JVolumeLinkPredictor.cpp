@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "JVolumeLinkPredictor.h"
 
-JVolumeLinkPredictor::JVolumeLinkPredictor( const WeightedNetwork& network ) : LinkPredictor( network ) {
+JVolumeLinkPredictor::JVolumeLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 }
 
 JVolumeLinkPredictor::~JVolumeLinkPredictor() {

@@ -18,7 +18,7 @@ class OneLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		OneLinkPredictor( const WeightedNetwork& );
+		OneLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~OneLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

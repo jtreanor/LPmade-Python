@@ -34,7 +34,7 @@ class TriangleLinkPredictor : public LinkPredictor {
 		void edgeProfile( vertex_t, vertex_t, unsigned long[] );
 	protected:
 	public:
-		TriangleLinkPredictor( const WeightedNetwork&, int );
+		TriangleLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,int );
 		~TriangleLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

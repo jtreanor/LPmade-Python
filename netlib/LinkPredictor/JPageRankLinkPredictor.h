@@ -21,10 +21,10 @@ class JPageRankLinkPredictor : public LinkPredictor {
 	private:
 		double d;
 		vector<double> scores;
-		JPageRankLinkPredictor( const WeightedNetwork& );
+		JPageRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:
-		JPageRankLinkPredictor( const WeightedNetwork&, double );
+		JPageRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,double );
 		~JPageRankLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

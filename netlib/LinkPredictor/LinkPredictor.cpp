@@ -18,14 +18,14 @@ using std::cerr;
 using std::scientific;
 using std::ios_base;
 
-LinkPredictor::LinkPredictor( const WeightedNetwork& network ) : network(network), vertex(INVALID_VERTEX), neighbor(INVALID_VERTEX) {
+LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : network(network), completeNetwork(completeNetwork), vertex(INVALID_VERTEX), neighbor(INVALID_VERTEX) {
 }
 
 LinkPredictor::~LinkPredictor() {
 }
 
 double LinkPredictor::generateScoreIfNotNeighbors( vertex_t a, vertex_t b) {
-	if ((network.hasEdge(a,b)) || a == b) {
+	if ((completeNetwork.hasEdgeExt(a,b)) || a == b) {
 		return 0;
 	}
 	return this->generateScore(a,b);

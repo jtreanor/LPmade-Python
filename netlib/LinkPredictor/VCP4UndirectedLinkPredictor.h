@@ -24,7 +24,7 @@ class VCP4UndirectedLinkPredictor : public LinkPredictor {
 		unsigned long unconnectedPairs;
 	protected:
 	public:
-		VCP4UndirectedLinkPredictor( const WeightedNetwork& );
+		VCP4UndirectedLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~VCP4UndirectedLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

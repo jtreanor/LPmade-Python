@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "MutualityLinkPredictor.h"
 
-MutualityLinkPredictor::MutualityLinkPredictor( const WeightedNetwork& network ) : LinkPredictor( network ) {
+MutualityLinkPredictor::MutualityLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 }
 
 MutualityLinkPredictor::~MutualityLinkPredictor() {

@@ -18,7 +18,7 @@ class IDegreeLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		IDegreeLinkPredictor( const WeightedNetwork& );
+		IDegreeLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~IDegreeLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

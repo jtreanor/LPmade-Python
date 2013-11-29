@@ -11,7 +11,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 #include <math.h>
 #include "AdamicAdarLinkPredictor.h"
 
-AdamicAdarLinkPredictor::AdamicAdarLinkPredictor( const WeightedNetwork& network ) : LinkPredictor(network) {
+AdamicAdarLinkPredictor::AdamicAdarLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 }
 
 AdamicAdarLinkPredictor::~AdamicAdarLinkPredictor() {

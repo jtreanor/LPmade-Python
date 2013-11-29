@@ -21,10 +21,10 @@ class UnweightedPropFlowLinkPredictor : public LinkPredictor {
 	private:
 		unsigned int l;
 		vector<double> scores;
-		UnweightedPropFlowLinkPredictor( const WeightedNetwork& );
+		UnweightedPropFlowLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:
-		UnweightedPropFlowLinkPredictor( const WeightedNetwork&, unsigned int );
+		UnweightedPropFlowLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,unsigned int );
 		~UnweightedPropFlowLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

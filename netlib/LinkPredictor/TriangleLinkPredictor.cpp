@@ -14,7 +14,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 using std::cerr;
 
-TriangleLinkPredictor::TriangleLinkPredictor( const WeightedNetwork& network, int selection = -1 ) : LinkPredictor( network ), selection( selection ) {
+TriangleLinkPredictor::TriangleLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,int selection = -1 ) : LinkPredictor(network,completeNetwork), selection( selection ) {
 	if( this->selection > -1 ) {
 		return;
 	}

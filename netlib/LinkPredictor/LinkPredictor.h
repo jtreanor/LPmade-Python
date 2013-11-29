@@ -22,12 +22,13 @@ class LinkPredictor {
 		LinkPredictor& operator=( const LinkPredictor& );
 	protected:
 		const WeightedNetwork& network;
+		const WeightedNetwork& completeNetwork;
 		vertex_t vertex;
 		vertex_t neighbor;
 		LinkPredictor();
 	public:
 		enum Direction { IN, OUT };
-		LinkPredictor( const WeightedNetwork& );
+		LinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		virtual ~LinkPredictor();
 		virtual double generateScore( vertex_t, vertex_t ) = 0;
 		double generateScoreIfNotNeighbors( vertex_t, vertex_t );

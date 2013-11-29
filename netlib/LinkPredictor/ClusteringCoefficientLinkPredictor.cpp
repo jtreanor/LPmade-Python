@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "ClusteringCoefficientLinkPredictor.h"
 
-ClusteringCoefficientLinkPredictor::ClusteringCoefficientLinkPredictor( const WeightedNetwork& network ) : LinkPredictor(network) {
+ClusteringCoefficientLinkPredictor::ClusteringCoefficientLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 }
 
 ClusteringCoefficientLinkPredictor::~ClusteringCoefficientLinkPredictor() {

@@ -14,7 +14,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 using std::cerr;
 
-MRLPLinkPredictor::MRLPLinkPredictor( const WeightedNetwork& network ) : LinkPredictor( network ) {
+MRLPLinkPredictor::MRLPLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 	unsigned long allCounts[graphlets] = {0};
 	for( vertex_t vertex = 0; vertex < network.vertexCount(); ++vertex ) {
 		const neighbor_set_t& outNeighbors = network.outNeighbors( vertex );

@@ -23,7 +23,7 @@ using std::cerr;
 
 const size_t VCP4UndirectedLinkPredictor::map[graphlets] = {0,1,1,2,3,4,5,6,3,5,4,6,7,8,8,9,10,11,11,12,13,14,15,16,13,15,14,16,17,18,18,19,20,21,21,22,23,24,25,26,23,25,24,26,27,28,28,29,30,31,31,32,33,34,35,36,33,35,34,36,37,38,38,39};
 
-VCP4UndirectedLinkPredictor::VCP4UndirectedLinkPredictor( const WeightedNetwork& network ) : LinkPredictor( network ), connectedPairs( 0 ), unconnectedPairs( 0 ) {
+VCP4UndirectedLinkPredictor::VCP4UndirectedLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork), connectedPairs( 0 ), unconnectedPairs( 0 ) {
 	// compute the total number of somehow-connected pairs in the graph
 	for( vertex_t i = 0; i < network.vertexCount(); ++i ) {
 		neighbor_set_t::const_iterator outIt = network.outNeighbors( i ).begin();

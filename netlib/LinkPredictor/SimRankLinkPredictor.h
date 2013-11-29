@@ -21,10 +21,10 @@ class SimRankLinkPredictor : public LinkPredictor {
 	private:
 		double C;
 		vector<vector<double> > scores;
-		SimRankLinkPredictor( const WeightedNetwork& );
+		SimRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:
-		SimRankLinkPredictor( const WeightedNetwork&, double );
+		SimRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,double );
 		~SimRankLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

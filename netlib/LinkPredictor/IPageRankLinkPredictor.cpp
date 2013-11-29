@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "IPageRankLinkPredictor.h"
 
-IPageRankLinkPredictor::IPageRankLinkPredictor( const WeightedNetwork& network, double d ) : LinkPredictor( network ), d(d) {
+IPageRankLinkPredictor::IPageRankLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,double d ) : LinkPredictor(network,completeNetwork), d(d) {
 	this->scores = this->network.pageRank( this->d );
 }
 

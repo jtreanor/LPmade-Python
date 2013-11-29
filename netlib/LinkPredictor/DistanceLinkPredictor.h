@@ -24,7 +24,7 @@ class DistanceLinkPredictor : public LinkPredictor {
 		vector<double> scores;
 	protected:
 	public:
-		DistanceLinkPredictor( const WeightedNetwork&, unsigned int );
+		DistanceLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,unsigned int );
 		~DistanceLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

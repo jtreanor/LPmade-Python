@@ -18,7 +18,7 @@ using std::make_pair;
 using std::cout;
 using std::cerr;
 
-KatzLinkPredictor::KatzLinkPredictor( const WeightedNetwork& network, unsigned int l, double beta ) : LinkPredictor(network), l(l), beta(beta), lookup(vector<double>(l+1)) {
+KatzLinkPredictor::KatzLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,unsigned int l, double beta ) : LinkPredictor(network,completeNetwork), l(l), beta(beta), lookup(vector<double>(l+1)) {
 	for( unsigned int degree = 0; degree <= l; ++degree ) {
 		this->lookup.at( degree ) = pow( beta, degree );
 	}

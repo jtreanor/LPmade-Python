@@ -21,10 +21,10 @@ class IPageRankLinkPredictor : public LinkPredictor {
 	private:
 		double d;
 		vector<double> scores;
-		IPageRankLinkPredictor( const WeightedNetwork& );
+		IPageRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:
-		IPageRankLinkPredictor( const WeightedNetwork&, double );
+		IPageRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,double );
 		~IPageRankLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

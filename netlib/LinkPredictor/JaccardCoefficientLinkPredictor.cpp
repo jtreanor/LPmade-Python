@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "JaccardCoefficientLinkPredictor.h"
 
-JaccardCoefficientLinkPredictor::JaccardCoefficientLinkPredictor( const WeightedNetwork& network ) : LinkPredictor(network) {
+JaccardCoefficientLinkPredictor::JaccardCoefficientLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 }
 
 JaccardCoefficientLinkPredictor::~JaccardCoefficientLinkPredictor() {

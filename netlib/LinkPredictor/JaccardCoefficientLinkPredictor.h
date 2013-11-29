@@ -18,7 +18,7 @@ class JaccardCoefficientLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		JaccardCoefficientLinkPredictor( const WeightedNetwork& );
+		JaccardCoefficientLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~JaccardCoefficientLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

@@ -22,10 +22,10 @@ class KatzLinkPredictor : public LinkPredictor {
 		double beta;
 		vector<double> lookup;
 		vector<double> scores;
-		KatzLinkPredictor( const WeightedNetwork& );
+		KatzLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:
-		KatzLinkPredictor( const WeightedNetwork&, unsigned int, double );
+		KatzLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,unsigned int, double );
 		~KatzLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

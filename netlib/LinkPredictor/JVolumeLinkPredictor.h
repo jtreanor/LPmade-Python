@@ -18,7 +18,7 @@ class JVolumeLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		JVolumeLinkPredictor( const WeightedNetwork& );
+		JVolumeLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~JVolumeLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

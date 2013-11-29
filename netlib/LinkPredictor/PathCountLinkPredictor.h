@@ -21,10 +21,10 @@ class PathCountLinkPredictor : public LinkPredictor {
 	private:
 		unsigned int l;
 		vector<double> scores;
-		PathCountLinkPredictor( const WeightedNetwork& );
+		PathCountLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:
-		PathCountLinkPredictor( const WeightedNetwork&, unsigned int );
+		PathCountLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,unsigned int );
 		~PathCountLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

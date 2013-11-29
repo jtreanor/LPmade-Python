@@ -18,7 +18,7 @@ class JDegreeLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		JDegreeLinkPredictor( const WeightedNetwork& );
+		JDegreeLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~JDegreeLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

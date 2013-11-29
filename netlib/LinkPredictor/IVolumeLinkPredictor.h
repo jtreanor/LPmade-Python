@@ -18,7 +18,7 @@ class IVolumeLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		IVolumeLinkPredictor( const WeightedNetwork& );
+		IVolumeLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~IVolumeLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

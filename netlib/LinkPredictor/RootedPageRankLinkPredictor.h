@@ -21,10 +21,10 @@ class RootedPageRankLinkPredictor : public LinkPredictor {
 	private:
 		double alpha;
 		vector<double> scores;
-		RootedPageRankLinkPredictor( const WeightedNetwork& );
+		RootedPageRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:
-		RootedPageRankLinkPredictor( const WeightedNetwork&, double );
+		RootedPageRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,double );
 		~RootedPageRankLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

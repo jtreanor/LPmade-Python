@@ -18,7 +18,7 @@ class AdamicAdarLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		AdamicAdarLinkPredictor( const WeightedNetwork& );
+		AdamicAdarLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~AdamicAdarLinkPredictor();
 		virtual double generateScore( vertex_t, vertex_t );
 };

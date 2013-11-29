@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "IVolumeLinkPredictor.h"
 
-IVolumeLinkPredictor::IVolumeLinkPredictor( const WeightedNetwork& network ) : LinkPredictor( network ) {
+IVolumeLinkPredictor::IVolumeLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : LinkPredictor(network,completeNetwork) {
 }
 
 IVolumeLinkPredictor::~IVolumeLinkPredictor() {

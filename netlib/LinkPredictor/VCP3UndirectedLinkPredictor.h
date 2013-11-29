@@ -30,7 +30,7 @@ class VCP3UndirectedLinkPredictor : public LinkPredictor {
 		void edgeProfile( vertex_t, vertex_t, unsigned long[] ) const;
 	protected:
 	public:
-		VCP3UndirectedLinkPredictor( const WeightedNetwork& );
+		VCP3UndirectedLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~VCP3UndirectedLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

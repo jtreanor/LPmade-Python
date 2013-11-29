@@ -8,7 +8,7 @@ class PreferentialAttachmentLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		PreferentialAttachmentLinkPredictor( const WeightedNetwork& );
+		PreferentialAttachmentLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~PreferentialAttachmentLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

@@ -18,7 +18,7 @@ class MutualityLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		MutualityLinkPredictor( const WeightedNetwork& );
+		MutualityLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~MutualityLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

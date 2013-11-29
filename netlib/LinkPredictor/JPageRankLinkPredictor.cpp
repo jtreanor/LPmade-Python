@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "JPageRankLinkPredictor.h"
 
-JPageRankLinkPredictor::JPageRankLinkPredictor( const WeightedNetwork& network, double d ) : LinkPredictor( network ), d(d) {
+JPageRankLinkPredictor::JPageRankLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,double d ) : LinkPredictor(network,completeNetwork), d(d) {
 	this->scores = this->network.pageRank( this->d );
 }
 

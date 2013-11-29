@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "ShortestPathCountLinkPredictor.h"
 
-ShortestPathCountLinkPredictor::ShortestPathCountLinkPredictor( const WeightedNetwork& network, unsigned int l ) : LinkPredictor(network), l(l) {
+ShortestPathCountLinkPredictor::ShortestPathCountLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,unsigned int l ) : LinkPredictor(network,completeNetwork), l(l) {
 }
 
 ShortestPathCountLinkPredictor::~ShortestPathCountLinkPredictor() {

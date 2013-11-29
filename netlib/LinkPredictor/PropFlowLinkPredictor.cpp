@@ -10,7 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "PropFlowLinkPredictor.h"
 
-PropFlowLinkPredictor::PropFlowLinkPredictor( const WeightedNetwork& network, unsigned int l ) : LinkPredictor(network), l(l) {
+PropFlowLinkPredictor::PropFlowLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,unsigned int l ) : LinkPredictor(network,completeNetwork), l(l) {
 }
 
 PropFlowLinkPredictor::~PropFlowLinkPredictor() {

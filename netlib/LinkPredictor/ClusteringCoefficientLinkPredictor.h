@@ -18,7 +18,7 @@ class ClusteringCoefficientLinkPredictor : public LinkPredictor {
 	private:
 	protected:
 	public:
-		ClusteringCoefficientLinkPredictor( const WeightedNetwork& );
+		ClusteringCoefficientLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		~ClusteringCoefficientLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };
