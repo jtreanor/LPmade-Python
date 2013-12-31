@@ -24,11 +24,16 @@ LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetw
 LinkPredictor::~LinkPredictor() {
 }
 
+double LinkPredictor::generateZero( ) {
+	return 0;
+}
+
 double LinkPredictor::generateScoreIfNotNeighbors( vertex_t a, vertex_t b) {
-	if ((completeNetwork.hasEdgeExt(network.translateIntToExt(a),network.translateIntToExt(b))) || a == b) {
+	return 0;
+	if ( completeNetwork.hasEdgeExt(a,b) || a == b ) {
 		return 0;
 	}
-	return this->generateScore(a,b);
+	return this->generateScore(this->network.translateExtToInt( a ),this->network.translateExtToInt( b ));
 }
 
 void LinkPredictor::printOutNeighborScoress( unsigned int degree ) {
