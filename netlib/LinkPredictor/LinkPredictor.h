@@ -32,7 +32,7 @@ class LinkPredictor {
 		virtual ~LinkPredictor();
 		virtual double generateScore( vertex_t, vertex_t ) = 0;
 		double generateScoreIfNotNeighbors( vertex_t, vertex_t );
-		double generateZero();
+		double generateScoreExt( vertex_t, vertex_t );
 		void printOutNeighborScoress( unsigned int degree );
 		void printInNeighborScores( unsigned int degree );
 };

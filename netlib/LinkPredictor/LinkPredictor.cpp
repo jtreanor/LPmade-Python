@@ -24,14 +24,14 @@ LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetw
 LinkPredictor::~LinkPredictor() {
 }
 
-double LinkPredictor::generateZero( ) {
-	return 0;
-}
-
 double LinkPredictor::generateScoreIfNotNeighbors( vertex_t a, vertex_t b) {
 	if ( completeNetwork.hasEdgeExt(a,b) || a == b ) {
 		return 0;
 	}
+	return generateScoreExt(a,b);
+}
+
+double LinkPredictor::generateScoreExt( vertex_t a, vertex_t b) {
 	return generateScore(this->network.translateExtToInt( a ),this->network.translateExtToInt( b ));
 }
 
