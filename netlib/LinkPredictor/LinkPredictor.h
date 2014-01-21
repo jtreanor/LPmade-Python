@@ -12,6 +12,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 #define LINKPREDICTOR_H
 
 #include <vector>
+#include <queue>
 #include "../WeightedNetwork.h"
 
 using std::ostream;
@@ -31,6 +32,9 @@ class LinkPredictor {
 		LinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		virtual ~LinkPredictor();
 		virtual double generateScore( vertex_t, vertex_t ) = 0;
+		std::vector<vertex_t> topNVertices(vertex_t, int);
+		std::vector<vertex_t> topNVerticesExt(vertex_t, int);
+		double generateScoreIfNotNeighborsInt( vertex_t , vertex_t );
 		double generateScoreIfNotNeighbors( vertex_t, vertex_t );
 		double generateScoreExt( vertex_t, vertex_t );
 		void printOutNeighborScoress( unsigned int degree );

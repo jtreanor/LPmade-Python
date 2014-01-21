@@ -2,7 +2,9 @@
 %{
 	#include "netlib/WeightedNetwork.h"
 	#include "netlib/Statistics.h"
-	#include "netlib/LinkPredictor/LinkPredictor.h"   
+	#include "netlib/LinkPredictor/LinkPredictor.h"
+	#include "netlib/LinkPredictor/RecommenderResult.h"   
+	#include "netlib/LinkPredictor/WTFLinkPredictor.h"     
 	#include "netlib/LinkPredictor/AdamicAdarLinkPredictor.h"             
 	#include "netlib/LinkPredictor/JVolumeLinkPredictor.h"                 
 	#include "netlib/LinkPredictor/ShortestPathCountLinkPredictor.h"
@@ -30,17 +32,20 @@
 	#include "netlib/LinkPredictor/PropFlowLinkPredictor.h"                
 	#include "netlib/LinkPredictor/WeightedRootedPageRankLinkPredictor.h"
 	#include "netlib/LinkPredictor/JPageRankLinkPredictor.h"              
-	#include "netlib/LinkPredictor/RootedPageRankLinkPredictor.h"          
+	#include "netlib/LinkPredictor/RootedPageRankLinkPredictor.h"     
 	/*#include "netlib/LinkPredictor/WeightedTriangleLinkPredictor.h"*/
 
 %}
 
 %include "std_vector.i"
+%include "std_set.i"
 %include "std_pair.i"
 %include "std_iostream.i"
 
 namespace std {
    %template(IntVector) vector<int>;
+   %template(UnsignedIntVector) vector<unsigned int>;
+   %template(IntSet) set<unsigned int>;
    %template(DoubleVector) vector<double>;
    %template(StringVector) vector<string>;
    %template(ConstCharVector) vector<const char*>;
@@ -48,7 +53,9 @@ namespace std {
 
 %include "netlib/WeightedNetwork.h"
 %include "netlib/Statistics.h"
-%include "netlib/LinkPredictor/LinkPredictor.h"   
+%include "netlib/LinkPredictor/LinkPredictor.h"
+%include "netlib/LinkPredictor/RecommenderResult.h"   
+%include "netlib/LinkPredictor/WTFLinkPredictor.h"
 %include "netlib/LinkPredictor/AdamicAdarLinkPredictor.h"             
 %include "netlib/LinkPredictor/JVolumeLinkPredictor.h"                 
 %include "netlib/LinkPredictor/ShortestPathCountLinkPredictor.h"
@@ -78,3 +85,4 @@ namespace std {
 %include "netlib/LinkPredictor/JPageRankLinkPredictor.h"              
 %include "netlib/LinkPredictor/RootedPageRankLinkPredictor.h"          
 /*%include "netlib/LinkPredictor/WeightedTriangleLinkPredictor.h"*/
+

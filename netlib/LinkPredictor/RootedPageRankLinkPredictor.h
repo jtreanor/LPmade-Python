@@ -24,9 +24,10 @@ class RootedPageRankLinkPredictor : public LinkPredictor {
 		RootedPageRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:
-		RootedPageRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,double );
+		RootedPageRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork&, double );
 		~RootedPageRankLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
+		std::set<vertex_t> circleOfTrust(vertex_t, int);
 };
 
 #endif

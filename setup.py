@@ -13,6 +13,8 @@ os.environ['OPT'] = " ".join(
 
 net_lib_module = Extension('_netlib',
                            sources=['netlib.i','netlib/WeightedNetwork.cpp','netlib/Statistics.cpp',
+                           			"netlib/LinkPredictor/RecommenderResult.cpp",
+                           			"netlib/LinkPredictor/WTFLinkPredictor.cpp",
 			                       	"netlib/LinkPredictor/AdamicAdarLinkPredictor.cpp",             
 									"netlib/LinkPredictor/JVolumeLinkPredictor.cpp",                 
 									"netlib/LinkPredictor/ShortestPathCountLinkPredictor.cpp",
@@ -43,7 +45,8 @@ net_lib_module = Extension('_netlib',
 									"netlib/LinkPredictor/JPageRankLinkPredictor.cpp",              
 									"netlib/LinkPredictor/RootedPageRankLinkPredictor.cpp",          
 									"netlib/LinkPredictor/WeightedTriangleLinkPredictor.cpp"],
-			                       swig_opts=['-c++']
+			                       swig_opts=['-c++'],
+			                       extra_compile_args=["-std=c++0x"],
                            )
 
 setup (name = 'netlib',

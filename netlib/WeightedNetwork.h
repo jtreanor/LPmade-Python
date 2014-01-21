@@ -12,6 +12,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 #define WEIGHTEDNETWORK_H
 
 #include <vector>
+#include <set>
 #include <iostream>
 #include <climits>
 #include <limits>
@@ -61,10 +62,12 @@ class WeightedNetwork {
 		void printAdjacencyList( ostream& ) const;
 		unsigned int vertexCount() const;
 		unsigned int edgeCount() const;
+		// const std::set<vertex_t>& WTFAuthorities(const std::set<vertex_t>&) const;
 		const neighbor_set_t& outNeighbors( vertex_t ) const;
 		const neighbor_set_t& inNeighbors( vertex_t ) const;
 		const vector<vertex_t> findOutNeighbors( vertex_t, unsigned int ) const;
 		const vector<vertex_t> findInNeighbors( vertex_t, unsigned int ) const;
+		WeightedNetwork salsaNetwork( const std::set<vertex_t>& ) const;
 		WeightedNetwork snowballSample( vertex_t, unsigned int ) const;
 		WeightedNetwork snowballSampleIn( vertex_t, unsigned int ) const;
 		WeightedNetwork randomEdgeSample( double, unsigned int ) const;

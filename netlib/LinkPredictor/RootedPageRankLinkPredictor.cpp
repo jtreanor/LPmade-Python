@@ -17,6 +17,26 @@ RootedPageRankLinkPredictor::RootedPageRankLinkPredictor( const WeightedNetwork&
 RootedPageRankLinkPredictor::~RootedPageRankLinkPredictor() {
 }
 
+
+std::set<vertex_t> RootedPageRankLinkPredictor::circleOfTrust(unsigned int vertex, int n) {
+	this->generateScore(vertex,0); //Build pageranks if nessesary
+
+	std::set<vertex_t> circleOfTrust;
+
+	std::priority_queue<std::pair<double, int>> q;
+	for (unsigned int i = 0; i < this->scores.size(); ++i) {
+		q.push(std::pair<double, int>(this->scores[i], i));
+	}
+	  
+	for (int i = 0; i < n; ++i) {
+		int index = q.top().second;
+		circleOfTrust.insert(index);
+	    q.pop();
+	}
+
+	return circleOfTrust;
+}
+
 double RootedPageRankLinkPredictor::generateScore( unsigned int vertex, unsigned int neighbor ) {
 	if( this->vertex != vertex ) {
 		this->vertex = vertex;

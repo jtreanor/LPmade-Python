@@ -24,6 +24,49 @@ LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetw
 LinkPredictor::~LinkPredictor() {
 }
 
+std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
+	std::priority_queue<std::pair<double, int>> q;
+	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+		q.push(std::pair<double, int>( generateScoreIfNotNeighborsInt(vertex,i) , i));
+	}
+
+	std::vector<vertex_t> topVertices;
+
+	for (int i = 0; i < n; ++i) {
+		topVertices.push_back(q.top().second);
+		q.pop();
+	}
+
+	return topVertices;
+}
+
+std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n) {
+	std::priority_queue<std::pair<double, int>> q;
+
+	vertex_t intVertex = this->network.translateExtToInt(vertex);
+
+	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+		q.push(std::pair<double, int>( generateScoreIfNotNeighborsInt(intVertex,i), i ));
+	}
+
+	std::vector<vertex_t> topVertices;
+
+	for (int i = 0; i < n; ++i) {
+		topVertices.push_back( this->network.translateIntToExt(q.top().second) );
+		q.pop();
+	}
+
+	return topVertices;
+}
+
+
+double LinkPredictor::generateScoreIfNotNeighborsInt( vertex_t a, vertex_t b) {
+	if ( completeNetwork.hasEdge(a,b) || a == b ) {
+		return 0;
+	}
+	return generateScore(a,b);
+}
+
 double LinkPredictor::generateScoreIfNotNeighbors( vertex_t a, vertex_t b) {
 	if ( completeNetwork.hasEdgeExt(a,b) || a == b ) {
 		return 0;
