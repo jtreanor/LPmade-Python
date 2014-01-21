@@ -45,6 +45,7 @@
 namespace std {
    %template(IntVector) vector<int>;
    %template(UnsignedIntVector) vector<unsigned int>;
+   %template(PredictorVector) vector<LinkPredictor*>;
    %template(IntSet) set<unsigned int>;
    %template(DoubleVector) vector<double>;
    %template(StringVector) vector<string>;

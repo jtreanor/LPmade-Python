@@ -7,20 +7,25 @@
 
 using std::vector;
 
+enum Recommender {COMMON_NEIGHBOURS, ADAMIC_ADAR, PROP_FLOW, GRAPH_DISTANCE, ROOTED_PAGE_RANK, JACCARD, PREFERENTIAL_ATTACHMENT, KATZ_MEASURE, RANDOM };
+
 class RecommenderResult {
 	private:
 		const WeightedNetwork& trainingNetwork;
+		const WeightedNetwork& originalTraining;
 		const WeightedNetwork& testNetwork;
-		const std::vector<int>& linkPredictors;
+		const std::vector<int>& algorithms;
+		std::vector<LinkPredictor*> linkPredictors;
 		// const std::vector<int>& verticesToCheck;
 		// int start;
 		// int end;
 		// vector<double> precisionAtN;
 		// double precision;
 		// double recall;
+		LinkPredictor* predictorForType(Recommender);
 	protected:
 	public:
-		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>& );
+		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>& );
 		~RecommenderResult();
 		std::vector<double> precisionAtN(int, int, int);
 		// std::vector<vertex_t> topNVertices(int);

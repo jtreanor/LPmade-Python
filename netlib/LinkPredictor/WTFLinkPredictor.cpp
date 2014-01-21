@@ -1,5 +1,6 @@
 #include "WTFLinkPredictor.h"
 #include "RootedPageRankLinkPredictor.h"
+#include <iterator>
 #include "../Statistics.h"
 
 WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,double alpha ) : LinkPredictor(network,completeNetwork), alpha(alpha) {
@@ -18,7 +19,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
 
 		this->scores = vector<double>( this->network.vertexCount() );
 		vector<double> oldScores = vector<double>( this->network.vertexCount() );		
-		vertex_t currentHubVertex = * std::next(hubs.begin(), rand() % hubs.size());
+		vertex_t currentHubVertex = 0;//* std::next(hubs.begin(), rand() % hubs.size());
 		this->scores.at( currentHubVertex )++;
 
 		for( unsigned int step = 1; true; step++ ) {
@@ -26,7 +27,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
 			const neighbor_set_t& authNeighbors = salsaNetwork.outNeighbors( currentHubVertex );
 
 			if( authNeighbors.size() < 1 || (double)rand()/RAND_MAX < this->alpha ) {
-				currentHubVertex = * std::next(hubs.begin(), rand() % hubs.size());
+				currentHubVertex = 0;//* std::next(hubs.begin(), rand() % hubs.size());
 			} else {
 				vertex_t randomNeighbor = rand() % authNeighbors.size();
 				currentHubVertex = authNeighbors.at( randomNeighbor ).first;
