@@ -16,13 +16,9 @@ class RecommenderResult {
 		const WeightedNetwork& testNetwork;
 		const std::vector<int>& algorithms;
 		std::vector<LinkPredictor*> linkPredictors;
-		// const std::vector<int>& verticesToCheck;
-		// int start;
-		// int end;
-		// vector<double> precisionAtN;
-		// double precision;
-		// double recall;
+
 		LinkPredictor* predictorForType(Recommender);
+		std::vector<vertex_t> acceptedNodesAt(vertex_t, int);
 	protected:
 	public:
 		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>& );

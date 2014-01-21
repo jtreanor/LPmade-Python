@@ -11,6 +11,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 #include <iostream>
 #include <limits>
 #include "LinkPredictor.h"
+#include <math.h>
 
 using std::numeric_limits;
 using std::cout;
@@ -18,10 +19,46 @@ using std::cerr;
 using std::scientific;
 using std::ios_base;
 
+double zScore(double value,double standard_deviation,double mean) {
+	return standard_deviation > 0 ? (value - mean)/standard_deviation : 0;
+}
+
 LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : network(network), completeNetwork(completeNetwork), vertex(INVALID_VERTEX), neighbor(INVALID_VERTEX) {
 }
 
 LinkPredictor::~LinkPredictor() {
+}
+
+std::vector< std::pair<double, vertex_t> > LinkPredictor::topNNormalised(unsigned int vertex, int n) {
+	std::priority_queue<std::pair<double, int>> q;
+
+	vertex_t intVertex = this->network.translateExtToInt(vertex);
+
+    double score_sum = 0.0;
+    double sq_sum = 0.0;
+    double count = this->network.vertexCount();
+
+	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+		double score = generateScoreIfNotNeighborsInt(intVertex,i);
+		score_sum += score;
+		sq_sum += score * score;
+		q.push(std::pair<double, int>( score, i ));
+	}
+
+    double mean = score_sum / count;
+    double standard_deviation = sqrt(sq_sum / count - mean * mean);
+
+	std::vector< std::pair<double, vertex_t> > topVertices;
+
+	for (int i = 0; i < n; ++i) {
+		vertex_t extVertex = this->network.translateIntToExt(q.top().second);
+		double normalisedScore = zScore( q.top().first, standard_deviation, mean );
+
+		topVertices.push_back( std::pair<double, vertex_t>( normalisedScore, extVertex )   );
+		q.pop();
+	}
+
+	return topVertices;
 }
 
 std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
