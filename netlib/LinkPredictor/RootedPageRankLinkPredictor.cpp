@@ -10,6 +10,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 #include "RootedPageRankLinkPredictor.h"
 #include "../Statistics.h"
+#include <algorithm>
 
 RootedPageRankLinkPredictor::RootedPageRankLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,double alpha ) : LinkPredictor(network,completeNetwork), alpha(alpha) {
 }
@@ -18,23 +19,38 @@ RootedPageRankLinkPredictor::~RootedPageRankLinkPredictor() {
 }
 
 
-std::set<vertex_t> RootedPageRankLinkPredictor::circleOfTrust(unsigned int vertex, int n) {
+std::vector<vertex_t> RootedPageRankLinkPredictor::hubs(unsigned int vertex, int n) {
 	this->generateScore(vertex,0); //Build pageranks if nessesary
-
-	std::set<vertex_t> circleOfTrust;
 
 	std::priority_queue<std::pair<double, int>> q;
 	for (unsigned int i = 0; i < this->scores.size(); ++i) {
 		q.push(std::pair<double, int>(this->scores[i], i));
 	}
+
+	std::vector<vertex_t> circleOfTrust;
 	  
 	for (int i = 0; i < n; ++i) {
-		int index = q.top().second;
-		circleOfTrust.insert(index);
+		vertex_t index = q.top().second;
+		circleOfTrust.push_back(index);
 	    q.pop();
 	}
 
 	return circleOfTrust;
+}
+
+std::vector<vertex_t> RootedPageRankLinkPredictor::authorities(std::vector<vertex_t> hubs) {
+	std::vector<vertex_t> authorities;
+
+	for (vertex_t hub : hubs) {
+		const neighbor_set_t& neighbors = this->network.outNeighbors( hub );
+		for (neighbor_t neighbor : neighbors) {
+			if(! (std::find(hubs.begin(), hubs.end(), neighbor.first) != hubs.end()) ) {
+				authorities.push_back(neighbor.first);
+			}
+		}
+	}
+
+	return authorities;
 }
 
 double RootedPageRankLinkPredictor::generateScore( unsigned int vertex, unsigned int neighbor ) {

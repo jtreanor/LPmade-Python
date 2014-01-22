@@ -67,7 +67,7 @@ class WeightedNetwork {
 		const neighbor_set_t& inNeighbors( vertex_t ) const;
 		const vector<vertex_t> findOutNeighbors( vertex_t, unsigned int ) const;
 		const vector<vertex_t> findInNeighbors( vertex_t, unsigned int ) const;
-		WeightedNetwork salsaNetwork( const std::set<vertex_t>& ) const;
+		WeightedNetwork salsaNetwork( const std::vector<vertex_t>& ) const;
 		WeightedNetwork snowballSample( vertex_t, unsigned int ) const;
 		WeightedNetwork snowballSampleIn( vertex_t, unsigned int ) const;
 		WeightedNetwork randomEdgeSample( double, unsigned int ) const;

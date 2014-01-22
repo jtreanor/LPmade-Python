@@ -535,33 +535,29 @@ const vector<vertex_t> WeightedNetwork::findInNeighbors( vertex_t vertex, unsign
 // 	return result; //authorities excluding those in circle of trust
 // }
 
-WeightedNetwork WeightedNetwork::salsaNetwork( const std::set<vertex_t>& hubs ) const {
+WeightedNetwork WeightedNetwork::salsaNetwork( const std::vector<vertex_t>& hubs ) const {
 	WeightedNetwork network = WeightedNetwork();
 	network.dictionary = this->dictionary;
 	network.outList = vertex_set_t( this->vertexCount() );
 	network.inList = vertex_set_t( this->vertexCount() );
 
-	std::set<vertex_t> authorities;
-
 	for ( vertex_t vertex : hubs ) {
 		const neighbor_set_t& outNeighbors = this->outList.at( vertex );
-		for( neighbor_set_t::const_iterator neighborIterator = outNeighbors.begin(); neighborIterator != outNeighbors.end(); neighborIterator++ ) {
-			const vertex_t outNeighbor = neighborIterator->first;
-			const weight_t weight = neighborIterator->second;
-			if( ! hubs.count(outNeighbor) ) { //If not in the circle of trust
+		for( neighbor_t neighborIterator : outNeighbors ) {
+			const vertex_t outNeighbor = neighborIterator.first;
+			const weight_t weight = neighborIterator.second;
+			if ( !(std::find(hubs.begin(), hubs.end(), outNeighbor) != hubs.end() ) ) { //If not in the circle of trust
 				network.addEdge( vertex, outNeighbor, weight );
-				authorities.insert( vertex );
-			}
-		}
-	}
 
-	for ( vertex_t vertex : authorities ) {
-		const neighbor_set_t& outNeighbors = this->outList.at( vertex );
-		for( neighbor_set_t::const_iterator neighborIterator = outNeighbors.begin(); neighborIterator != outNeighbors.end(); neighborIterator++ ) {
-			const vertex_t outNeighbor = neighborIterator->first;
-			const weight_t weight = neighborIterator->second;
-			if( hubs.count(outNeighbor) ) { //If in the circle of trust
-				network.addEdge( vertex, outNeighbor, weight );
+				//auth -> hubs
+				const neighbor_set_t& authOutNeighbors = this->outList.at( vertex );
+				for( neighbor_t neighborIterator : authOutNeighbors ) {
+					const vertex_t authOutNeighbor = neighborIterator.first;
+					const weight_t authWeight = neighborIterator.second;
+					if ( (std::find(hubs.begin(), hubs.end(), outNeighbor) != hubs.end() ) ) { //If in the circle of trust
+						network.addEdge( outNeighbor, authOutNeighbor, authWeight );
+					}
+				}
 			}
 		}
 	}

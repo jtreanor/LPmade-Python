@@ -11,6 +11,12 @@ class WTFLinkPredictor : public LinkPredictor {
 	private:
 		double alpha;
 		vector<double> scores;
+		WeightedNetwork salsaNetwork;
+		std::vector<vertex_t> hubs;
+		std::vector<vertex_t> authorities;
+		vertex_t nextVertex( vertex_t, bool );
+		vertex_t randomHub( );
+		vertex_t randomAuth( );
 		WTFLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:

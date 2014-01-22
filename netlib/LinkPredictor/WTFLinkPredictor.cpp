@@ -3,7 +3,26 @@
 #include <iterator>
 #include "../Statistics.h"
 
-WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,double alpha ) : LinkPredictor(network,completeNetwork), alpha(alpha) {
+vertex_t WTFLinkPredictor::nextVertex( vertex_t currentVertex, bool isHub ) {
+	const neighbor_set_t& neighbors = this->salsaNetwork.outNeighbors( currentVertex );
+
+	if( neighbors.size() < 1 || (double)rand()/RAND_MAX < this->alpha ) {
+		return isHub ? this->randomAuth() : this->randomHub();		
+	}
+
+	vertex_t randomNeighbor = rand() % neighbors.size();
+	return neighbors.at( randomNeighbor ).first;
+}
+
+vertex_t WTFLinkPredictor::randomHub( ) {
+	return ( * std::next( this->hubs.begin(), rand() % this->hubs.size() ) );
+}
+
+vertex_t WTFLinkPredictor::randomAuth( ) {
+	return ( * std::next( this->authorities.begin(), rand() % this->authorities.size() ) );
+}
+
+WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork, double alpha ) : LinkPredictor(network,completeNetwork), alpha(alpha), salsaNetwork(network) {
 }
 
 WTFLinkPredictor::~WTFLinkPredictor() {
@@ -14,39 +33,58 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
 		this->vertex = vertex;
 
 		RootedPageRankLinkPredictor* predictor = new RootedPageRankLinkPredictor( this->network, this->network, this->alpha );
-		std::set<vertex_t> hubs = predictor->circleOfTrust(vertex,50);
-		WeightedNetwork salsaNetwork = this->network.salsaNetwork( hubs );
+
+		time_t timer = time(NULL);
+
+		this->hubs = predictor->hubs(vertex,100);
+		this->authorities = predictor->authorities(this->hubs);
+		this->salsaNetwork = this->network;//.salsaNetwork( this->hubs );
+
+		std::cout << difftime(time(NULL),timer) << "\n";
+		timer = time(NULL);
 
 		this->scores = vector<double>( this->network.vertexCount() );
 		vector<double> oldScores = vector<double>( this->network.vertexCount() );		
-		vertex_t currentHubVertex = 0;//* std::next(hubs.begin(), rand() % hubs.size());
+
+		int random = rand() % this->hubs.size();
+		vertex_t currentHubVertex = this->hubs.at( random );
 		this->scores.at( currentHubVertex )++;
 
 		for( unsigned int step = 1; true; step++ ) {
-			//Go to random authority
-			const neighbor_set_t& authNeighbors = salsaNetwork.outNeighbors( currentHubVertex );
+			const neighbor_set_t& neighbors = this->salsaNetwork.outNeighbors( currentHubVertex );
 
-			if( authNeighbors.size() < 1 || (double)rand()/RAND_MAX < this->alpha ) {
-				currentHubVertex = 0;//* std::next(hubs.begin(), rand() % hubs.size());
+			if( neighbors.size() < 1 || (double)rand()/RAND_MAX < this->alpha ) {
+				int randomAuth = rand() % this->authorities.size();
+				currentHubVertex = this->authorities.at( randomAuth );		
 			} else {
-				vertex_t randomNeighbor = rand() % authNeighbors.size();
-				currentHubVertex = authNeighbors.at( randomNeighbor ).first;
-
-				//Got to random trusted vertex
-				const neighbor_set_t& trustNeighbors = salsaNetwork.outNeighbors( currentHubVertex );
-				randomNeighbor = rand() % trustNeighbors.size();
-				currentHubVertex = trustNeighbors.at( randomNeighbor ).first;
+				vertex_t randomNeighbor = rand() % neighbors.size();
+				currentHubVertex = neighbors.at( randomNeighbor ).first;
 			}
 
+			const neighbor_set_t& hubNeighbors = this->salsaNetwork.outNeighbors( currentHubVertex );
+
+			if( hubNeighbors.size() < 1 || (double)rand()/RAND_MAX < this->alpha ) {
+				int randomHub = rand() % this->hubs.size();
+				currentHubVertex = this->hubs.at( randomHub );	
+			} else {
+				vertex_t randomNeighbor = rand() % hubNeighbors.size();
+				currentHubVertex = hubNeighbors.at( randomNeighbor ).first;
+			}
+
+			// //Two steps
+			// currentHubVertex = nextVertex( nextVertex(currentHubVertex, true), false );
 			this->scores.at( currentHubVertex )++;
 			
 			if( step == 100000 ) {
+				std::cout << difftime(time(NULL),timer) << "\n";
+				timer = time(NULL);
 				oldScores = this->scores;
 			} else if( step % 100000 == 0 ) {
-				std::cout << "Check correlation" << "\n";
+				std::cout << difftime(time(NULL),timer) << "\n";
+				timer = time(NULL);
 				double r = Statistics<double>::sampleCorrelationCoefficient( oldScores, this->scores );
 				if( r > 0.9999 ) {
-					std::cout << "correlated" << "\n";
+					std::cout << "converged" <<  "\n";
 					return this->scores.at( neighbor );
 				} else {
 					oldScores = this->scores;
