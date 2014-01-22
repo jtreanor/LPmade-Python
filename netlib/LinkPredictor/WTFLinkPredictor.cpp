@@ -15,11 +15,13 @@ vertex_t WTFLinkPredictor::nextVertex( vertex_t currentVertex, bool isHub ) {
 }
 
 vertex_t WTFLinkPredictor::randomHub( ) {
-	return ( * std::next( this->hubs.begin(), rand() % this->hubs.size() ) );
+	int random = rand() % this->hubs.size();
+	return this->hubs.at( random );
 }
 
 vertex_t WTFLinkPredictor::randomAuth( ) {
-	return ( * std::next( this->authorities.begin(), rand() % this->authorities.size() ) );
+	int random = rand() % this->authorities.size();
+	return this->authorities.at( random );
 }
 
 WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork, double alpha ) : LinkPredictor(network,completeNetwork), alpha(alpha), salsaNetwork(network) {
@@ -38,7 +40,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
 
 		this->hubs = predictor->hubs(vertex,100);
 		this->authorities = predictor->authorities(this->hubs);
-		this->salsaNetwork = this->network;//.salsaNetwork( this->hubs );
+		this->salsaNetwork = this->network.salsaNetwork( this->hubs );
 
 		std::cout << difftime(time(NULL),timer) << "\n";
 		timer = time(NULL);

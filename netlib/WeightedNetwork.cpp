@@ -516,25 +516,6 @@ const vector<vertex_t> WeightedNetwork::findInNeighbors( vertex_t vertex, unsign
 	return results;
 }
 
-// const std::set<vertex_t>& WeightedNetwork::WTFAuthorities( const std::set<vertex_t>& circleOfTrust ) const {
-// 	std::set<vertex_t> authorities;
-
-// 	for(vertex_t trustedVertex : circleOfTrust) {
-// 	  neighbor_set_t following = this->outNeighbors(trustedVertex);
-// 	  	for (std::pair<vertex_t,weight_t> i : following )
-// 		{
-// 		    authorities.insert( i.first );
-// 		}
-// 	}
-
-// 	// Fill in s1 and s2 with values
-// 	std::set<vertex_t> result;
-// 	std::set_difference(authorities.begin(), authorities.end(), circleOfTrust.begin(), circleOfTrust.end(),
-//     std::inserter(result, result.end()));
-
-// 	return result; //authorities excluding those in circle of trust
-// }
-
 WeightedNetwork WeightedNetwork::salsaNetwork( const std::vector<vertex_t>& hubs ) const {
 	WeightedNetwork network = WeightedNetwork();
 	network.dictionary = this->dictionary;
