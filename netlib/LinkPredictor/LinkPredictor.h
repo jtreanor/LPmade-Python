@@ -18,6 +18,15 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 using std::ostream;
 using std::vector;
 
+struct PairCompare
+{
+	bool operator()(std::pair<double, int> p1, std::pair<double, int> p2) const
+	{
+		return p1.first == p2.first ? rand() % 2 == 1 : p1.first < p2.first;
+	}
+};
+
+
 class LinkPredictor {
 	private:
 		LinkPredictor& operator=( const LinkPredictor& );

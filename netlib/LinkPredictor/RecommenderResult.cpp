@@ -77,6 +77,8 @@ std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 
 	double proportion = 1.0/(end - start);
 
+	// time_t timer = time(NULL); 
+
 	for (int currentVertex = start; currentVertex < end; currentVertex++ ) {
 		vertex_t currentVertexExt = this->testNetwork.translateIntToExt(currentVertex);
 
@@ -98,6 +100,11 @@ std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 
 			currentN++;
 		}
+
+		// if (currentVertex % 100 == 0) {
+		// 	std::cout << currentVertex << " : " << difftime(time(NULL),timer) << "\n";
+		// 	timer = time(NULL);
+		// }
 	}
 
 	return precisionAtN;

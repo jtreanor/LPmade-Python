@@ -22,7 +22,7 @@ RootedPageRankLinkPredictor::~RootedPageRankLinkPredictor() {
 std::vector<vertex_t> RootedPageRankLinkPredictor::hubs(unsigned int vertex, int n) {
 	this->generateScore(vertex,0); //Build pageranks if nessesary
 
-	std::priority_queue<std::pair<double, int>> q;
+	std::priority_queue<std::pair<double, int>, vector<std::pair<double, int>>, PairCompare> q;
 	for (unsigned int i = 0; i < this->scores.size(); ++i) {
 		q.push(std::pair<double, int>(this->scores[i], i));
 	}

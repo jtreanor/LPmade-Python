@@ -529,16 +529,7 @@ WeightedNetwork WeightedNetwork::salsaNetwork( const std::vector<vertex_t>& hubs
 			const weight_t weight = neighborIterator.second;
 			if ( !(std::find(hubs.begin(), hubs.end(), outNeighbor) != hubs.end() ) ) { //If not in the circle of trust
 				network.addEdge( vertex, outNeighbor, weight );
-
-				//auth -> hubs
-				const neighbor_set_t& authOutNeighbors = this->outList.at( vertex );
-				for( neighbor_t neighborIterator : authOutNeighbors ) {
-					const vertex_t authOutNeighbor = neighborIterator.first;
-					const weight_t authWeight = neighborIterator.second;
-					if ( (std::find(hubs.begin(), hubs.end(), outNeighbor) != hubs.end() ) ) { //If in the circle of trust
-						network.addEdge( outNeighbor, authOutNeighbor, authWeight );
-					}
-				}
+				network.addEdge( outNeighbor, vertex, weight );
 			}
 		}
 	}
