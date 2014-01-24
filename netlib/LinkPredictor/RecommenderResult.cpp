@@ -77,10 +77,15 @@ std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 
 	double proportion = 1.0/(end - start);
 
+	int nFound = 0;
+
 	for (int currentVertex = start; currentVertex < end; currentVertex++ ) {
 		vertex_t currentVertexExt = this->testNetwork.translateIntToExt(currentVertex);
 
 		std::vector<vertex_t> acceptedVertices = this->acceptedNodesAt(currentVertexExt,n);
+		if (acceptedVertices.size() == 0) {
+			continue;
+		}
 
 		int currentN = 1;
   		double correct_recommendations = 0;
@@ -94,10 +99,15 @@ std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 	        double denominator = total_correct_answers < currentN ? total_correct_answers : currentN;       
 	        double precision = denominator == 0 ? 0 : correct_recommendations/denominator;
 
-	        precisionAtN.at(currentN-1) += proportion * precision;
+	        precisionAtN.at(currentN-1) += /*proportion */ precision;
 
 			currentN++;
 		}
+		nFound++;
+	}
+
+	for (int i = 0; i <  precisionAtN.size(); i++) {
+		precisionAtN.at(i) /= nFound;
 	}
 
 	return precisionAtN;
