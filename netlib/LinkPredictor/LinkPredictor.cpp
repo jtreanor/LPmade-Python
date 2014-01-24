@@ -80,13 +80,16 @@ std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
 std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n) {
 	std::priority_queue< std::pair<double, int> , vector< std::pair<double, int> >, PairCompare > q;
 
-	vertex_t intVertex = this->network.translateExtToInt(vertex);
+	std::vector<vertex_t> topVertices;
 
-	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
-		q.push(std::pair<double, int>( generateScoreIfNotNeighborsInt(intVertex,i), i ));
+	vertex_t intVertex = this->network.translateExtToInt(vertex);
+	if (intVertex == INVALID_VERTEX) {
+		return topVertices;
 	}
 
-	std::vector<vertex_t> topVertices;
+	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+		q.push(std::pair<double, int>( /*generateScoreIfNotNeighborsInt(intVertex,i)*/generateScore(intVertex,i), i ));
+	}
 
 	for (int i = 0; i < n; ++i) {
 		topVertices.push_back( this->network.translateIntToExt(q.top().second) );

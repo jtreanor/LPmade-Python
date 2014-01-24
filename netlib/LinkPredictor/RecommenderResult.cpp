@@ -81,9 +81,9 @@ std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 
 	for (int currentVertex = start; currentVertex < end; currentVertex++ ) {
 		vertex_t currentVertexExt = this->testNetwork.translateIntToExt(currentVertex);
-
+		
 		std::vector<vertex_t> acceptedVertices = this->acceptedNodesAt(currentVertexExt,n);
-
+		
 		int currentN = 1;
   		double correct_recommendations = 0;
   		int total_correct_answers = this->testNetwork.outDegree( currentVertex );
