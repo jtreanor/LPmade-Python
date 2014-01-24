@@ -81,7 +81,7 @@ std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 
 	for (int currentVertex = start; currentVertex < end; currentVertex++ ) {
 		vertex_t currentVertexExt = this->testNetwork.translateIntToExt(currentVertex);
-
+				
 		std::vector<vertex_t> acceptedVertices = this->acceptedNodesAt(currentVertexExt,n);
 		if (acceptedVertices.size() == 0) {
 			continue;
