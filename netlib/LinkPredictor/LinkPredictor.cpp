@@ -30,7 +30,7 @@ LinkPredictor::~LinkPredictor() {
 }
 
 std::vector< std::pair<double, vertex_t> > LinkPredictor::topNNormalised(unsigned int vertex, int n) {
-	std::priority_queue<std::pair<double, int>> q;
+	std::priority_queue< std::pair<double, int> , vector< std::pair<double, int> >, PairCompare > q;
 
 	vertex_t intVertex = this->network.translateExtToInt(vertex);
 
@@ -62,7 +62,7 @@ std::vector< std::pair<double, vertex_t> > LinkPredictor::topNNormalised(unsigne
 }
 
 std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
-	std::priority_queue<std::pair<double, int>> q;
+	std::priority_queue< std::pair<double, int> , vector< std::pair<double, int> >, PairCompare > q;
 	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
 		q.push(std::pair<double, int>( generateScoreIfNotNeighborsInt(vertex,i) , i));
 	}
@@ -78,7 +78,7 @@ std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
 }
 
 std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n) {
-	std::priority_queue<std::pair<double, int>> q;
+	std::priority_queue< std::pair<double, int> , vector< std::pair<double, int> >, PairCompare > q;
 
 	vertex_t intVertex = this->network.translateExtToInt(vertex);
 
