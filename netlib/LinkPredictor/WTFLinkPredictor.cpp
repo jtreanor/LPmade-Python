@@ -50,7 +50,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
     {
         this->vertex = vertex;
 
-        RootedPageRankLinkPredictor *predictor = new RootedPageRankLinkPredictor( this->network, this->network, this->alpha );
+        RootedPageRankLinkPredictor *predictor = new RootedPageRankLinkPredictor( this->completeNetwork, this->completeNetwork, this->alpha );
 
         // clock_t begin = clock();
         // clock_t end = clock();

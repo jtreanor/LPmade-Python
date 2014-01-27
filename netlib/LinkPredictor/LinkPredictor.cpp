@@ -88,11 +88,15 @@ std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n)
 	}
 
 	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
-		q.push(std::pair<double, int>( generateScoreIfNotNeighborsInt(intVertex,i), i ));
+		vertex_t extVertex = this->network.translateIntToExt(i);
+		if (extVertex > 200000) {
+			break;
+		}
+		q.push(std::pair<double, int>( generateScoreIfNotNeighborsInt(intVertex,i), extVertex ));
 	}
 
 	for (int i = 0; i < n; ++i) {
-		topVertices.push_back( this->network.translateIntToExt(q.top().second) );
+		topVertices.push_back( q.top().second );
 		q.pop();
 	}
 
