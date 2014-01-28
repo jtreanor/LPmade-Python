@@ -25,12 +25,9 @@ std::vector<vertex_t> RootedPageRankLinkPredictor::hubs(unsigned int vertex, int
 
 	std::priority_queue<std::pair<double, int>, vector<std::pair<double, int>>, PairCompare> q;
 	for (unsigned int i = 0; i < this->scores.size(); ++i) {
-		// if (this->network.translateIntToExt(i) > 200000) { //only include people
-		// 	break;
-		// }
-		// if (this->network.outDegree(i) > 0) {
-
-		// }
+		if (this->network.translateIntToExt(i) > 200000) { //only include people
+			break;
+		}
 		q.push(std::pair<double, int>(this->scores[i], i));
 	}
 

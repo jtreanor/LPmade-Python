@@ -48,8 +48,6 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
 {
     if ( this->vertex != vertex )
     {
-        // std::cout << "Start" << "\n"; 
-
         this->vertex = vertex;
 
         this->scores = vector<double>( this->network.vertexCount(), 1.0 );
