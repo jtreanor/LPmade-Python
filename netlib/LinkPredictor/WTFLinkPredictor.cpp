@@ -89,9 +89,6 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 double r = Statistics<double>::sampleCorrelationCoefficient( oldScores, this->scores );
                 if ( r > 0.9999 )
                 {
-           //      	end = clock();
-			        // std::cout << "Converge: " << double(diffclock(end, begin)) << " ms" << "\n";
-			        // begin = clock();
                     return this->scores.at( neighbor );
                 }
                 else
