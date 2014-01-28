@@ -50,22 +50,21 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
     {
         this->vertex = vertex;
 
-        RootedPageRankLinkPredictor *predictor = new RootedPageRankLinkPredictor( this->completeNetwork, this->completeNetwork, this->alpha );
-
-        // clock_t begin = clock();
-        // clock_t end = clock();
-        this->hubs = predictor->hubs(vertex, 100);
-        this->authorities = predictor->authorities(this->hubs);
-        // end = clock();
-        // std::cout << "Hub/Authorities: " << double(diffclock(end, begin)) << " ms" << "\n";
-        // begin = clock();
-        this->salsaNetwork = this->network.salsaNetwork( this->hubs );
-        // end = clock();
-        // std::cout << "Salsa Net: " << double(diffclock(end, begin)) << " ms" << "\n";
-        // begin = clock();
-
         this->scores = vector<double>( this->network.vertexCount() );
         vector<double> oldScores = vector<double>( this->network.vertexCount() );
+
+        RootedPageRankLinkPredictor *predictor = new RootedPageRankLinkPredictor( this->completeNetwork, this->completeNetwork, this->alpha );
+
+
+        this->hubs = predictor->hubs(vertex, 100);
+        if (this->hubs.size() == 0) {
+            return 0;
+        }
+        this->authorities = predictor->authorities(this->hubs);
+        if (this->authorities.size() == 0) {
+            return 0;
+        }
+        this->salsaNetwork = this->network.salsaNetwork( this->hubs );
 
         // Start at random hub
         vertex_t currentVertex = this->randomHub();
