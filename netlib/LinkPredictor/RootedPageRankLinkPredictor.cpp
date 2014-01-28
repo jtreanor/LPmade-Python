@@ -51,8 +51,8 @@ std::vector<vertex_t> RootedPageRankLinkPredictor::authorities(std::vector<verte
 			// if () { //only include people
 			// 	break;
 			// }
-			if(/*this->network.translateIntToExt(neighbor.first) > 200000 //only include artists
-				&&*/ ! (std::find(hubs.begin(), hubs.end(), neighbor.first) != hubs.end()) ) {
+			if(this->network.translateIntToExt(neighbor.first) > 200000 //only include artists
+				&& ! (std::find(hubs.begin(), hubs.end(), neighbor.first) != hubs.end()) ) {
 				authorities.push_back(neighbor.first);
 			}
 		}
