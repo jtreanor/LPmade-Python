@@ -48,19 +48,23 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
 {
     if ( this->vertex != vertex )
     {
+        // std::cout << "Start" << "\n"; 
+
         this->vertex = vertex;
 
-        this->scores = vector<double>( this->network.vertexCount() );
-        vector<double> oldScores = vector<double>( this->network.vertexCount() );
+        this->scores = vector<double>( this->network.vertexCount(), 1.0 );
+        vector<double> oldScores = vector<double>( this->network.vertexCount(), 1.0 );
 
         RootedPageRankLinkPredictor *predictor = new RootedPageRankLinkPredictor( this->completeNetwork, this->completeNetwork, this->alpha );
 
         this->hubs = predictor->hubs(vertex, 100);
         if (this->hubs.size() == 0) {
+            // std::cout << "No hubs" << "\n"; 
             return 0;
         }
         this->authorities = predictor->authorities(this->hubs);
         if (this->authorities.size() == 0) {
+            // std::cout << "No auths" << "\n";
             return 0;
         }
         this->salsaNetwork = this->network.salsaNetwork( this->hubs );
@@ -71,21 +75,42 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
 
         for ( unsigned int step = 1; true; step++ )
         {
-        	//Go to auth
-            currentVertex = this->nextVertex( currentVertex, true );
-            // this->scores.at( currentVertex ) += 2;
+        	for(vertex_t hub: this-> hubs) {
+                double nbSum = 0.0;
+                // // Update the degree because not all authorities were selected
+                const neighbor_set_t &neighbors = this->salsaNetwork.outNeighbors( hub );
+                for(neighbor_t auth_neighbor : neighbors) {
+                    nbSum += this->scores.at(auth_neighbor.first) / this->salsaNetwork.outDegree( auth_neighbor.first );
+                }
+                // if (step > 1) {
+                //     std::cout << hub << " Score : " << nbSum << " Out Degree: " << this->salsaNetwork.outDegree( hub ) << "\n";
+                // }
+                
+                this->scores.at(hub) = nbSum;
+            }
 
-            //Go to hub
-            currentVertex = this->nextVertex( currentVertex, false );
-            this->scores.at( currentVertex )++;
+            for(vertex_t auth: this->authorities) {
+                this->scores.at(auth) = 0;
+            }
 
-            if ( step == 100000 )
+            for(vertex_t hub: this-> hubs) {
+                double myContribution = this->scores.at(hub) / this->salsaNetwork.outDegree(hub);
+                // std::cout << myContribution << "\n";
+
+                const neighbor_set_t &neighbors = this->salsaNetwork.outNeighbors( hub );
+                for(neighbor_t auth_neighbor : neighbors) {
+                    this->scores.at(auth_neighbor.first) += myContribution;
+                }
+            }
+
+            if ( step == 1 )
             {
                 oldScores = this->scores;
             }
-            else if ( step % 100000 == 0 )
+            else if ( step % 2 == 0 )
             {
                 double r = Statistics<double>::sampleCorrelationCoefficient( oldScores, this->scores );
+                // std::cout << r << "\n";
                 if ( r > 0.9999 )
                 {
                     return this->scores.at( neighbor );
