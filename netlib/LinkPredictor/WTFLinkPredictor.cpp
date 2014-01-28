@@ -75,45 +75,23 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
 
         for ( unsigned int step = 1; true; step++ )
         {
-        	for(vertex_t hub: this-> hubs) {
-                double nbSum = 0.0;
-                // // Update the degree because not all authorities were selected
-                const neighbor_set_t &neighbors = this->salsaNetwork.outNeighbors( hub );
-                for(neighbor_t auth_neighbor : neighbors) {
-                    nbSum += this->scores.at(auth_neighbor.first) / this->salsaNetwork.outDegree( auth_neighbor.first );
-                }
-                // if (step > 1) {
-                //     std::cout << hub << " Score : " << nbSum << " Out Degree: " << this->salsaNetwork.outDegree( hub ) << "\n";
-                // }
-                
-                this->scores.at(hub) = nbSum;
-            }
+            //Go to auth
+            currentVertex = this->nextVertex( currentVertex, true );
+            this->scores.at( currentVertex ) += 2;
 
-            for(vertex_t auth: this->authorities) {
-                this->scores.at(auth) = 0;
-            }
+            //Go to hub
+            currentVertex = this->nextVertex( currentVertex, false );
+            this->scores.at( currentVertex )++;
 
-            for(vertex_t hub: this-> hubs) {
-                double myContribution = this->scores.at(hub) / this->salsaNetwork.outDegree(hub);
-                // std::cout << myContribution << "\n";
-
-                const neighbor_set_t &neighbors = this->salsaNetwork.outNeighbors( hub );
-                for(neighbor_t auth_neighbor : neighbors) {
-                    this->scores.at(auth_neighbor.first) += myContribution;
-                }
-            }
-
-            if ( step == 5 )
+            if ( step == 100000 )
             {
                 oldScores = this->scores;
             }
-            else if ( step % 5 == 0 )
+            else if ( step % 100000 == 0 )
             {
                 double r = Statistics<double>::sampleCorrelationCoefficient( oldScores, this->scores );
-                // std::cout << r << "\n";
                 if ( r > 0.9999 )
                 {
-                    // std::cout << step << "\n";
                     return this->scores.at( neighbor );
                 }
                 else
