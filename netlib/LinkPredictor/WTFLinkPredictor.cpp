@@ -103,11 +103,11 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 }
             }
 
-            if ( step == 2 )
+            if ( step == 5 )
             {
                 oldScores = this->scores;
             }
-            else if ( step % 2 == 0 )
+            else if ( step % 5 == 0 )
             {
                 double r = Statistics<double>::sampleCorrelationCoefficient( oldScores, this->scores );
                 // std::cout << r << "\n";
