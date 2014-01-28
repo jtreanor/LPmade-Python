@@ -103,7 +103,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 }
             }
 
-            if ( step == 1 )
+            if ( step == 2 )
             {
                 oldScores = this->scores;
             }
@@ -113,6 +113,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 // std::cout << r << "\n";
                 if ( r > 0.9999 )
                 {
+                    std::cout << step << "\n";
                     return this->scores.at( neighbor );
                 }
                 else
