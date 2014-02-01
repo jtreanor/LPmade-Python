@@ -9,6 +9,7 @@
 #include "PreferentialAttachmentLinkPredictor.h"
 #include "PropFlowLinkPredictor.h"
 #include "RootedPageRankLinkPredictor.h"
+#include "PopularLinkPredictor.h"
 #include "WTFLinkPredictor.h"
 #include <queue>
 
@@ -32,6 +33,8 @@ LinkPredictor* RecommenderResult::predictorForType(Recommender recommender) {
 			return new KatzLinkPredictor(this->trainingNetwork, this->originalTraining, 5, 0.005 );
 		case WTF:
 			return new WTFLinkPredictor(this->trainingNetwork, this->originalTraining, 0.15 );
+		case TOP:
+			return new PopularLinkPredictor(this->trainingNetwork, this->originalTraining );
 		case RANDOM:
 			return new OneLinkPredictor(this->trainingNetwork, this->originalTraining);
 	}

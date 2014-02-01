@@ -13,7 +13,8 @@
 	#include "netlib/LinkPredictor/OneLinkPredictor.h"                     
 	#include "netlib/LinkPredictor/PropFlowLinkPredictor.h"                
 	#include "netlib/LinkPredictor/JaccardCoefficientLinkPredictor.h"     
-	#include "netlib/LinkPredictor/PreferentialAttachmentLinkPredictor.h"  
+	#include "netlib/LinkPredictor/PreferentialAttachmentLinkPredictor.h" 
+	#include "netlib/LinkPredictor/PopularLinkPredictor.h" 
 
 	/*
 	#include "netlib/LinkPredictor/JVolumeLinkPredictor.h"                 
@@ -68,7 +69,8 @@ namespace std {
 %include "netlib/LinkPredictor/OneLinkPredictor.h"                     
 %include "netlib/LinkPredictor/PropFlowLinkPredictor.h"                
 %include "netlib/LinkPredictor/JaccardCoefficientLinkPredictor.h"     
-%include "netlib/LinkPredictor/PreferentialAttachmentLinkPredictor.h"  
+%include "netlib/LinkPredictor/PreferentialAttachmentLinkPredictor.h"
+%include "netlib/LinkPredictor/PopularLinkPredictor.h" 
 
 /*
 %include "netlib/LinkPredictor/JVolumeLinkPredictor.h"                 
