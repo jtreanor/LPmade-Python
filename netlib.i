@@ -15,6 +15,7 @@
 	#include "netlib/LinkPredictor/JaccardCoefficientLinkPredictor.h"     
 	#include "netlib/LinkPredictor/PreferentialAttachmentLinkPredictor.h" 
 	#include "netlib/LinkPredictor/InDegreeLinkPredictor.h" 
+	#include "netlib/LinkPredictor/OutDegreeLinkPredictor.h" 
 
 	/*
 	#include "netlib/LinkPredictor/JVolumeLinkPredictor.h"                 
@@ -70,7 +71,8 @@ namespace std {
 %include "netlib/LinkPredictor/PropFlowLinkPredictor.h"                
 %include "netlib/LinkPredictor/JaccardCoefficientLinkPredictor.h"     
 %include "netlib/LinkPredictor/PreferentialAttachmentLinkPredictor.h"
-%include "netlib/LinkPredictor/InDegreeLinkPredictor.h" 
+%include "netlib/LinkPredictor/InDegreeLinkPredictor.h"
+%include "netlib/LinkPredictor/OutDegreeLinkPredictor.h"
 
 /*
 %include "netlib/LinkPredictor/JVolumeLinkPredictor.h"                 

@@ -61,6 +61,33 @@ std::vector< std::pair<double, vertex_t> > LinkPredictor::topNNormalised(unsigne
 	return topVertices;
 }
 
+std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
+	vertex_t intVertex = this->network.translateExtToInt(vertex);
+
+    double score_sum = 0.0;
+    double sq_sum = 0.0;
+    double count = this->network.vertexCount();
+
+    vector<double> vertices = vector<double>(this->network.vertexCount());
+
+	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+		double score = generateScoreIfNotNeighborsInt(intVertex,i);
+		score_sum += score;
+		sq_sum += score * score;
+		vertices.at(i) = score;
+	}
+
+    double mean = score_sum / count;
+    double standard_deviation = sqrt(sq_sum / count - mean * mean);
+
+	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+		double normalisedScore = zScore( vertices.at(i), standard_deviation, mean );
+		vertices.at(i) = normalisedScore;
+	}
+
+	return vertices;
+}
+
 std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
 	std::priority_queue< std::pair<double, int> , vector< std::pair<double, int> >, PairCompare > q;
 	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {

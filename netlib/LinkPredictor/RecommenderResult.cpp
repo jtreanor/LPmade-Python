@@ -10,6 +10,7 @@
 #include "PropFlowLinkPredictor.h"
 #include "RootedPageRankLinkPredictor.h"
 #include "InDegreeLinkPredictor.h"
+#include "OutDegreeLinkPredictor.h"
 #include "WTFLinkPredictor.h"
 #include <queue>
 
@@ -33,8 +34,10 @@ LinkPredictor* RecommenderResult::predictorForType(Recommender recommender) {
 			return new KatzLinkPredictor(this->trainingNetwork, this->originalTraining, 5, 0.005 );
 		case WTF:
 			return new WTFLinkPredictor(this->trainingNetwork, this->originalTraining, 0.15 );
-		case TOP:
+		case IN_DEGREE:
 			return new InDegreeLinkPredictor(this->trainingNetwork, this->originalTraining );
+		// case OUT_DEGREE:
+		// 	return new OutDegreeLinkPredictor(this->trainingNetwork, this->originalTraining );
 		case RANDOM:
 			return new OneLinkPredictor(this->trainingNetwork, this->originalTraining);
 	}
@@ -46,18 +49,20 @@ std::vector<vertex_t> RecommenderResult::acceptedNodesAt(vertex_t vertexExt, int
 		return linkPredictors.at(0)->topNVerticesExt(vertexExt,n);
 	}
 	
+	std::vector<double> scoresA = linkPredictors.at(0)->allNormalised(vertexExt);
+	std::vector<double> scoresB = linkPredictors.at(1)->allNormalised(vertexExt);
+
 	std::priority_queue<std::pair<double, vertex_t>> q;
-	for (LinkPredictor *predictor : this->linkPredictors) {
-		std::vector< std::pair<double, vertex_t> > vertexPairs = predictor->topNNormalised(vertexExt,n);
-		for ( std::pair<double, vertex_t> pair : vertexPairs ) {
-			q.push(pair);
-		}
+
+	for (int i = 0; i < this->trainingNetwork.vertexCount(); i++) {
+		double average = ( scoresA.at(i) + scoresB.at(i) ) / 2.0;
+		q.push( std::pair<double, vertex_t>( average, i ) );
 	}
 
 	std::vector<vertex_t> topVertices;
 
 	for (int i = 0; i < n; ++i) {
-		topVertices.push_back(q.top().second);
+		topVertices.push_back( this->trainingNetwork.translateIntToExt( q.top().second ) );
 		q.pop();
 	}
 
