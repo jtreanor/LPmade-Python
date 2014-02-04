@@ -85,10 +85,18 @@ std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 
 	double proportion = 1.0/(end - start);
 
+	int totalInDegree = 0;
+	float degreeCount = 0;
+
 	for (int currentVertex = start; currentVertex < end; currentVertex++ ) {
 		vertex_t currentVertexExt = this->testNetwork.translateIntToExt(currentVertex);
 		
 		std::vector<vertex_t> acceptedVertices = this->acceptedNodesAt(currentVertexExt,n);
+
+		for (vertex_t degreeVertex : acceptedVertices) {
+			totalInDegree += this->trainingNetwork.inDegree(this->trainingNetwork.translateExtToInt(degreeVertex));
+			degreeCount++;
+		}
 		
 		int currentN = 1;
   		double correct_recommendations = 0;
@@ -107,6 +115,10 @@ std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 			currentN++;
 		}
 	}
+
+	// std::cout << "Average In Degree: " << totalInDegree / degreeCount << "\n";
+
+	precisionAtN.at(0) = totalInDegree / degreeCount;
 
 	return precisionAtN;
 }
