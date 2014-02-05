@@ -36,8 +36,6 @@ LinkPredictor* RecommenderResult::predictorForType(Recommender recommender) {
 			return new WTFLinkPredictor(this->trainingNetwork, this->originalTraining, 0.15 );
 		case IN_DEGREE:
 			return new InDegreeLinkPredictor(this->trainingNetwork, this->originalTraining );
-		// case OUT_DEGREE:
-		// 	return new OutDegreeLinkPredictor(this->trainingNetwork, this->originalTraining );
 		case RANDOM:
 			return new OneLinkPredictor(this->trainingNetwork, this->originalTraining);
 	}
