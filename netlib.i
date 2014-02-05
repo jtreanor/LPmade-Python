@@ -43,7 +43,6 @@
 %}
 
 %include "std_vector.i"
-%include "std_set.i"
 %include "std_pair.i"
 %include "std_iostream.i"
 
@@ -51,7 +50,6 @@ namespace std {
    %template(IntVector) vector<int>;
    %template(UnsignedIntVector) vector<unsigned int>;
    %template(PredictorVector) vector<LinkPredictor*>;
-   %template(IntSet) set<unsigned int>;
    %template(DoubleVector) vector<double>;
    %template(StringVector) vector<string>;
    %template(ConstCharVector) vector<const char*>;
