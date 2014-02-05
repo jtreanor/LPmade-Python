@@ -31,4 +31,4 @@ katz_measure = katz.generateScore(1,10)
 
 ## License
 
-LPmade as well as the Python wrapper are released under the GNU GENERAL PUBLIC LICENSE Version 3. That license is available in the file './gpl-3.0.txt'.
+LPmade is released under the GNU GENERAL PUBLIC LICENSE Version 3. That license is available in the file './gpl-3.0.txt'.
