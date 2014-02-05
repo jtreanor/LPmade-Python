@@ -16,7 +16,7 @@ Or:
 
 ``sudo python3 setup.py install``
 
-The API is largely identical to the C++ library. For example:
+The API is largely identical to the C++ library, with a few useful additions. For example:
 
 ```
 from netlib import *
@@ -25,8 +25,11 @@ from netlib import *
 network = WeightedNetwork.readNetworkNamed("COMPLETE.net")
 
 #Calculate Katz measure between vertices 1 and 10
-katz = KatzLinkPredictor(network,5,0.005)
+katz = KatzLinkPredictor(network,network,5,0.005)
 katz_measure = katz.generateScore(1,10)
+
+#Get the top 50 recommened vertices for vertex 0 using Katz
+recommendations = katz.topNVertices(0,50)
 ```
 
 ## License
