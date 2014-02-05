@@ -2,8 +2,8 @@
 #define RECOMMENDERRESULT_H
 
 #include <vector>
-#include "../WeightedNetwork.h"
-#include "LinkPredictor.h"
+#include "WeightedNetwork.h"
+#include "LinkPredictor/LinkPredictor.h"
 
 using std::vector;
 
