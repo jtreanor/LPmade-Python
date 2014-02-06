@@ -15,6 +15,17 @@
 #include <queue>
 #include <tuple>
 
+RecommenderResult::RecommenderResult( const WeightedNetwork& trainingNetwork, const WeightedNetwork& originalTraining, const WeightedNetwork& testNetwork, const std::vector<int>& algorithms ) : trainingNetwork(trainingNetwork), originalTraining(originalTraining),testNetwork(testNetwork), algorithms(algorithms) {
+	this->linkPredictors = std::vector<LinkPredictor*>();
+	for (int algorithm : this->algorithms) {
+		Recommender rec = (Recommender) algorithm;
+		this->linkPredictors.push_back( this->predictorForType(rec) );
+	}
+}
+
+RecommenderResult::~RecommenderResult() {
+}
+
 LinkPredictor* RecommenderResult::predictorForType(Recommender recommender) {
 	switch (recommender) {
 		case COMMON_NEIGHBOURS:
@@ -76,35 +87,15 @@ std::vector<vertex_t> RecommenderResult::acceptedNodesAt(vertex_t vertexExt, int
 	return topVertices;
 }
 
-RecommenderResult::RecommenderResult( const WeightedNetwork& trainingNetwork, const WeightedNetwork& originalTraining, const WeightedNetwork& testNetwork, const std::vector<int>& algorithms ) : trainingNetwork(trainingNetwork), originalTraining(originalTraining),testNetwork(testNetwork), algorithms(algorithms) {
-	this->linkPredictors = std::vector<LinkPredictor*>();
-	for (int algorithm : this->algorithms) {
-		Recommender rec = (Recommender) algorithm;
-		this->linkPredictors.push_back( this->predictorForType(rec) );
-	}
-	srand(time(0));
-}
-
-RecommenderResult::~RecommenderResult() {
-}
-
 std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 	std::vector<double> precisionAtN = std::vector<double>( n );
 
 	double proportion = 1.0/(end - start);
 
-	// int totalInDegree = 0;
-	// float degreeCount = 0;
-
 	for (int currentVertex = start; currentVertex < end; currentVertex++ ) {
 		vertex_t currentVertexExt = this->testNetwork.translateIntToExt(currentVertex);
 		
 		std::vector<vertex_t> acceptedVertices = this->acceptedNodesAt(currentVertexExt,n);
-
-		// for (vertex_t degreeVertex : acceptedVertices) {
-		// 	totalInDegree += this->trainingNetwork.inDegree(this->trainingNetwork.translateExtToInt(degreeVertex));
-		// 	degreeCount++;
-		// }
 		
 		int currentN = 1;
   		double correct_recommendations = 0;
@@ -124,41 +115,5 @@ std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 		}
 	}
 
-	// std::cout << "Average In Degree: " << totalInDegree / degreeCount << "\n";
-
-	// precisionAtN.at(0) = totalInDegree / degreeCount;
-
 	return precisionAtN;
 }
-
-// def top_n_mean_ensemble(k,ext_node,training_ext_nodes,link_predictors, estimator=None):
-//     if len(link_predictors) == 1:
-//         for l in link_predictors:
-//             return l.topNVerticesExt(ext_node,k)
-
-//     n = len(training_ext_nodes)
-//     dicts = []
-//     zero = 0
-
-//     for i,link_predictor in enumerate(link_predictors):
-//         metrics = {}
-
-//         metric_sum = 0.0
-//         sq_sum = 0.0
-
-//         for check_node in training_ext_nodes:
-//             metric = link_predictor.generateScoreIfNotNeighbors(ext_node,check_node)
-
-//             if metric > 0:
-//                 metric_sum += metric
-//                 sq_sum += metric * metric
-//                 metrics[check_node] = metric
-//             else:
-//                 zero += 1
-
-//         zero = 0
-//         mean = metric_sum / n
-//         standard_deviation = sqrt(sq_sum / n - mean * mean)
-//         dicts.append({k:LinkRecommender.z_score(metrics[k],standard_deviation,mean) for k in metrics})
-
-//     return LinkRecommender.merge_dicts(dicts, training_ext_nodes)
