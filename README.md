@@ -19,7 +19,7 @@ Or:
 The API is largely identical to the C++ library, with a few useful additions. For example:
 
 ```
-from netlib import *
+from LPmade import *
 
 #Load network from disk
 network = WeightedNetwork.readNetworkNamed("COMPLETE.net")

@@ -1,6 +1,6 @@
 build/
-netlib.py
-netlib_wrap.cpp
+LPmade.py
+LPmade_wrap.cpp
 __pycache__
 *.pyc
 .DS_Store

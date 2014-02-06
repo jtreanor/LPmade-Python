@@ -11,8 +11,8 @@ os.environ['OPT'] = " ".join(
     flag for flag in opt.split() if flag != '-Wstrict-prototypes'
 )
 
-net_lib_module = Extension('_netlib',
-                           sources=['netlib.i',
+net_lib_module = Extension('_LPmade',
+                           sources=['LPmade.i',
                            			"netlib/WeightedNetwork.cpp",
 									"netlib/Statistics.cpp",
 									"netlib/LinkPredictor/LinkPredictor.cpp",
@@ -54,10 +54,10 @@ net_lib_module = Extension('_netlib',
 			                       extra_compile_args=["-std=c++0x"],
                            )
 
-setup (name = 'netlib',
+setup (name = '	LPmade',
        version = '0.1',
        author      = "James Treanor",
-       description = """netlib wrapper""",
+       description = """LPmade wrapper""",
        ext_modules = [net_lib_module],
-       py_modules = ["netlib"],
+       py_modules = ["LPmade"],
        )

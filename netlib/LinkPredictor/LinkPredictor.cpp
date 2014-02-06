@@ -12,6 +12,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 #include <limits>
 #include "LinkPredictor.h"
 #include <math.h>
+#include <tuple>
 
 using std::numeric_limits;
 using std::cout;
@@ -24,6 +25,7 @@ double zScore(double value,double standard_deviation,double mean) {
 }
 
 LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : network(network), completeNetwork(completeNetwork), vertex(INVALID_VERTEX), neighbor(INVALID_VERTEX) {
+	srand(time(0));
 }
 
 LinkPredictor::~LinkPredictor() {
@@ -89,15 +91,15 @@ std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
 }
 
 std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
-	std::priority_queue< std::pair<double, int> , vector< std::pair<double, int> >, PairCompare > q;
+	std::priority_queue< std::tuple<double, int ,int> > q;
 	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
-		q.push(std::pair<double, int>( generateScoreIfNotNeighborsInt(vertex,i) , i));
+		q.push(std::make_tuple(generateScoreIfNotNeighborsInt(vertex,i) , rand(), i) );
 	}
 
 	std::vector<vertex_t> topVertices;
 
 	for (int i = 0; i < n; ++i) {
-		topVertices.push_back(q.top().second);
+		topVertices.push_back(std::get<2>(q.top()));
 		q.pop();
 	}
 
