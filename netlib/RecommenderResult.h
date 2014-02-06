@@ -4,10 +4,9 @@
 #include <vector>
 #include "WeightedNetwork.h"
 #include "LinkPredictor/LinkPredictor.h"
+#include "LinkPredictorEnsemble.h"
 
 using std::vector;
-
-enum Recommender {COMMON_NEIGHBOURS, ADAMIC_ADAR, PROP_FLOW, GRAPH_DISTANCE, ROOTED_PAGE_RANK, JACCARD, PREFERENTIAL_ATTACHMENT, KATZ_MEASURE, IN_DEGREE, RANDOM, WTF };
 
 class RecommenderResult {
 	private:
@@ -15,16 +14,12 @@ class RecommenderResult {
 		const WeightedNetwork& originalTraining;
 		const WeightedNetwork& testNetwork;
 		const std::vector<int>& algorithms;
-		std::vector<LinkPredictor*> linkPredictors;
-
-		LinkPredictor* predictorForType(Recommender);
-		std::vector<vertex_t> acceptedNodesAt(vertex_t, int);
+		LinkPredictorEnsemble* ensemble;
 	protected:
 	public:
 		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>& );
 		~RecommenderResult();
 		std::vector<double> precisionAtN(int, int, int);
-		// std::vector<vertex_t> topNVertices(int);
 };
 
 #endif
