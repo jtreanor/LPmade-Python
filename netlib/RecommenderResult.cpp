@@ -47,14 +47,22 @@ std::vector<vertex_t> RecommenderResult::acceptedNodesAt(vertex_t vertexExt, int
 	if (this->linkPredictors.size() == 1) {
 		return linkPredictors.at(0)->topNVerticesExt(vertexExt,n);
 	}
-	
-	std::vector<double> scoresA = linkPredictors.at(0)->allNormalised(vertexExt);
-	std::vector<double> scoresB = linkPredictors.at(1)->allNormalised(vertexExt);
 
-	std::priority_queue<std::tuple<double, int ,int>> q;
+	std::vector<double> averageScores = std::vector<double>( this->trainingNetwork.vertexCount() );
 
-	for (int i = 0; i < this->trainingNetwork.vertexCount(); i++) {
-		double average = ( scoresA.at(i) + scoresB.at(i) ) / 2.0;
+	double proportion = 1.0 / linkPredictors.size();
+
+	for ( LinkPredictor *pred : linkPredictors ) {
+		std::vector<double> predictorScores = pred->allNormalised(vertexExt);
+		for (size_t i = 0; i < averageScores.size(); ++i) {
+    		averageScores.at(i) += predictorScores.at(i) * proportion;
+		}
+	}
+
+	std::priority_queue< std::tuple<double, int ,int> > q;
+
+	for (size_t i = 0; i < averageScores.size(); ++i) {
+		double average = averageScores.at(i) / 2.0;
 		q.push( std::make_tuple( average, rand(), i ) );
 	}
 
