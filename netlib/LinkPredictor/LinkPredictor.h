@@ -18,15 +18,6 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 using std::ostream;
 using std::vector;
 
-struct PairCompare
-{
-	bool operator()(std::pair<double, int> p1, std::pair<double, int> p2) const
-	{
-		return p1.first == p2.first ? rand() % 2 == 1 : p1.first < p2.first;
-	}
-};
-
-
 class LinkPredictor {
 	private:
 		LinkPredictor& operator=( const LinkPredictor& );
@@ -41,7 +32,6 @@ class LinkPredictor {
 		LinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		virtual ~LinkPredictor();
 		virtual double generateScore( vertex_t, vertex_t ) = 0;
-		std::vector< std::pair<double, vertex_t> > topNNormalised(vertex_t, int);
 		std::vector<double> allNormalised(vertex_t);
 		std::vector<vertex_t> topNVertices(vertex_t, int);
 		std::vector<vertex_t> topNVerticesExt(vertex_t, int);

@@ -31,38 +31,6 @@ LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetw
 LinkPredictor::~LinkPredictor() {
 }
 
-std::vector< std::pair<double, vertex_t> > LinkPredictor::topNNormalised(unsigned int vertex, int n) {
-	std::priority_queue< std::pair<double, int> , vector< std::pair<double, int> >, PairCompare > q;
-
-	vertex_t intVertex = this->network.translateExtToInt(vertex);
-
-    double score_sum = 0.0;
-    double sq_sum = 0.0;
-    double count = this->network.vertexCount();
-
-	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
-		double score = generateScoreIfNotNeighborsInt(intVertex,i);
-		score_sum += score;
-		sq_sum += score * score;
-		q.push(std::pair<double, int>( score, i ));
-	}
-
-    double mean = score_sum / count;
-    double standard_deviation = sqrt(sq_sum / count - mean * mean);
-
-	std::vector< std::pair<double, vertex_t> > topVertices;
-
-	for (int i = 0; i < n; ++i) {
-		vertex_t extVertex = this->network.translateIntToExt(q.top().second);
-		double normalisedScore = zScore( q.top().first, standard_deviation, mean );
-
-		topVertices.push_back( std::pair<double, vertex_t>( normalisedScore, extVertex )   );
-		q.pop();
-	}
-
-	return topVertices;
-}
-
 std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
 	vertex_t intVertex = this->network.translateExtToInt(vertex);
 
@@ -107,7 +75,7 @@ std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
 }
 
 std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n) {
-	std::priority_queue< std::pair<double, int> , vector< std::pair<double, int> >, PairCompare > q;
+	std::priority_queue< std::tuple<double, int ,int> > q;
 
 	std::vector<vertex_t> topVertices;
 
@@ -118,14 +86,11 @@ std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n)
 
 	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
 		vertex_t extVertex = this->network.translateIntToExt(i);
-		if (extVertex > 200000) {
-			break;
-		}
-		q.push(std::pair<double, int>( generateScoreIfNotNeighborsInt(intVertex,i), extVertex ));
+		q.push(std::make_tuple( generateScoreIfNotNeighborsInt(intVertex,i), rand(), extVertex ));
 	}
 
 	for (int i = 0; i < n; ++i) {
-		topVertices.push_back( q.top().second );
+		topVertices.push_back( std::get<2>(q.top()) );
 		q.pop();
 	}
 

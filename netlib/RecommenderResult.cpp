@@ -13,6 +13,7 @@
 #include "LinkPredictor/OutDegreeLinkPredictor.h"
 #include "LinkPredictor/WTFLinkPredictor.h"
 #include <queue>
+#include <tuple>
 
 LinkPredictor* RecommenderResult::predictorForType(Recommender recommender) {
 	switch (recommender) {
@@ -50,17 +51,17 @@ std::vector<vertex_t> RecommenderResult::acceptedNodesAt(vertex_t vertexExt, int
 	std::vector<double> scoresA = linkPredictors.at(0)->allNormalised(vertexExt);
 	std::vector<double> scoresB = linkPredictors.at(1)->allNormalised(vertexExt);
 
-	std::priority_queue<std::pair<double, vertex_t>> q;
+	std::priority_queue<std::tuple<double, int ,int>> q;
 
 	for (int i = 0; i < this->trainingNetwork.vertexCount(); i++) {
 		double average = ( scoresA.at(i) + scoresB.at(i) ) / 2.0;
-		q.push( std::pair<double, vertex_t>( average, i ) );
+		q.push( std::make_tuple( average, rand(), i ) );
 	}
 
 	std::vector<vertex_t> topVertices;
 
 	for (int i = 0; i < n; ++i) {
-		topVertices.push_back( this->trainingNetwork.translateIntToExt( q.top().second ) );
+		topVertices.push_back( this->trainingNetwork.translateIntToExt( std::get<2>(q.top()) ) );
 		q.pop();
 	}
 
