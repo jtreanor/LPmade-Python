@@ -4,7 +4,7 @@
 
 LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions ) : trainingNetwork(trainingNetwork), algorithms(algorithms), directions(directions) {
 	this->linkPredictors = std::vector<LinkPredictor*>();
-	for (int i = 0; i < this->algorithms.size(); i++) {
+	for (unsigned int i = 0; i < this->algorithms.size(); i++) {
 		this->linkPredictors.push_back( Algorithm::predictorForType(this->algorithms.at(i), this->directions.at(i), trainingNetwork) );
 	}
 }

@@ -13,7 +13,7 @@
 #include "LinkPredictor/OutDegreeLinkPredictor.h"
 #include "LinkPredictor/WTFLinkPredictor.h"
 
-const WeightedNetwork& Algorithm::modifiedTrainingNetworkForDirection(int direction, const WeightedNetwork& trainingNetwork) {
+WeightedNetwork Algorithm::modifiedTrainingNetworkForDirection(int direction, const WeightedNetwork& trainingNetwork) {
 	switch (direction) {
 		case REVERSED:
 			return trainingNetwork.reverseEdges();
