@@ -32,7 +32,7 @@ typedef vector<neighbor_t> neighbor_set_t;
 typedef vector<neighbor_set_t> vertex_set_t;
 
 //Hardcoded for now as SWIG didn't like numeric_limits.
-const vertex_t INVALID_VERTEX = 4294967295;
+const vertex_t INVALID_VERTEX = -1;
 
 class WeightedNetwork {
 	private:
