@@ -7,8 +7,8 @@
 class Algorithm {
 	private:
 		const WeightedNetwork& directedNetwork;
-		const WeightedNetwork& undirectedNetwork;
-		const WeightedNetwork& reversedNetwork;
+		WeightedNetwork undirectedNetwork;
+		WeightedNetwork reversedNetwork;
 		Algorithm();
 	public:
 		Algorithm( const WeightedNetwork& );
