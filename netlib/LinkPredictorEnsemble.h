@@ -13,11 +13,11 @@ class LinkPredictorEnsemble {
 		const WeightedNetwork& trainingNetwork;
 		const std::vector<int>& algorithms;
 		const std::vector<int>& directions;
-		const Algorithm& alg;
+		Algorithm* alg;
 		std::vector<LinkPredictor*> linkPredictors;
 	protected:
 	public:
-		LinkPredictorEnsemble( const WeightedNetwork&, const std::vector<int>&, const std::vector<int>&, const Algorithm& alg );
+		LinkPredictorEnsemble( const WeightedNetwork&, const std::vector<int>&, const std::vector<int>& );
 		~LinkPredictorEnsemble();
 		std::vector<vertex_t> topNVertices(vertex_t, int);
 		std::vector<vertex_t> topNVerticesExt(vertex_t, int);

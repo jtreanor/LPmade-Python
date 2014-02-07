@@ -2,11 +2,11 @@
 #include <queue>
 #include <tuple>
 
-LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions, const Algorithm& alg ) : trainingNetwork(trainingNetwork), algorithms(algorithms), directions(directions), alg(alg) {
+LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions ) : trainingNetwork(trainingNetwork), algorithms(algorithms), directions(directions), alg(new Algorithm(trainingNetwork) ) {
 	this->linkPredictors = std::vector<LinkPredictor*>();
 
 	for (unsigned int i = 0; i < this->algorithms.size(); i++) {
-		this->linkPredictors.push_back( this->alg.predictorForType(this->algorithms.at(i), this->directions.at(i) ) );
+		this->linkPredictors.push_back( this->alg->predictorForType(this->algorithms.at(i), this->directions.at(i) ) );
 	}
 }
 
