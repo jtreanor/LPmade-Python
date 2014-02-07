@@ -28,8 +28,20 @@ network = WeightedNetwork.readNetworkNamed("COMPLETE.net")
 katz = KatzLinkPredictor(network,network,5,0.005)
 katz_measure = katz.generateScore(1,10)
 
-#Get the top 50 recommened vertices for vertex 0 using Katz
-recommendations = katz.topNVertices(0,50)
+#Get the top 50 recommened vertices for vertex 1 using Katz
+recommendations = katz.topNVerticesExt(1,50)
+
+#Create a mean ensemble predictor using common neighbours and graph distance
+ensemble = EnsembleLinkPredictor(network, network, IntVector(EnsembleLinkPredictor.COMMON_NEIGHBOURS, EnsembleLinkPredictor.GRAPH_DISTANCE) )
+topTen = ensemble.topNVerticesExt(1,10)
+
+#Evaluate Rooted PageRank using hold out using precision at N up to 50.
+test_network = WeightedNetwork.readNetworkNamed("TEST.net")
+training_network = network.removeEdges(test_network)
+
+recommenderResult = RecommenderResult( training_network, training_network, test_network, IntVector(EnsembleLinkPredictor.ROOTED_PAGE_RANK) )
+precision_at_n = recommenderResult.precisionAtN(50,start,end)
+
 ```
 
 ## License
