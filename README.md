@@ -40,8 +40,7 @@ test_network = WeightedNetwork.readNetworkNamed("TEST.net")
 training_network = network.removeEdges(test_network)
 
 recommenderResult = RecommenderResult( training_network, training_network, test_network, IntVector(EnsembleLinkPredictor.ROOTED_PAGE_RANK) )
-precision_at_n = recommenderResult.precisionAtN(50,start,end)
-
+precision_at_n = recommenderResult.precisionAtN(50,0,test_network.vertexCount() )
 ```
 
 ## License
