@@ -13,42 +13,46 @@
 #include "LinkPredictor/OutDegreeLinkPredictor.h"
 #include "LinkPredictor/WTFLinkPredictor.h"
 
-WeightedNetwork Algorithm::modifiedTrainingNetworkForDirection(int direction, const WeightedNetwork& trainingNetwork) {
-	switch (direction) {
-		case REVERSED:
-			return trainingNetwork.reverseEdges();
-		case UNDIRECTED:
-			return trainingNetwork.undirected();
-	}
-	return trainingNetwork;
+Algorithm::Algorithm( const WeightedNetwork& network ) : directedNetwork(network),  undirectedNetwork(network.undirected()), reversedNetwork(network.reverseEdges()) {	
 }
 
-LinkPredictor* Algorithm::predictorForType(int recommender, int direction, const WeightedNetwork& trainingNetwork) {
-	const WeightedNetwork& newTrainingNetwork = Algorithm::modifiedTrainingNetworkForDirection(direction, trainingNetwork);
+Algorithm::~Algorithm() {
+}
 
+const WeightedNetwork& Algorithm::networkForDirection(int direction) {
+	switch (direction) {
+		case UNDIRECTED:
+			return this->undirectedNetwork;
+		case REVERSED:
+			return this->reversedNetwork;
+	}
+	return this->directedNetwork;
+}
+
+LinkPredictor* Algorithm::predictorForType(int recommender, int direction) {
 	switch (recommender) {
 		case COMMON_NEIGHBOURS:
-			return new CommonNeighborLinkPredictor(newTrainingNetwork, trainingNetwork);
+			return new CommonNeighborLinkPredictor(this->networkForDirection(direction), this->directedNetwork);
 		case ADAMIC_ADAR:
-			return new AdamicAdarLinkPredictor(newTrainingNetwork, trainingNetwork);
+			return new AdamicAdarLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case PROP_FLOW:
-			return new PropFlowLinkPredictor(newTrainingNetwork, trainingNetwork, 5 );
+			return new PropFlowLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5 );
 		case GRAPH_DISTANCE:
-			return new DistanceLinkPredictor(newTrainingNetwork, trainingNetwork, 5);
+			return new DistanceLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5);
 		case ROOTED_PAGE_RANK:
-			return new RootedPageRankLinkPredictor(newTrainingNetwork, trainingNetwork, 0.15 );
+			return new RootedPageRankLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 0.15 );
 		case JACCARD:
-			return new JaccardCoefficientLinkPredictor(newTrainingNetwork, trainingNetwork);
+			return new JaccardCoefficientLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case PREFERENTIAL_ATTACHMENT:
-			return new PreferentialAttachmentLinkPredictor(newTrainingNetwork, trainingNetwork);
+			return new PreferentialAttachmentLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case KATZ_MEASURE:
-			return new KatzLinkPredictor(newTrainingNetwork, trainingNetwork, 5, 0.005 );
+			return new KatzLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5, 0.005 );
 		case WTF:
-			return new WTFLinkPredictor(newTrainingNetwork, trainingNetwork, 0.15 );
+			return new WTFLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 0.15 );
 		case IN_DEGREE:
-			return new InDegreeLinkPredictor(newTrainingNetwork, trainingNetwork );
+			return new InDegreeLinkPredictor(this->networkForDirection(direction),this->directedNetwork );
 		case RANDOM:
-			return new OneLinkPredictor(newTrainingNetwork, trainingNetwork);
+			return new OneLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 	}
 	return NULL;
 }

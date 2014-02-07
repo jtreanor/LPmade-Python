@@ -25,7 +25,6 @@ double zScore(double value,double standard_deviation,double mean) {
 }
 
 LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : network(network), completeNetwork(completeNetwork), vertex(INVALID_VERTEX), neighbor(INVALID_VERTEX) {
-	srand(time(0));
 }
 
 LinkPredictor::~LinkPredictor() {
@@ -74,7 +73,7 @@ std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
 	return topVertices;
 }
 
-std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n) {
+std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n) {	
 	std::priority_queue< std::tuple<double, int ,int> > q;
 
 	std::vector<vertex_t> topVertices;

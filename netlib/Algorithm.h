@@ -5,11 +5,18 @@
 #include "WeightedNetwork.h"
 
 class Algorithm {
+	private:
+		const WeightedNetwork& directedNetwork;
+		WeightedNetwork undirectedNetwork;
+		WeightedNetwork reversedNetwork;
+		Algorithm();
 	public:
-		enum {COMMON_NEIGHBOURS, ADAMIC_ADAR, PROP_FLOW, GRAPH_DISTANCE, ROOTED_PAGE_RANK, JACCARD, PREFERENTIAL_ATTACHMENT, KATZ_MEASURE, IN_DEGREE, RANDOM, WTF };
-		enum {DIRECTED, REVERSED, UNDIRECTED };
-		static LinkPredictor* predictorForType(int, int, const WeightedNetwork&);
-		static WeightedNetwork modifiedTrainingNetworkForDirection(int, const WeightedNetwork&);
+		Algorithm( const WeightedNetwork& );
+		~Algorithm();
+		enum {COMMON_NEIGHBOURS=0, ADAMIC_ADAR, PROP_FLOW, GRAPH_DISTANCE, ROOTED_PAGE_RANK, JACCARD, PREFERENTIAL_ATTACHMENT, KATZ_MEASURE, IN_DEGREE, RANDOM, WTF };
+		enum {DIRECTED=0, REVERSED, UNDIRECTED };
+		const WeightedNetwork& networkForDirection(int);
+		LinkPredictor* predictorForType(int, int);
 };
 
 #endif
