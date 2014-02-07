@@ -18,15 +18,14 @@
 LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const WeightedNetwork& originalTraining, const std::vector<int>& algorithms ) : trainingNetwork(trainingNetwork), originalTraining(originalTraining), algorithms(algorithms) {
 	this->linkPredictors = std::vector<LinkPredictor*>();
 	for (int algorithm : this->algorithms) {
-		Algorithm rec = (Algorithm) algorithm;
-		this->linkPredictors.push_back( this->predictorForType(rec) );
+		this->linkPredictors.push_back( this->predictorForType(algorithm) );
 	}
 }
 
 LinkPredictorEnsemble::~LinkPredictorEnsemble() {
 }
 
-LinkPredictor* LinkPredictorEnsemble::predictorForType(Algorithm recommender) {
+LinkPredictor* LinkPredictorEnsemble::predictorForType(int recommender) {
 	switch (recommender) {
 		case COMMON_NEIGHBOURS:
 			return new CommonNeighborLinkPredictor(this->trainingNetwork, this->originalTraining);
