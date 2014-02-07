@@ -19,7 +19,7 @@ Algorithm::Algorithm( const WeightedNetwork& network ) : directedNetwork(network
 Algorithm::~Algorithm() {
 }
 
-const WeightedNetwork& Algorithm::networkForDirection(int direction) {
+const WeightedNetwork& Algorithm::networkForDirection(int direction) const {
 	switch (direction) {
 		case UNDIRECTED:
 			return this->undirectedNetwork;
@@ -29,7 +29,7 @@ const WeightedNetwork& Algorithm::networkForDirection(int direction) {
 	return this->directedNetwork;
 }
 
-LinkPredictor* Algorithm::predictorForType(int recommender, int direction) {
+LinkPredictor* Algorithm::predictorForType(int recommender, int direction) const {
 	switch (recommender) {
 		case COMMON_NEIGHBOURS:
 			return new CommonNeighborLinkPredictor(this->networkForDirection(direction), this->directedNetwork);

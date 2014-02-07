@@ -1,9 +1,10 @@
 #include "RecommenderResult.h"
 #include <queue>
 #include <tuple>
+#include "Algorithm.h"
 
-RecommenderResult::RecommenderResult( const WeightedNetwork& trainingNetwork, const WeightedNetwork& testNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions ) : trainingNetwork(trainingNetwork), testNetwork(testNetwork), algorithms(algorithms), directions(directions) {
-	this->ensemble = new LinkPredictorEnsemble(this->trainingNetwork, this->algorithms, this->directions);
+RecommenderResult::RecommenderResult( const WeightedNetwork& trainingNetwork, const WeightedNetwork& testNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions ) : trainingNetwork(trainingNetwork), testNetwork(testNetwork), algorithms(algorithms), directions(directions), alg(Algorithm(trainingNetwork)) {
+	this->ensemble = new LinkPredictorEnsemble(this->trainingNetwork, this->algorithms, this->directions, this->alg);
 }
 
 RecommenderResult::~RecommenderResult() {
