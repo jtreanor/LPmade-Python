@@ -1,56 +1,15 @@
 #include "LinkPredictorEnsemble.h"
-#include "LinkPredictor/AdamicAdarLinkPredictor.h"
-#include "LinkPredictor/CommonNeighborLinkPredictor.h"
-#include "LinkPredictor/DistanceLinkPredictor.h"
-#include "LinkPredictor/JaccardCoefficientLinkPredictor.h"
-#include "LinkPredictor/KatzLinkPredictor.h"
-#include "LinkPredictor/LinkPredictor.h"
-#include "LinkPredictor/OneLinkPredictor.h"
-#include "LinkPredictor/PreferentialAttachmentLinkPredictor.h"
-#include "LinkPredictor/PropFlowLinkPredictor.h"
-#include "LinkPredictor/RootedPageRankLinkPredictor.h"
-#include "LinkPredictor/InDegreeLinkPredictor.h"
-#include "LinkPredictor/OutDegreeLinkPredictor.h"
-#include "LinkPredictor/WTFLinkPredictor.h"
 #include <queue>
 #include <tuple>
 
-LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const WeightedNetwork& originalTraining, const std::vector<int>& algorithms ) : trainingNetwork(trainingNetwork), originalTraining(originalTraining), algorithms(algorithms) {
+LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions ) : trainingNetwork(trainingNetwork), algorithms(algorithms), directions(directions) {
 	this->linkPredictors = std::vector<LinkPredictor*>();
-	for (int algorithm : this->algorithms) {
-		this->linkPredictors.push_back( this->predictorForType(algorithm) );
+	for (int i = 0; i < this->algorithms.size(); i++) {
+		this->linkPredictors.push_back( Algorithm::predictorForType(this->algorithms.at(i), this->directions.at(i), trainingNetwork) );
 	}
 }
 
 LinkPredictorEnsemble::~LinkPredictorEnsemble() {
-}
-
-LinkPredictor* LinkPredictorEnsemble::predictorForType(int recommender) {
-	switch (recommender) {
-		case COMMON_NEIGHBOURS:
-			return new CommonNeighborLinkPredictor(this->trainingNetwork, this->originalTraining);
-		case ADAMIC_ADAR:
-			return new AdamicAdarLinkPredictor(this->trainingNetwork, this->originalTraining);
-		case PROP_FLOW:
-			return new PropFlowLinkPredictor(this->trainingNetwork, this->originalTraining, 5 );
-		case GRAPH_DISTANCE:
-			return new DistanceLinkPredictor(this->trainingNetwork, this->originalTraining, 5);
-		case ROOTED_PAGE_RANK:
-			return new RootedPageRankLinkPredictor(this->trainingNetwork, this->originalTraining, 0.15 );
-		case JACCARD:
-			return new JaccardCoefficientLinkPredictor(this->trainingNetwork, this->originalTraining);
-		case PREFERENTIAL_ATTACHMENT:
-			return new PreferentialAttachmentLinkPredictor(this->trainingNetwork, this->originalTraining);
-		case KATZ_MEASURE:
-			return new KatzLinkPredictor(this->trainingNetwork, this->originalTraining, 5, 0.005 );
-		case WTF:
-			return new WTFLinkPredictor(this->trainingNetwork, this->originalTraining, 0.15 );
-		case IN_DEGREE:
-			return new InDegreeLinkPredictor(this->trainingNetwork, this->originalTraining );
-		case RANDOM:
-			return new OneLinkPredictor(this->trainingNetwork, this->originalTraining);
-	}
-	return NULL;
 }
 
 std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt, int n) {
