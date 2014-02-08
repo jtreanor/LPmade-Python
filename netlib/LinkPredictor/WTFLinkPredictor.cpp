@@ -61,6 +61,8 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
             return 0;
         }
         this->authorities = predictor->authorities(this->hubs);
+        delete predictor;
+
         if (this->authorities.size() == 0) {
             // std::cout << "No auths" << "\n";
             return 0;
