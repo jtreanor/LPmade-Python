@@ -2,11 +2,11 @@
 #include <queue>
 #include <tuple>
 
-LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions ) : trainingNetwork(trainingNetwork), algorithms(algorithms), directions(directions), alg(new Algorithm(trainingNetwork)) {
+LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions, const std::vector<double>& weights ) : trainingNetwork(trainingNetwork), weights(weights), alg(new Algorithm(trainingNetwork)) {
 	this->linkPredictors = std::vector<LinkPredictor*>();
 
-	for (unsigned int i = 0; i < this->algorithms.size(); i++) {
-		this->linkPredictors.push_back( this->alg->predictorForType(this->algorithms.at(i), this->directions.at(i) ) );
+	for (unsigned int i = 0; i < algorithms.size(); i++) {
+		this->linkPredictors.push_back( this->alg->predictorForType(algorithms.at(i), directions.at(i) ) );
 	}
 }
 
@@ -21,9 +21,10 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt,
 
 	std::vector<double> averageScores = std::vector<double>( this->trainingNetwork.vertexCount() );
 
-	double proportion = 1.0 / averageScores.size();
+	for ( unsigned int l = 0; l < this->linkPredictors.size(); l++ ) {
+		LinkPredictor *pred = this->linkPredictors.at(l);
+		double proportion = this->weights.at(l) / this->linkPredictors.size();
 
-	for ( LinkPredictor *pred : this->linkPredictors ) {
 		std::vector<double> predictorScores = pred->allNormalised(vertexExt);
 		for (size_t i = 0; i < averageScores.size(); ++i) {
     		averageScores.at(i) += predictorScores.at(i) * proportion;
