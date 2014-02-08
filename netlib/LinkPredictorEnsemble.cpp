@@ -22,11 +22,8 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt,
 	std::vector<double> averageScores = std::vector<double>( this->trainingNetwork.vertexCount() );
 
 	for ( unsigned int l = 0; l < this->linkPredictors.size(); l++ ) {
-		std::cout << 1 << "\n";
 		LinkPredictor *pred = this->linkPredictors.at(l);
-		std::cout << 2 << "\n";
 		double proportion = this->weights.at(l) / this->linkPredictors.size();
-		std::cout << this->weights.at(l) << "\n";
 
 		std::vector<double> predictorScores = pred->allNormalised(vertexExt);
 		for (size_t i = 0; i < averageScores.size(); ++i) {

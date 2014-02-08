@@ -50,6 +50,7 @@
 
 namespace std {
    %template(IntVector) vector<int>;
+   %template(LongVector) vector<long>;
    %template(UnsignedIntVector) vector<unsigned int>;
    %template(PredictorVector) vector<LinkPredictor*>;
    %template(DoubleVector) vector<double>;
