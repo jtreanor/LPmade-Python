@@ -13,7 +13,7 @@ class LinkPredictorEnsemble {
 		const WeightedNetwork& trainingNetwork;
 		const std::vector<int>& algorithms;
 		const std::vector<int>& directions;
-		Algorithm* alg;
+		Algorithm *alg;
 		std::vector<LinkPredictor*> linkPredictors;
 	protected:
 	public:

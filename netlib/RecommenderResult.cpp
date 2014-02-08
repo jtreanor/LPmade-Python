@@ -8,6 +8,7 @@ RecommenderResult::RecommenderResult( const WeightedNetwork& trainingNetwork, co
 }
 
 RecommenderResult::~RecommenderResult() {
+	delete ensemble;
 }
 
 std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {

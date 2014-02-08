@@ -14,7 +14,7 @@ class RecommenderResult {
 		const WeightedNetwork& testNetwork;
 		const std::vector<int>& algorithms;
 		const std::vector<int>& directions;
-		LinkPredictorEnsemble* ensemble;
+		LinkPredictorEnsemble *ensemble;
 	protected:
 	public:
 		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>&, const std::vector<int>& );

@@ -2,7 +2,7 @@
 #include <queue>
 #include <tuple>
 
-LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions ) : trainingNetwork(trainingNetwork), algorithms(algorithms), directions(directions), alg(new Algorithm(trainingNetwork) ) {
+LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions ) : trainingNetwork(trainingNetwork), algorithms(algorithms), directions(directions), alg(new Algorithm(trainingNetwork)) {
 	this->linkPredictors = std::vector<LinkPredictor*>();
 
 	for (unsigned int i = 0; i < this->algorithms.size(); i++) {
@@ -11,6 +11,7 @@ LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNet
 }
 
 LinkPredictorEnsemble::~LinkPredictorEnsemble() {
+	delete alg;
 }
 
 std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt, int n) {
