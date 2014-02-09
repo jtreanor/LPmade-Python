@@ -19,6 +19,8 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt,
 		return linkPredictors.at(0)->topNVerticesExt(vertexExt,n);
 	}
 
+	std::cout << "Ensemble" << "\n";
+
 	std::vector<double> averageScores = std::vector<double>( this->trainingNetwork.vertexCount() );
 
 	for ( unsigned int l = 0; l < this->linkPredictors.size(); l++ ) {

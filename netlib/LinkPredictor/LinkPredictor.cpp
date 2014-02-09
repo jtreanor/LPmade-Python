@@ -75,20 +75,16 @@ std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
 
 std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n) {	
 	std::priority_queue< std::tuple<double, int ,int> > q;
-
-	std::vector<vertex_t> topVertices;
-
 	vertex_t intVertex = this->network.translateExtToInt(vertex);
-	if (intVertex == INVALID_VERTEX) {
-		return topVertices;
-	}
 
 	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
 		q.push(std::make_tuple( generateScoreIfNotNeighborsInt(intVertex,i), 1, i ));
 	}
 
+	std::vector<vertex_t> topVertices;
+
 	for (int i = 0; i < n; ++i) {
-		topVertices.push_back( this->network.translateIntToExt(std::get<2>(q.top())));
+		topVertices.push_back( this->network.translateIntToExt( std::get<2>( q.top() ) ) );
 		q.pop();
 	}
 
