@@ -71,7 +71,7 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVertices(vertex_t vertex, int n
 
 	for (size_t i = 0; i < averageScores.size(); ++i) {
 		double average = averageScores.at(i) / 2.0;
-		q.push( std::make_tuple( average, rand(), i ) );
+		q.push( std::make_tuple( average, 1, i ) );
 	}
 
 	std::vector<vertex_t> topVertices;
