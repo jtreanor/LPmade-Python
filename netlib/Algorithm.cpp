@@ -20,13 +20,16 @@ Algorithm::~Algorithm() {
 }
 
 const WeightedNetwork& Algorithm::networkForDirection(int direction) const {
-	// switch (direction) {
-	// 	case UNDIRECTED:
+	switch (direction) {
+		case UNDIRECTED:
+			std::cout << "Undirected" << "\n";
 			return this->undirectedNetwork;
-	// 	case REVERSED:
-	// 		return this->reversedNetwork;
-	// }
-	// return this->directedNetwork;
+		case REVERSED:
+			std::cout << "REVERSED" << "\n";
+			return this->reversedNetwork;
+	}
+	std::cout << "Directed" << "\n";
+	return this->directedNetwork;
 }
 
 LinkPredictor* Algorithm::predictorForType(int recommender, int direction) const {
