@@ -7,11 +7,11 @@
 class Algorithm {
 	private:
 		const WeightedNetwork& directedNetwork;
-		WeightedNetwork undirectedNetwork;
-		WeightedNetwork reversedNetwork;
+		const WeightedNetwork& undirectedNetwork;
+		const WeightedNetwork& reversedNetwork;
 		Algorithm();
 	public:
-		Algorithm( const WeightedNetwork& );
+		Algorithm( const WeightedNetwork&, const WeightedNetwork&, const WeightedNetwork& );
 		~Algorithm();
 		enum {COMMON_NEIGHBOURS=0, ADAMIC_ADAR, PROP_FLOW, GRAPH_DISTANCE, ROOTED_PAGE_RANK, JACCARD, PREFERENTIAL_ATTACHMENT, KATZ_MEASURE, IN_DEGREE, RANDOM, WTF };
 		enum {DIRECTED=0, REVERSED, UNDIRECTED };

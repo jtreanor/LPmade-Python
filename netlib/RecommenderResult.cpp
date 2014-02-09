@@ -3,9 +3,9 @@
 #include <tuple>
 #include "Algorithm.h"
 
-RecommenderResult::RecommenderResult( const WeightedNetwork& trainingNetwork, const WeightedNetwork& testNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions, const std::vector<double>& weights ) : trainingNetwork(trainingNetwork), testNetwork(testNetwork) {
+RecommenderResult::RecommenderResult( const WeightedNetwork& trainingNetwork, const WeightedNetwork& testNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions, const std::vector<double>& weights, const Algorithm& alg ) : trainingNetwork(trainingNetwork), testNetwork(testNetwork) {
     srand(time(NULL));
-	this->ensemble = new LinkPredictorEnsemble(this->trainingNetwork, algorithms, directions, weights);
+	this->ensemble = new LinkPredictorEnsemble(this->trainingNetwork, algorithms, directions, weights, alg);
 }
 
 RecommenderResult::~RecommenderResult() {

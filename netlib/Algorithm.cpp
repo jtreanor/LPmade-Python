@@ -13,7 +13,7 @@
 #include "LinkPredictor/OutDegreeLinkPredictor.h"
 #include "LinkPredictor/WTFLinkPredictor.h"
 
-Algorithm::Algorithm( const WeightedNetwork& network ) : directedNetwork(network),  undirectedNetwork(network.undirected()), reversedNetwork(network.reverseEdges()) {	
+Algorithm::Algorithm( const WeightedNetwork& network, const WeightedNetwork& undirectedNetwork, const WeightedNetwork& reversedNetwork ) : directedNetwork(network),  undirectedNetwork(undirectedNetwork), reversedNetwork(reversedNetwork) {	
 }
 
 Algorithm::~Algorithm() {
