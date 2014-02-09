@@ -60,7 +60,7 @@ std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
 std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
 	std::priority_queue< std::tuple<double, int ,int> > q;
 	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
-		q.push(std::make_tuple(generateScoreIfNotNeighborsInt(vertex,i) , 1, i) );
+		q.push(std::make_tuple(generateScoreIfNotNeighborsInt(vertex,i) , rand(), i) );
 	}
 
 	std::vector<vertex_t> topVertices;
@@ -78,7 +78,7 @@ std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n)
 	vertex_t intVertex = this->network.translateExtToInt(vertex);
 
 	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
-		q.push(std::make_tuple( generateScoreIfNotNeighborsInt(intVertex,i), 1, i ));
+		q.push(std::make_tuple( generateScoreIfNotNeighborsInt(intVertex,i), rand(), i ));
 	}
 
 	std::vector<vertex_t> topVertices;
