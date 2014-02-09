@@ -23,9 +23,15 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt,
 
 	for ( unsigned int l = 0; l < this->linkPredictors.size(); l++ ) {
 		LinkPredictor *pred = this->linkPredictors.at(l);
+
+		//Metric for every vertex
 		std::vector<double> predictorScores = pred->allNormalised(vertexExt);
+
+		//Weight for this predictor
+		double weight = this->weights.at(l);
+
 		for (size_t i = 0; i < averageScores.size(); ++i) {
-    		averageScores.at(i) += predictorScores.at(i) * this->weights.at(l);
+    		averageScores.at(i) += predictorScores.at(i) * weight;
 		}
 	}
 
