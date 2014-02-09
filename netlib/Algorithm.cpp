@@ -22,7 +22,7 @@ Algorithm::~Algorithm() {
 const WeightedNetwork& Algorithm::networkForDirection(int direction) const {
 	switch (direction) {
 		case UNDIRECTED:
-			std::cout << this->undirectedNetwork.edgeCount() < "\n";
+			std::cout << this->undirectedNetwork.edgeCount() << "\n";
 			return this->undirectedNetwork;
 		case REVERSED:
 			return this->reversedNetwork;
