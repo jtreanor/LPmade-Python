@@ -22,7 +22,6 @@ Algorithm::~Algorithm() {
 const WeightedNetwork& Algorithm::networkForDirection(int direction) const {
 	switch (direction) {
 		case UNDIRECTED:
-			std::cout << this->undirectedNetwork.edgeCount() << "\n";
 			return this->undirectedNetwork;
 		case REVERSED:
 			return this->reversedNetwork;
@@ -47,7 +46,7 @@ LinkPredictor* Algorithm::predictorForType(int recommender, int direction) const
 		case PREFERENTIAL_ATTACHMENT:
 			return new PreferentialAttachmentLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case KATZ_MEASURE:
-			return new KatzLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5, 0.005 );
+			return new KatzLinkPredictor(this->undirectedNetwork,this->directedNetwork, 5, 0.005 );
 		case WTF:
 			return new WTFLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 0.15 );
 		case IN_DEGREE:
