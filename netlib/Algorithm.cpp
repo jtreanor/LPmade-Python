@@ -22,13 +22,10 @@ Algorithm::~Algorithm() {
 const WeightedNetwork& Algorithm::networkForDirection(int direction) const {
 	switch (direction) {
 		case UNDIRECTED:
-			std::cout << "Undirected" << "\n";
 			return this->undirectedNetwork;
 		case REVERSED:
-			std::cout << "REVERSED" << "\n";
 			return this->reversedNetwork;
 	}
-	std::cout << "Directed" << "\n";
 	return this->directedNetwork;
 }
 
