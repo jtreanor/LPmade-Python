@@ -6,6 +6,7 @@ LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNet
 	this->linkPredictors = std::vector<LinkPredictor*>();
 
 	for (unsigned int i = 0; i < algorithms.size(); i++) {
+		std::cout << directions.at(i) << "\n";
 		this->linkPredictors.push_back( this->alg->predictorForType(algorithms.at(i), directions.at(i) ) );
 	}
 }
@@ -18,8 +19,6 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt,
 	if (this->linkPredictors.size() == 1) {
 		return linkPredictors.at(0)->topNVerticesExt(vertexExt,n);
 	}
-
-	std::cout << "Ensemble" << "\n";
 
 	std::vector<double> averageScores = std::vector<double>( this->trainingNetwork.vertexCount() );
 
