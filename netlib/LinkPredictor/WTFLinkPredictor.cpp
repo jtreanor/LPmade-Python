@@ -1,6 +1,4 @@
 #include "WTFLinkPredictor.h"
-#include "RootedPageRankLinkPredictor.h"
-// #include <time>
 #include "../Statistics.h"
 
 
@@ -38,6 +36,7 @@ vertex_t WTFLinkPredictor::randomAuth( )
 
 WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha ) : LinkPredictor(network, completeNetwork), alpha(alpha), salsaNetwork(network)
 {
+    this->rootedPageRankLinkPredictor = RootedPageRankLinkPredictor( this->network, this->completeNetwork, this->alpha );
 }
 
 WTFLinkPredictor::~WTFLinkPredictor()
@@ -53,15 +52,12 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
         this->scores = vector<double>( this->network.vertexCount(), 1.0 );
         vector<double> oldScores = vector<double>( this->network.vertexCount(), 1.0 );
 
-        RootedPageRankLinkPredictor *predictor = new RootedPageRankLinkPredictor( this->completeNetwork, this->completeNetwork, this->alpha );
-
-        this->hubs = predictor->hubs(vertex, 100);
+        this->hubs = this->rootedPageRankLinkPredictor.hubs(vertex, 100);
         if (this->hubs.size() == 0) {
             // std::cout << "No hubs" << "\n"; 
             return 0;
         }
-        this->authorities = predictor->authorities(this->hubs);
-        delete predictor;
+        this->authorities = this->rootedPageRankLinkPredictor.authorities(this->hubs);
 
         if (this->authorities.size() == 0) {
             // std::cout << "No auths" << "\n";
