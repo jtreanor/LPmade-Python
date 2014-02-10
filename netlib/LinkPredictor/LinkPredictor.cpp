@@ -79,14 +79,12 @@ std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n)
 
 	std::vector<vertex_t> topVertices;
 
-
 	if (intVertex == INVALID_VERTEX) {
 		return topVertices;
 	}
 
 	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
 		vertex_t extVertex = this->network.translateIntToExt(i);
-
 		if (extVertex >= 200000) {
 			continue;
 		}

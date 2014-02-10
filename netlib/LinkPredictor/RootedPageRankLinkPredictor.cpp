@@ -25,6 +25,9 @@ std::vector<vertex_t> RootedPageRankLinkPredictor::hubs(unsigned int vertex, int
 
 	std::priority_queue<std::tuple<double, int ,int>> q;
 	for (unsigned int i = 0; i < this->scores.size(); ++i) {
+		if (this->network.translateIntToExt(i) >= 200000) { //only include people
+			break;
+		}
 		q.push(std::make_tuple(this->scores[i], rand() ,i));
 	}
 
