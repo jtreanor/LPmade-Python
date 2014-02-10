@@ -22,7 +22,6 @@ using std::vector;
 using std::pair;
 using std::istream;
 using std::ostream;
-//using std::numeric_limits;
 
 typedef unsigned int vertex_t;
 typedef double weight_t;

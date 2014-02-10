@@ -88,7 +88,7 @@ std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n)
 		if (extVertex >= 200000) {
 			continue;
 		}
-		q.push(std::make_tuple( generateScoreIfNotNeighborsInt(intVertex,i), rand(), extVertex ));
+		q.push(std::make_tuple( generateScoreIfNotNeighbors(vertex,extVertex), rand(), extVertex ));
 	}
 
 	for (int i = 0; i < n; ++i) {
