@@ -34,9 +34,8 @@ vertex_t WTFLinkPredictor::randomAuth( )
     return this->authorities.at( random );
 }
 
-WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha ) : LinkPredictor(network, completeNetwork), alpha(alpha), salsaNetwork(network)
+WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha ) : LinkPredictor(network, completeNetwork), alpha(alpha), salsaNetwork(network), rootedPageRankLinkPredictor(RootedPageRankLinkPredictor( this->network, this->completeNetwork, this->alpha ))
 {
-    this->rootedPageRankLinkPredictor = RootedPageRankLinkPredictor( this->network, this->completeNetwork, this->alpha );
 }
 
 WTFLinkPredictor::~WTFLinkPredictor()
