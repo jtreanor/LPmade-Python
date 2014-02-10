@@ -53,13 +53,11 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
 
         this->hubs = this->rootedPageRankLinkPredictor.hubs(vertex, 100);
         if (this->hubs.size() == 0) {
-            // std::cout << "No hubs" << "\n"; 
             return 0;
         }
         this->authorities = this->rootedPageRankLinkPredictor.authorities(this->hubs);
 
         if (this->authorities.size() == 0) {
-            // std::cout << "No auths" << "\n";
             return 0;
         }
         this->salsaNetwork = this->network.salsaNetwork( this->hubs );
