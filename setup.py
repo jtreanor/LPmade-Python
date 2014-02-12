@@ -6,11 +6,6 @@ from distutils.core import setup, Extension
 from distutils.sysconfig import get_config_vars
 import os
 
-(opt,) = get_config_vars('OPT')
-os.environ['OPT'] = " ".join(
-    flag for flag in opt.split() if flag != '-Wstrict-prototypes'
-)
-
 net_lib_module = Extension('_LPmade',
                            sources=['LPmade.i',
                            			"netlib/WeightedNetwork.cpp",
