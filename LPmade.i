@@ -18,6 +18,7 @@
 	#include "netlib/LinkPredictor/PreferentialAttachmentLinkPredictor.h" 
 	#include "netlib/LinkPredictor/InDegreeLinkPredictor.h" 
 	#include "netlib/LinkPredictor/OutDegreeLinkPredictor.h" 
+	#include "netlib/LinkPredictor/UnweightedPropFlowLinkPredictor.h"
 
 	/*
 	#include "netlib/LinkPredictor/JVolumeLinkPredictor.h"                 
@@ -26,7 +27,6 @@
 	#include "netlib/LinkPredictor/SimRankLinkPredictor.h"
 	#include "netlib/LinkPredictor/TriangleLinkPredictor.h"
 	#include "netlib/LinkPredictor/MRLPLinkPredictor.h"              
-	#include "netlib/LinkPredictor/UnweightedPropFlowLinkPredictor.h"
 	#include "netlib/LinkPredictor/IDegreeLinkPredictor.h"                
 	#include "netlib/LinkPredictor/MutualityLinkPredictor.h"               
 	#include "netlib/LinkPredictor/VCP3DirectedLinkPredictor.h"
@@ -76,6 +76,7 @@ namespace std {
 %include "netlib/LinkPredictor/PreferentialAttachmentLinkPredictor.h"
 %include "netlib/LinkPredictor/InDegreeLinkPredictor.h"
 %include "netlib/LinkPredictor/OutDegreeLinkPredictor.h"
+%include "netlib/LinkPredictor/UnweightedPropFlowLinkPredictor.h"
 
 /*
 %include "netlib/LinkPredictor/JVolumeLinkPredictor.h"                 
@@ -84,7 +85,6 @@ namespace std {
 %include "netlib/LinkPredictor/SimRankLinkPredictor.h"
 %include "netlib/LinkPredictor/TriangleLinkPredictor.h"
 %include "netlib/LinkPredictor/MRLPLinkPredictor.h"              
-%include "netlib/LinkPredictor/UnweightedPropFlowLinkPredictor.h"
 %include "netlib/LinkPredictor/IDegreeLinkPredictor.h"                
 %include "netlib/LinkPredictor/MutualityLinkPredictor.h"               
 %include "netlib/LinkPredictor/VCP3DirectedLinkPredictor.h"

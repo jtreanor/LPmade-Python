@@ -8,6 +8,7 @@
 #include "LinkPredictor/OneLinkPredictor.h"
 #include "LinkPredictor/PreferentialAttachmentLinkPredictor.h"
 #include "LinkPredictor/PropFlowLinkPredictor.h"
+#include "LinkPredictor/UnweightedPropFlowLinkPredictor.h"
 #include "LinkPredictor/RootedPageRankLinkPredictor.h"
 #include "LinkPredictor/InDegreeLinkPredictor.h"
 #include "LinkPredictor/OutDegreeLinkPredictor.h"
@@ -37,6 +38,8 @@ LinkPredictor* Algorithm::predictorForType(int recommender, int direction) const
 			return new AdamicAdarLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case PROP_FLOW:
 			return new PropFlowLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5 );
+		case UNWEIGHTED_PROP_FLOW:
+			return new UnweightedPropFlowLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5 );
 		case GRAPH_DISTANCE:
 			return new DistanceLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5);
 		case ROOTED_PAGE_RANK:
