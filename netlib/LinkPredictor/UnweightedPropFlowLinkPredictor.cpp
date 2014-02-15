@@ -8,11 +8,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 ------------------------------------------------
 */
 
-#include <iostream>
-
 #include "UnweightedPropFlowLinkPredictor.h"
-
-using std::cout;
 
 UnweightedPropFlowLinkPredictor::UnweightedPropFlowLinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork,unsigned int l ) : LinkPredictor(network,completeNetwork), l(l) {
 }
@@ -50,6 +46,5 @@ double UnweightedPropFlowLinkPredictor::generateScore( unsigned int vertex, unsi
 			oldSearch.swap( newSearch );
 		}
 	}
-	cout << network.translateIntToExt( vertex ) << " " << network.translateIntToExt( neighbor ) << " " << this->scores.at( neighbor ) << "\n";
 	return this->scores.at( neighbor );
 }
