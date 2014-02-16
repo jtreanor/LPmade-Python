@@ -51,7 +51,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
         this->scores = vector<double>( this->network.vertexCount(), 1.0 );
         vector<double> oldScores = vector<double>( this->network.vertexCount(), 1.0 );
 
-        this->hubs = this->rootedPageRankLinkPredictor.hubs(vertex, this->network.outDegree(vertex) + 100);
+        this->hubs = this->rootedPageRankLinkPredictor.hubs(vertex, /*this->network.outDegree(vertex) + 100*/500 );
         if (this->hubs.size() == 0) {
             return 0;
         }
@@ -61,10 +61,6 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
             return 0;
         }
         this->salsaNetwork = this->network.salsaNetwork( this->hubs );
-
-        // Start at random hub
-        // vertex_t currentVertex = this->randomHub();
-        // this->scores.at( currentVertex )++;
 
         for ( unsigned int step = 1; true; step++ )
         {
