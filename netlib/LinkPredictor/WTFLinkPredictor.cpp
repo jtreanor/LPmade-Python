@@ -103,12 +103,12 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 double r = Statistics<double>::sampleCorrelationCoefficient( oldScores, this->scores );
                 if ( r > 0.9999 )
                 {
-                    for(vertex_t auth: this->authorities) {
-                        this->scores.at(auth) *= 2;
-                    }
-                    for(vertex_t hub: this->hubs) {
-                        this->scores.at(hub) *= 1;
-                    }
+                    // for(vertex_t auth: this->authorities) {
+                    //     this->scores.at(auth) *= 1;
+                    // }
+                    // for(vertex_t hub: this->hubs) {
+                    //     this->scores.at(hub) *= 1;
+                    // }
                     return this->scores.at( neighbor );
                 }
                 else
