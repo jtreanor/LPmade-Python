@@ -1,10 +1,11 @@
 #include "WTFLinkPredictor.h"
 #include "RootedPageRankLinkPredictor.h"
+#include "CommonNeighborLinkPredictor.h"
 #include "../Statistics.h"
 #include <algorithm>
 #include <tuple>
 
-WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha, int hubSize ) : LinkPredictor(network, completeNetwork), alpha(alpha), hubSize(hubSize), salsaNetwork(network), hubPredictor(new RootedPageRankLinkPredictor( this->network, this->completeNetwork, this->alpha ))
+WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha, int hubSize ) : LinkPredictor(network, completeNetwork), alpha(alpha), hubSize(hubSize), salsaNetwork(network), hubPredictor(new CommonNeighborLinkPredictor( this->network, this->completeNetwork ))
 {
 }
 
