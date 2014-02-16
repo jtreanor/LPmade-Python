@@ -19,44 +19,6 @@ RootedPageRankLinkPredictor::RootedPageRankLinkPredictor( const WeightedNetwork&
 RootedPageRankLinkPredictor::~RootedPageRankLinkPredictor() {
 }
 
-
-std::vector<vertex_t> RootedPageRankLinkPredictor::hubs(unsigned int vertex, int n) {
-	this->generateScore(vertex,0); //Build pageranks if nessesary
-
-	std::priority_queue<std::tuple<double, int ,int>> q;
-	for (unsigned int i = 0; i < this->scores.size(); ++i) {
-		if (this->network.translateIntToExt(i) >= 200000) { //only include people
-			break;
-		}
-		q.push(std::make_tuple(this->scores[i], rand() ,i));
-	}
-
-	std::vector<vertex_t> circleOfTrust;
-	  
-	for (int i = 0; i < n; ++i) {
-		vertex_t index = std::get<2>(q.top());
-		circleOfTrust.push_back(index);
-	    q.pop();
-	}
-
-	return circleOfTrust;
-}
-
-std::vector<vertex_t> RootedPageRankLinkPredictor::authorities(std::vector<vertex_t> hubs) {
-	std::vector<vertex_t> authorities;
-
-	for (vertex_t hub : hubs) {
-		const neighbor_set_t& neighbors = this->network.outNeighbors( hub );
-		for (neighbor_t neighbor : neighbors) {
-			if(! (std::find(hubs.begin(), hubs.end(), neighbor.first) != hubs.end()) ) {
-				authorities.push_back(neighbor.first);
-			}
-		}
-	}
-
-	return authorities;
-}
-
 double RootedPageRankLinkPredictor::generateScore( unsigned int vertex, unsigned int neighbor ) {
 	if( this->vertex != vertex ) {
 		this->vertex = vertex;

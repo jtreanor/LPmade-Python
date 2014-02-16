@@ -27,8 +27,6 @@ class RootedPageRankLinkPredictor : public LinkPredictor {
 		RootedPageRankLinkPredictor( const WeightedNetwork&, const WeightedNetwork&, double );
 		~RootedPageRankLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
-		std::vector<vertex_t> hubs(vertex_t, int);
-		std::vector<vertex_t> authorities(std::vector<vertex_t>);
 };
 
 #endif

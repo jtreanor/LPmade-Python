@@ -1,12 +1,51 @@
 #include "WTFLinkPredictor.h"
+#include "RootedPageRankLinkPredictor.h"
 #include "../Statistics.h"
+#include <algorithm>
+#include <tuple>
 
-WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha, int hubSize ) : LinkPredictor(network, completeNetwork), alpha(alpha), hubSize(hubSize), salsaNetwork(network), rootedPageRankLinkPredictor(RootedPageRankLinkPredictor( this->network, this->completeNetwork, this->alpha ))
+WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha, int hubSize ) : LinkPredictor(network, completeNetwork), alpha(alpha), hubSize(hubSize), salsaNetwork(network), hubPredictor(new RootedPageRankLinkPredictor( this->network, this->completeNetwork, this->alpha ))
 {
 }
 
 WTFLinkPredictor::~WTFLinkPredictor()
 {
+    delete this->hubPredictor;
+}
+
+std::vector<vertex_t> WTFLinkPredictor::generateHubs(unsigned int vertex, int n) {
+    std::priority_queue<std::tuple<double, int ,int>> q;
+    for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+        if (this->network.translateIntToExt(i) >= 200000) { //only include people
+            break;
+        }
+        q.push(std::make_tuple(this->hubPredictor->generateScore(vertex,i), rand() ,i));
+    }
+
+    std::vector<vertex_t> circleOfTrust;
+      
+    for (int i = 0; i < n; ++i) {
+        vertex_t index = std::get<2>(q.top());
+        circleOfTrust.push_back(index);
+        q.pop();
+    }
+
+    return circleOfTrust;
+}
+
+std::vector<vertex_t> WTFLinkPredictor::generateAuthorities() {
+    std::vector<vertex_t> authorities;
+
+    for (vertex_t hub : hubs) {
+        const neighbor_set_t& neighbors = this->network.outNeighbors( hub );
+        for (neighbor_t neighbor : neighbors) {
+            if(! (std::find(hubs.begin(), hubs.end(), neighbor.first) != hubs.end()) ) {
+                authorities.push_back(neighbor.first);
+            }
+        }
+    }
+
+    return authorities;
 }
 
 double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighbor )
@@ -18,11 +57,11 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
         this->scores = vector<double>( this->network.vertexCount(), 1.0 );
         vector<double> oldScores = vector<double>( this->network.vertexCount(), 1.0 );
 
-        this->hubs = this->rootedPageRankLinkPredictor.hubs(vertex, this->hubSize );
+        this->hubs = this->generateHubs(vertex, this->hubSize );
         if (this->hubs.size() == 0) {
             return 0;
         }
-        this->authorities = this->rootedPageRankLinkPredictor.authorities(this->hubs);
+        this->authorities = this->generateAuthorities();
 
         if (this->authorities.size() == 0) {
             return 0;
