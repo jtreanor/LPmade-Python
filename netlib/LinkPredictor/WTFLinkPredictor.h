@@ -23,7 +23,7 @@ class WTFLinkPredictor : public LinkPredictor {
 		WTFLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:
-		WTFLinkPredictor( const WeightedNetwork&, const WeightedNetwork&,double );
+		WTFLinkPredictor( const WeightedNetwork&, const WeightedNetwork&, double, int );
 		~WTFLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

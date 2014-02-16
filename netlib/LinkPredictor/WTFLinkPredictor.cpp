@@ -1,39 +1,6 @@
 #include "WTFLinkPredictor.h"
 #include "../Statistics.h"
 
-
-double diffclock(clock_t clock1, clock_t clock2)
-{
-    double diffticks = clock1 - clock2;
-    double diffms = (diffticks * 1000) / CLOCKS_PER_SEC;
-    return diffms;
-}
-
-vertex_t WTFLinkPredictor::nextVertex( vertex_t currentVertex, bool isHub )
-{
-    const neighbor_set_t &neighbors = this->salsaNetwork.outNeighbors( currentVertex );
-
-    if ( neighbors.size() < 1 || (double)rand() / RAND_MAX < this->alpha )
-    {
-        return isHub ? this->randomAuth() : this->randomHub();
-    }
-
-    vertex_t randomNeighbor = rand() % neighbors.size();
-    return neighbors.at( randomNeighbor ).first;
-}
-
-vertex_t WTFLinkPredictor::randomHub( )
-{
-    int random = rand() % this->hubs.size();
-    return this->hubs.at( random );
-}
-
-vertex_t WTFLinkPredictor::randomAuth( )
-{
-    int random = rand() % this->authorities.size();
-    return this->authorities.at( random );
-}
-
 WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha, int hubSize ) : LinkPredictor(network, completeNetwork), alpha(alpha), hubSize(hubSize), salsaNetwork(network), rootedPageRankLinkPredictor(RootedPageRankLinkPredictor( this->network, this->completeNetwork, this->alpha ))
 {
 }
