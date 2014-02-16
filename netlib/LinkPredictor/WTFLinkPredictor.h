@@ -9,7 +9,7 @@ using std::vector;
 
 class WTFLinkPredictor : public LinkPredictor {
 	private:
-		double alpha;
+		int threshold;
 		int hubSize;
 		vector<double> scores;
 		WeightedNetwork salsaNetwork;
@@ -21,7 +21,7 @@ class WTFLinkPredictor : public LinkPredictor {
 		WTFLinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 	protected:
 	public:
-		WTFLinkPredictor( const WeightedNetwork&, const WeightedNetwork&, double, int );
+		WTFLinkPredictor( const WeightedNetwork&, const WeightedNetwork&, int, int );
 		~WTFLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
 };

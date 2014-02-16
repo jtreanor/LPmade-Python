@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <tuple>
 
-WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha, int hubSize ) : LinkPredictor(network, completeNetwork), alpha(alpha), hubSize(hubSize), salsaNetwork(network)
+WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, int threshold, int hubSize ) : LinkPredictor(network, completeNetwork), threshold(this->network.translateExtToInt(threshold) ), hubSize(hubSize), salsaNetwork(network)
 {
     hubPredictor = new CommonNeighborLinkPredictor( this->network, this->completeNetwork );
 }
@@ -18,7 +18,7 @@ WTFLinkPredictor::~WTFLinkPredictor()
 std::vector<vertex_t> WTFLinkPredictor::generateHubs(unsigned int vertex, int n) {
     std::priority_queue<std::tuple<double, int ,int>> q;
     for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
-        if (this->network.translateIntToExt(i) >= 200000) { //only include people
+        if (i >= this->threshold) { //only include below threshold
             break;
         }
         q.push(std::make_tuple(this->hubPredictor->generateScore(vertex,i), rand() ,i));
@@ -41,7 +41,7 @@ std::vector<vertex_t> WTFLinkPredictor::generateAuthorities() {
     for (vertex_t hub : hubs) {
         const neighbor_set_t& neighbors = this->network.outNeighbors( hub );
         for (neighbor_t neighbor : neighbors) {
-            if(! (std::find(hubs.begin(), hubs.end(), neighbor.first) != hubs.end()) ) {
+            if(neighbor.first >= this->threshold && ! (std::find(hubs.begin(), hubs.end(), neighbor.first) != hubs.end()) ) {
                 authorities.push_back(neighbor.first);
             }
         }
@@ -76,7 +76,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 double nbSum = 0.0;
                 const neighbor_set_t &neighbors = this->salsaNetwork.outNeighbors( hub );
                 for(neighbor_t auth_neighbor : neighbors) {
-                    nbSum += this->scores.at(auth_neighbor.first) / this->salsaNetwork.outVolume( auth_neighbor.first );
+                    nbSum += this->scores.at(auth_neighbor.first) / this->salsaNetwork.outDegree( auth_neighbor.first );
                 }
                     
                 this->scores.at(hub) = nbSum;
@@ -87,7 +87,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
             }
 
             for(vertex_t hub: this-> hubs) {
-                double myContribution = this->scores.at(hub) / this->salsaNetwork.outVolume(hub);
+                double myContribution = this->scores.at(hub) / this->salsaNetwork.outDegree(hub);
                 const neighbor_set_t &neighbors = this->salsaNetwork.outNeighbors( hub );
                 for(neighbor_t auth_neighbor : neighbors) {
                     this->scores.at(auth_neighbor.first) += myContribution;
@@ -103,6 +103,10 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 double r = Statistics<double>::sampleCorrelationCoefficient( oldScores, this->scores );
                 if ( r > 0.9999 )
                 {
+                    //Zero all above threshold
+                    for (unsigned int i = this->threshold; i < this->scores.size(); i++) {
+                        this->scores.at(i) = 0;
+                    }
                     // for(vertex_t auth: this->authorities) {
                     //     this->scores.at(auth) *= 1;
                     // }
