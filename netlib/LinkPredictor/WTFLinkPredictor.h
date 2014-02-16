@@ -11,6 +11,7 @@ using std::vector;
 class WTFLinkPredictor : public LinkPredictor {
 	private:
 		double alpha;
+		int hubSize;
 		vector<double> scores;
 		WeightedNetwork salsaNetwork;
 		std::vector<vertex_t> hubs;

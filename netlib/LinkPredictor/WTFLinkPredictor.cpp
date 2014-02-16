@@ -34,7 +34,7 @@ vertex_t WTFLinkPredictor::randomAuth( )
     return this->authorities.at( random );
 }
 
-WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha ) : LinkPredictor(network, completeNetwork), alpha(alpha), salsaNetwork(network), rootedPageRankLinkPredictor(RootedPageRankLinkPredictor( this->network, this->completeNetwork, this->alpha ))
+WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha, int hubSize ) : LinkPredictor(network, completeNetwork), alpha(alpha), hubSize(hubSize), salsaNetwork(network), rootedPageRankLinkPredictor(RootedPageRankLinkPredictor( this->network, this->completeNetwork, this->alpha ))
 {
 }
 
@@ -51,7 +51,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
         this->scores = vector<double>( this->network.vertexCount(), 1.0 );
         vector<double> oldScores = vector<double>( this->network.vertexCount(), 1.0 );
 
-        this->hubs = this->rootedPageRankLinkPredictor.hubs(vertex, /*this->network.outDegree(vertex) + 100*/500 );
+        this->hubs = this->rootedPageRankLinkPredictor.hubs(vertex, this->hubSize );
         if (this->hubs.size() == 0) {
             return 0;
         }

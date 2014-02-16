@@ -51,7 +51,7 @@ LinkPredictor* Algorithm::predictorForType(int recommender, int direction) const
 		case KATZ_MEASURE:
 			return new KatzLinkPredictor(this->undirectedNetwork,this->directedNetwork, 5, 0.005 );
 		case WTF:
-			return new WTFLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 0.15 );
+			return new WTFLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 0.15, 300 );
 		case IN_DEGREE:
 			return new InDegreeLinkPredictor(this->networkForDirection(direction),this->directedNetwork );
 		case RANDOM:
