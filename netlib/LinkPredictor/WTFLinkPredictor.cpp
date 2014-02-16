@@ -15,6 +15,32 @@ WTFLinkPredictor::~WTFLinkPredictor()
     delete this->hubPredictor;
 }
 
+std::vector<vertex_t> WTFLinkPredictor::topNVerticesExt(unsigned int vertex, int n) {  
+    std::priority_queue< std::tuple<double, int ,int> > q;
+    vertex_t intVertex = this->network.translateExtToInt(vertex);
+
+    std::vector<vertex_t> topVertices;
+
+    if (intVertex == INVALID_VERTEX) {
+        return topVertices;
+    }
+
+    for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+        if (i >= this->threshold) { //Only recommend those below threshold
+            break;
+        }
+        vertex_t extVertex = this->network.translateIntToExt(i);
+        q.push(std::make_tuple( generateScoreIfNotNeighbors(vertex,extVertex), rand(), extVertex ));
+    }
+
+    for (int i = 0; i < n; ++i) {
+        topVertices.push_back(  std::get<2>( q.top() )  );
+        q.pop();
+    }
+
+    return topVertices;
+}
+
 std::vector<vertex_t> WTFLinkPredictor::generateHubs(unsigned int vertex, int n) {
     std::priority_queue<std::tuple<double, int ,int>> q;
     for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
@@ -41,7 +67,7 @@ std::vector<vertex_t> WTFLinkPredictor::generateAuthorities() {
     for (vertex_t hub : hubs) {
         const neighbor_set_t& neighbors = this->network.outNeighbors( hub );
         for (neighbor_t neighbor : neighbors) {
-            if(neighbor.first >= this->threshold && ! (std::find(hubs.begin(), hubs.end(), neighbor.first) != hubs.end()) ) {
+            if(! (std::find(hubs.begin(), hubs.end(), neighbor.first) != hubs.end()) ) {
                 authorities.push_back(neighbor.first);
             }
         }
@@ -103,10 +129,6 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 double r = Statistics<double>::sampleCorrelationCoefficient( oldScores, this->scores );
                 if ( r > 0.9999 )
                 {
-                    //Zero all above threshold
-                    for (unsigned int i = this->threshold; i < this->scores.size(); i++) {
-                        this->scores.at(i) = 0;
-                    }
                     // for(vertex_t auth: this->authorities) {
                     //     this->scores.at(auth) *= 1;
                     // }
