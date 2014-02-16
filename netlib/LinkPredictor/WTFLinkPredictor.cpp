@@ -76,7 +76,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 double nbSum = 0.0;
                 const neighbor_set_t &neighbors = this->salsaNetwork.outNeighbors( hub );
                 for(neighbor_t auth_neighbor : neighbors) {
-                    nbSum += this->scores.at(auth_neighbor.first) / this->salsaNetwork.outDegree( auth_neighbor.first );
+                    nbSum += this->scores.at(auth_neighbor.first) / this->salsaNetwork.outVolume( auth_neighbor.first );
                 }
                     
                 this->scores.at(hub) = nbSum;
@@ -87,7 +87,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
             }
 
             for(vertex_t hub: this-> hubs) {
-                double myContribution = this->scores.at(hub) / this->salsaNetwork.outDegree(hub);
+                double myContribution = this->scores.at(hub) / this->salsaNetwork.outVolume(hub);
                 const neighbor_set_t &neighbors = this->salsaNetwork.outNeighbors( hub );
                 for(neighbor_t auth_neighbor : neighbors) {
                     this->scores.at(auth_neighbor.first) += myContribution;
