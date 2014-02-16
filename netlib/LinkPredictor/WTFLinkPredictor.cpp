@@ -51,7 +51,7 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
         this->scores = vector<double>( this->network.vertexCount(), 1.0 );
         vector<double> oldScores = vector<double>( this->network.vertexCount(), 1.0 );
 
-        this->hubs = this->rootedPageRankLinkPredictor.hubs(vertex, 100);
+        this->hubs = this->rootedPageRankLinkPredictor.hubs(vertex, this->network.outDegree(vertex_t) + 100);
         if (this->hubs.size() == 0) {
             return 0;
         }
