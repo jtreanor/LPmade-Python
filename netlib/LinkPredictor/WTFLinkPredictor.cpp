@@ -104,10 +104,10 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 if ( r > 0.9999 )
                 {
                     for(vertex_t auth: this->authorities) {
-                        this->scores.at(auth) *= 1;
+                        this->scores.at(auth) *= 2;
                     }
                     for(vertex_t hub: this->hubs) {
-                        this->scores.at(hub) *= 0;
+                        this->scores.at(hub) *= 1;
                     }
                     return this->scores.at( neighbor );
                 }
