@@ -5,8 +5,9 @@
 #include <algorithm>
 #include <tuple>
 
-WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha, int hubSize ) : LinkPredictor(network, completeNetwork), alpha(alpha), hubSize(hubSize), salsaNetwork(network), hubPredictor(new CommonNeighborLinkPredictor( this->network, this->completeNetwork ))
+WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, double alpha, int hubSize ) : LinkPredictor(network, completeNetwork), alpha(alpha), hubSize(hubSize), salsaNetwork(network)
 {
+    hubPredictor = new CommonNeighborLinkPredictor( this->network, this->completeNetwork );
 }
 
 WTFLinkPredictor::~WTFLinkPredictor()
@@ -15,20 +16,27 @@ WTFLinkPredictor::~WTFLinkPredictor()
 }
 
 std::vector<vertex_t> WTFLinkPredictor::generateHubs(unsigned int vertex, int n) {
-    std::priority_queue<std::tuple<double, int ,int>> q;
-    for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
-        if (this->network.translateIntToExt(i) >= 200000) { //only include people
-            break;
-        }
-        q.push(std::make_tuple(this->hubPredictor->generateScore(vertex,i), rand() ,i));
-    }
+    // std::priority_queue<std::tuple<double, int ,int>> q;
+    // for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+    //     if (this->network.translateIntToExt(i) >= 200000) { //only include people
+    //         break;
+    //     }
+    //     q.push(std::make_tuple(this->hubPredictor->generateScore(vertex,i), rand() ,i));
+    // }
 
+    // std::vector<vertex_t> circleOfTrust;
+      
+    // for (int i = 0; i < n; ++i) {
+    //     vertex_t index = std::get<2>(q.top());
+    //     circleOfTrust.push_back(index);
+    //     q.pop();
+    // }
+
+    const neighbor_set_t& neighbors = this->network.outNeighbors( vertex );
     std::vector<vertex_t> circleOfTrust;
       
-    for (int i = 0; i < n; ++i) {
-        vertex_t index = std::get<2>(q.top());
-        circleOfTrust.push_back(index);
-        q.pop();
+    for (neighbor_t neighbor : neighbors) {
+        circleOfTrust.push_back(neighbor.first);
     }
 
     return circleOfTrust;
