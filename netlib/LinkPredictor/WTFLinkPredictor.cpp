@@ -7,7 +7,7 @@
 
 WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, int threshold, int hubSize ) : LinkPredictor(network, completeNetwork), threshold(this->network.translateExtToInt(threshold) ), hubSize(hubSize), salsaNetwork(network)
 {
-    hubPredictor = new CommonNeighborLinkPredictor( this->network, this->completeNetwork );
+    hubPredictor = new RootedPageRankLinkPredictor( this->network, this->completeNetwork, 0.15 );
 }
 
 WTFLinkPredictor::~WTFLinkPredictor()
@@ -25,10 +25,7 @@ std::vector<vertex_t> WTFLinkPredictor::topNVerticesExt(unsigned int vertex, int
         return topVertices;
     }
 
-    for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
-        if (i >= this->threshold) { //Only recommend those below threshold
-            break;
-        }
+    for (unsigned int i = 0; i < this->threshold; ++i) { //Only recommend those below threshold
         vertex_t extVertex = this->network.translateIntToExt(i);
         q.push(std::make_tuple( generateScoreIfNotNeighbors(vertex,extVertex), rand(), extVertex ));
     }
@@ -129,12 +126,6 @@ double WTFLinkPredictor::generateScore( unsigned int vertex, unsigned int neighb
                 double r = Statistics<double>::sampleCorrelationCoefficient( oldScores, this->scores );
                 if ( r > 0.9999 )
                 {
-                    // for(vertex_t auth: this->authorities) {
-                    //     this->scores.at(auth) *= 1;
-                    // }
-                    // for(vertex_t hub: this->hubs) {
-                    //     this->scores.at(hub) *= 1;
-                    // }
                     return this->scores.at( neighbor );
                 }
                 else
