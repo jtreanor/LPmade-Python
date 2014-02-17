@@ -2,7 +2,7 @@
 %{
 	#include "netlib/WeightedNetwork.h"
 	#include "netlib/Statistics.h"
-	#include "netlib/Algorithm.h"
+	#include "netlib/AlgorithmManager.h"
 	#include "netlib/LinkPredictorEnsemble.h"   
 	#include "netlib/LinkPredictor/LinkPredictor.h"
 	#include "netlib/RecommenderResult.h"   
@@ -60,7 +60,7 @@ namespace std {
 
 %include "netlib/WeightedNetwork.h"
 %include "netlib/Statistics.h"
-%include "netlib/Algorithm.h"
+%include "netlib/AlgorithmManager.h"
 %include "netlib/LinkPredictorEnsemble.h"
 %include "netlib/LinkPredictor/LinkPredictor.h"
 %include "netlib/RecommenderResult.h"   

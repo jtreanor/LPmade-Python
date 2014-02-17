@@ -1,18 +1,18 @@
-#ifndef ALGORITHM_H
-#define ALGORITHM_H
+#ifndef ALGORITHMMANAGER_H
+#define ALGORITHMMANAGER_H
 
 #include "LinkPredictor/LinkPredictor.h"
 #include "WeightedNetwork.h"
 
-class Algorithm {
+class AlgorithmManager {
 	private:
 		const WeightedNetwork& directedNetwork;
 		const WeightedNetwork& undirectedNetwork;
 		const WeightedNetwork& reversedNetwork;
-		Algorithm();
+		AlgorithmManager();
 	public:
-		Algorithm( const WeightedNetwork&, const WeightedNetwork&, const WeightedNetwork& );
-		~Algorithm();
+		AlgorithmManager( const WeightedNetwork&, const WeightedNetwork&, const WeightedNetwork& );
+		~AlgorithmManager();
 		enum {COMMON_NEIGHBOURS=0, ADAMIC_ADAR, PROP_FLOW, UNWEIGHTED_PROP_FLOW, GRAPH_DISTANCE, ROOTED_PAGE_RANK, JACCARD, PREFERENTIAL_ATTACHMENT, KATZ_MEASURE, IN_DEGREE, RANDOM, WTF };
 		enum {DIRECTED=0, REVERSED, UNDIRECTED };
 		const WeightedNetwork& networkForDirection(int) const;

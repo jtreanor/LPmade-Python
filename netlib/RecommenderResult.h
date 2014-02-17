@@ -5,7 +5,7 @@
 #include "WeightedNetwork.h"
 #include "LinkPredictor/LinkPredictor.h"
 #include "LinkPredictorEnsemble.h"
-#include "Algorithm.h"
+#include "AlgorithmManager.h"
 
 using std::vector;
 
@@ -16,7 +16,7 @@ class RecommenderResult {
 		LinkPredictorEnsemble *ensemble;
 	protected:
 	public:
-		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>&, const std::vector<int>&, const std::vector<double>&, const Algorithm& );
+		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>&, const std::vector<int>&, const std::vector<double>&, const AlgorithmManager& );
 		~RecommenderResult();
 		std::vector<double> precisionAtN(int, int, int);
 };

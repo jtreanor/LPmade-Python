@@ -1,4 +1,4 @@
-#include "Algorithm.h"
+#include "AlgorithmManager.h"
 #include "LinkPredictor/AdamicAdarLinkPredictor.h"
 #include "LinkPredictor/CommonNeighborLinkPredictor.h"
 #include "LinkPredictor/DistanceLinkPredictor.h"
@@ -14,13 +14,13 @@
 #include "LinkPredictor/OutDegreeLinkPredictor.h"
 #include "LinkPredictor/WTFLinkPredictor.h"
 
-Algorithm::Algorithm( const WeightedNetwork& network, const WeightedNetwork& undirectedNetwork, const WeightedNetwork& reversedNetwork ) : directedNetwork(network),  undirectedNetwork(undirectedNetwork), reversedNetwork(reversedNetwork) {	
+AlgorithmManager::AlgorithmManager( const WeightedNetwork& network, const WeightedNetwork& undirectedNetwork, const WeightedNetwork& reversedNetwork ) : directedNetwork(network),  undirectedNetwork(undirectedNetwork), reversedNetwork(reversedNetwork) {	
 }
 
-Algorithm::~Algorithm() {
+AlgorithmManager::~AlgorithmManager() {
 }
 
-const WeightedNetwork& Algorithm::networkForDirection(int direction) const {
+const WeightedNetwork& AlgorithmManager::networkForDirection(int direction) const {
 	switch (direction) {
 		case UNDIRECTED:
 			return this->undirectedNetwork;
@@ -30,7 +30,7 @@ const WeightedNetwork& Algorithm::networkForDirection(int direction) const {
 	return this->directedNetwork;
 }
 
-LinkPredictor* Algorithm::predictorForType(int recommender, int direction) const {
+LinkPredictor* AlgorithmManager::predictorForType(int recommender, int direction) const {
 	switch (recommender) {
 		case COMMON_NEIGHBOURS:
 			return new CommonNeighborLinkPredictor(this->networkForDirection(direction), this->directedNetwork);
