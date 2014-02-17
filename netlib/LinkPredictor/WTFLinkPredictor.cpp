@@ -1,13 +1,14 @@
 #include "WTFLinkPredictor.h"
 #include "RootedPageRankLinkPredictor.h"
 #include "CommonNeighborLinkPredictor.h"
+#include "AdamicAdarLinkPredictor.h"
 #include "../Statistics.h"
 #include <algorithm>
 #include <tuple>
 
 WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, int threshold, int hubSize ) : LinkPredictor(network, completeNetwork), threshold(this->network.translateExtToInt(threshold) ), hubSize(hubSize), salsaNetwork(network)
 {
-    hubPredictor = new RootedPageRankLinkPredictor( this->network, this->completeNetwork, 0.15 );
+    hubPredictor = new AdamicAdarLinkPredictor( this->network, this->completeNetwork );
 }
 
 WTFLinkPredictor::~WTFLinkPredictor()
