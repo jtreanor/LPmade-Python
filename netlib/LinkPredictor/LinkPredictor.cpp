@@ -40,7 +40,7 @@ std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
     vector<double> vertices = vector<double>(count);
 
     if (intVertex == INVALID_VERTEX) {
-		return topVertices;
+		return vertices;
 	}
 
 	for (unsigned int i = 0; i < count; ++i) {
