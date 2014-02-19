@@ -49,7 +49,7 @@ std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
     double mean = score_sum / count;
     double standard_deviation = sqrt(sq_sum / count - mean * mean);
 
-	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+	for (unsigned int i = 0; i < count; ++i) {
 		double normalisedScore = zScore( vertices.at(i), standard_deviation, mean );
 		vertices.at(i) = normalisedScore;
 	}
