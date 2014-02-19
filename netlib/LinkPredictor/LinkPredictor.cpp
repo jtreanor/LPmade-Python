@@ -35,11 +35,11 @@ std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
 
     double score_sum = 0.0;
     double sq_sum = 0.0;
-    double count = this->network.vertexCount();
+    int count = std::min( this->completeNetwork.vertexCount(), this->network.vertexCount() );
 
-    vector<double> vertices = vector<double>(this->network.vertexCount());
+    vector<double> vertices = vector<double>(count);
 
-	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+	for (unsigned int i = 0; i < count; ++i) {
 		double score = generateScoreIfNotNeighborsInt(intVertex,i);
 		score_sum += score;
 		sq_sum += score * score;
