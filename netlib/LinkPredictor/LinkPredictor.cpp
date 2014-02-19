@@ -39,6 +39,10 @@ std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
 
     vector<double> vertices = vector<double>(count);
 
+    if (intVertex == INVALID_VERTEX) {
+		return topVertices;
+	}
+
 	for (unsigned int i = 0; i < count; ++i) {
 		double score = generateScoreIfNotNeighborsInt(intVertex,i);
 		score_sum += score;
@@ -50,8 +54,7 @@ std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
     double standard_deviation = sqrt(sq_sum / count - mean * mean);
 
 	for (unsigned int i = 0; i < count; ++i) {
-		double normalisedScore = zScore( vertices.at(i), standard_deviation, mean );
-		vertices.at(i) = normalisedScore;
+		vertices.at(i) = zScore( vertices.at(i), standard_deviation, mean );
 	}
 
 	return vertices;
