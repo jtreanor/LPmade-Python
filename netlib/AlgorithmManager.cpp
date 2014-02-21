@@ -13,6 +13,9 @@
 #include "LinkPredictor/InDegreeLinkPredictor.h"
 #include "LinkPredictor/OutDegreeLinkPredictor.h"
 #include "LinkPredictor/WTFLinkPredictor.h"
+#include "LinkPredictor/SimRankLinkPredictor.h"
+#include "LinkPredictor/MutualityLinkPredictor.h"
+#include "LinkPredictor/TriangleLinkPredictor.h"
 
 AlgorithmManager::AlgorithmManager( const WeightedNetwork& network, const WeightedNetwork& undirectedNetwork, const WeightedNetwork& reversedNetwork ) : directedNetwork(network),  undirectedNetwork(undirectedNetwork), reversedNetwork(reversedNetwork) {	
 }
@@ -56,6 +59,12 @@ LinkPredictor* AlgorithmManager::predictorForType(int recommender, int direction
 			return new InDegreeLinkPredictor(this->networkForDirection(direction),this->directedNetwork );
 		case RANDOM:
 			return new OneLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
+		case SIM_RANK:
+			return new SimRankLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 0.8);
+		case MUTUALITY:
+			return new MutualityLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
+		case TRIANGLE:
+			return new TriangleLinkPredictor(this->networkForDirection(direction),this->directedNetwork, -1);
 	}
 	return NULL;
 }

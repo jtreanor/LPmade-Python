@@ -18,7 +18,7 @@ struct DetailedNeighbors;
 
 class TriangleLinkPredictor : public LinkPredictor {
 	private:
-		const static unsigned long graphlets = 32;
+		static const unsigned long graphlets = 32;
 		int selection;
 		double counts[graphlets];
 		struct DetailedNeighbors {
