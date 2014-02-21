@@ -30,8 +30,8 @@ void RecommenderResult::evaluate(int n, int start, int end) {
 		}
 
 		double denominator = total_correct_answers < n ? total_correct_answers : n;       
-        double precision = denominator == 0 ? 0 : correct_recommendations/denominator;
+        double current_precision = denominator == 0 ? 0 : correct_recommendations/denominator;
 
-        precision += proportion * precision;
+        precision += proportion * current_precision;
 	}
 }
