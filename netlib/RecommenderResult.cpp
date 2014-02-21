@@ -11,8 +11,8 @@ RecommenderResult::~RecommenderResult() {
 	delete ensemble;
 }
 
-std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
-	std::vector<double> precisionAtN = std::vector<double>( n );
+void RecommenderResult::evaluate(int n, int start, int end) {
+	this->precisionAtN = std::vector<double>( n );
 
 	double proportion = 1.0/(end - start);
 
@@ -37,6 +37,4 @@ std::vector<double> RecommenderResult::precisionAtN(int n, int start, int end) {
 			currentN++;
 		}
 	}
-
-	return precisionAtN;
 }

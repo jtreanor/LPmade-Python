@@ -18,7 +18,8 @@ class RecommenderResult {
 	public:
 		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>&, const std::vector<int>&, const std::vector<double>&, const AlgorithmManager& );
 		~RecommenderResult();
-		std::vector<double> precisionAtN(int, int, int);
+		std::vector<double> precisionAtN;
+		void evaluate(int, int, int);
 };
 
 #endif
