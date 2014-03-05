@@ -13,6 +13,45 @@ LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNet
 LinkPredictorEnsemble::~LinkPredictorEnsemble() {
 }
 
+std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtBorda(vertex_t vertexExt, int n) {
+	if (this->linkPredictors.size() == 1) {
+		return linkPredictors.at(0)->topNVerticesExt(vertexExt,n);
+	}
+
+	std::vector<double> bordaScores = std::vector<double>( this->trainingNetwork.vertexCount() );
+
+	for ( unsigned int l = 0; l < this->linkPredictors.size(); l++ ) {
+		LinkPredictor *pred = this->linkPredictors.at(l);
+		
+		std::vector<vertex_t> topNRecs = pred->topNVerticesExt(vertexExt, n);
+
+		//Weight for this predictor
+		double weight = this->weights.at(l);
+
+		for (int i = 0; i < topNRecs.size(); i++) {
+			int rank = topNRecs.size() - i;
+
+			vertex_t rec = topNRecs.at(i);
+			bordaScores.at(rec) += rank * weight;
+		}
+	}
+
+	std::priority_queue< std::tuple<int, int ,int> > q;
+
+	for (size_t i = 0; i < bordaScores.size(); ++i) {
+		q.push( std::make_tuple( bordaScores.at(i), rand(), i ) );
+	}
+
+	std::vector<vertex_t> topVertices;
+
+	for (int i = 0; i < n; ++i) {
+		topVertices.push_back( this->trainingNetwork.translateIntToExt( std::get<2>(q.top()) ) );
+		q.pop();
+	}
+
+	return topVertices;
+}
+
 std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt, int n) {
 	if (this->linkPredictors.size() == 1) {
 		return linkPredictors.at(0)->topNVerticesExt(vertexExt,n);

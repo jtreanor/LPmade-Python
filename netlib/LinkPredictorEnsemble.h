@@ -20,6 +20,7 @@ class LinkPredictorEnsemble {
 		~LinkPredictorEnsemble();
 		std::vector<vertex_t> topNVertices(vertex_t, int);
 		std::vector<vertex_t> topNVerticesExt(vertex_t, int);
+		std::vector<vertex_t> topNVerticesExtBorda(vertex_t, int);
 };
 
 #endif
