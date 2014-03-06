@@ -30,7 +30,7 @@ typedef pair<vertex_t,weight_t> neighbor_t;
 typedef vector<neighbor_t> neighbor_set_t;
 typedef vector<neighbor_set_t> vertex_set_t;
 
-const vertex_t INVALID_VERTEX = std::numeric_limits<unsigned int>::max();;
+const vertex_t INVALID_VERTEX = std::numeric_limits<unsigned int>::max();
 
 class WeightedNetwork {
 	private:

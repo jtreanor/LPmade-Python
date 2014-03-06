@@ -99,6 +99,30 @@ std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n)
 	return topVertices;
 }
 
+std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n, int degree) {	
+	std::priority_queue< std::tuple<double, int ,int> > q;
+	vertex_t intVertex = this->network.translateExtToInt(vertex);
+
+	std::vector<vertex_t> topVertices;
+
+	if (intVertex == INVALID_VERTEX) {
+		return topVertices;
+	}
+
+	vector<vertex_t> verticesToPredict = this->network.findOutNeighbors( intVertex, degree );
+
+	for (vertex_t check: verticesToPredict) {
+		vertex_t extVertex = this->network.translateIntToExt(check);
+		q.push(std::make_tuple( generateScoreIfNotNeighborsInt(intVertex,check), rand(), extVertex ));
+	}
+
+	for (int i = verticesToPredict.size(); i > 0; i--) {
+		topVertices.push_back(  std::get<2>( q.top() )  );
+		q.pop();
+	}
+
+	return topVertices;
+}
 
 double LinkPredictor::generateScoreIfNotNeighborsInt( vertex_t a, vertex_t b) {
 	if ( completeNetwork.hasEdge(a,b) || a == b ) {

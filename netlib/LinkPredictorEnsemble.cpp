@@ -22,21 +22,21 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtBorda(vertex_t verte
 
 	for ( unsigned int l = 0; l < this->linkPredictors.size(); l++ ) {
 		LinkPredictor *pred = this->linkPredictors.at(l);
-		
+
 		std::vector<vertex_t> topNRecs = pred->topNVerticesExt(vertexExt, n);
 
 		//Weight for this predictor
 		double weight = this->weights.at(l);
 
 		for (int i = 0; i < topNRecs.size(); i++) {
-			int rank = topNRecs.size() - i;
+			double rank = topNRecs.size() - i;
 
 			vertex_t rec = topNRecs.at(i);
 			bordaScores.at(rec) += rank * weight;
 		}
 	}
 
-	std::priority_queue< std::tuple<int, int ,int> > q;
+	std::priority_queue< std::tuple<double, int ,int> > q;
 
 	for (size_t i = 0; i < bordaScores.size(); ++i) {
 		q.push( std::make_tuple( bordaScores.at(i), rand(), i ) );
@@ -54,7 +54,7 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtBorda(vertex_t verte
 
 std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt, int n) {
 	if (this->linkPredictors.size() == 1) {
-		return linkPredictors.at(0)->topNVerticesExt(vertexExt,n);
+		return linkPredictors.at(0)->topNVerticesExt(vertexExt,n,2);
 	}
 
 	std::vector<double> averageScores = std::vector<double>( this->trainingNetwork.vertexCount() );

@@ -35,6 +35,7 @@ class LinkPredictor {
 		std::vector<double> allNormalised(vertex_t);
 		std::vector<vertex_t> topNVertices(vertex_t, int);
 		std::vector<vertex_t> topNVerticesExt(vertex_t, int);
+		std::vector<vertex_t> topNVerticesExt(vertex_t, int, int);
 		double generateScoreIfNotNeighborsInt( vertex_t , vertex_t );
 		double generateScoreIfNotNeighbors( vertex_t, vertex_t );
 		double generateScoreExt( vertex_t, vertex_t );
