@@ -2,9 +2,10 @@
 #include <queue>
 #include <tuple>
 
-RecommenderResult::RecommenderResult( const WeightedNetwork& trainingNetwork, const WeightedNetwork& testNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions, const std::vector<double>& weights, const AlgorithmManager& alg ) : trainingNetwork(trainingNetwork), testNetwork(testNetwork) {
+RecommenderResult::RecommenderResult( const WeightedNetwork& trainingNetwork, const WeightedNetwork& testNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions, const std::vector<double>& weights, const std::vector<int>& degrees,const AlgorithmManager& alg ) : trainingNetwork(trainingNetwork), testNetwork(testNetwork) {
     srand(time(NULL));
-	this->ensemble = new LinkPredictorEnsemble(this->trainingNetwork, algorithms, directions, weights, alg);
+
+	this->ensemble = new LinkPredictorEnsemble(this->trainingNetwork, algorithms, directions, weights, degrees,alg);
 }
 
 RecommenderResult::~RecommenderResult() {
@@ -18,7 +19,7 @@ void RecommenderResult::evaluate(int n, int start, int end) {
 
 	for (int currentVertex = start; currentVertex < end; currentVertex++ ) {
 		vertex_t currentVertexExt = this->testNetwork.translateIntToExt(currentVertex);
-		std::vector<vertex_t> acceptedVertices = this->ensemble->topNVerticesExt(currentVertexExt,n);
+		std::vector<vertex_t> acceptedVertices = this->ensemble->topNVerticesExtBorda(currentVertexExt,n);
 
   		double correct_recommendations = 0;
   		int total_correct_answers = this->testNetwork.outDegree( currentVertex );

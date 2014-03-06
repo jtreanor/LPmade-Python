@@ -16,7 +16,7 @@ class RecommenderResult {
 		LinkPredictorEnsemble *ensemble;
 	protected:
 	public:
-		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>&, const std::vector<int>&, const std::vector<double>&, const AlgorithmManager& );
+		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>&, const std::vector<int>&, const std::vector<double>&, const std::vector<int>&, const AlgorithmManager& );
 		~RecommenderResult();
 		double precision;
 		void evaluate(int, int, int);
