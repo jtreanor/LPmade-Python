@@ -109,17 +109,17 @@ std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n,
 		return topVertices;
 	}
 
-	//All noes up to degree
-	// for (int i = 2; i <= degree; i++) {
+	//All nodes up to degree
+	for (int i = 2; i <= degree; i++) {
 		vector<vertex_t> verticesToPredict = this->network.findOutNeighbors( intVertex, degree );
 
 		for (vertex_t check: verticesToPredict) {
 			vertex_t extVertex = this->network.translateIntToExt(check);
 			q.push(std::make_tuple( generateScoreIfNotNeighborsInt(intVertex,check), rand(), extVertex ));
 		}
-	// }	
+	}	
 
-	for (int i = verticesToPredict.size() > n ? n : verticesToPredict.size(); i > 0; i--) {
+	for (int i = q.size() > n ? n : q.size(); i > 0; i--) {
 		topVertices.push_back(  std::get<2>( q.top() )  );
 		q.pop();
 	}
