@@ -11,15 +11,13 @@ using std::vector;
 
 class RecommenderResult {
 	private:
-		const WeightedNetwork& trainingNetwork;
 		const WeightedNetwork& testNetwork;
-		LinkPredictorEnsemble *ensemble;
+		const LinkPredictorEnsemble& ensemble;
 	protected:
 	public:
-		RecommenderResult( const WeightedNetwork&, const WeightedNetwork&, const std::vector<int>&, const std::vector<int>&, const std::vector<double>&, const std::vector<int>&, const AlgorithmManager& );
+		RecommenderResult( const WeightedNetwork&, const LinkPredictorEnsemble& );
 		~RecommenderResult();
-		double precision;
-		void evaluate(int, int, int);
+		double evaluate(int, int, int) const;
 };
 
 #endif

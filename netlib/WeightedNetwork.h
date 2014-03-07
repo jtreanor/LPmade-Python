@@ -60,7 +60,6 @@ class WeightedNetwork {
 		void printAdjacencyList( ostream& ) const;
 		unsigned int vertexCount() const;
 		unsigned int edgeCount() const;
-		// const std::set<vertex_t>& WTFAuthorities(const std::set<vertex_t>&) const;
 		const neighbor_set_t& outNeighbors( vertex_t ) const;
 		const neighbor_set_t& inNeighbors( vertex_t ) const;
 		const vector<vertex_t> findOutNeighbors( vertex_t, unsigned int ) const;

@@ -3,8 +3,7 @@ setup.py file for LPmade netlib
 """
 
 from distutils.core import setup, Extension
-from distutils.sysconfig import get_config_vars
-import os
+import numpy
 
 net_lib_module = Extension('_LPmade',
                            sources=['LPmade.i',
@@ -49,6 +48,7 @@ net_lib_module = Extension('_LPmade',
 									],
 			                       swig_opts=['-c++'],
 			                       extra_compile_args=["-std=c++0x"],
+			                       include_dirs = [numpy.get_include()]
                            )
 
 setup (name = '	LPmade',

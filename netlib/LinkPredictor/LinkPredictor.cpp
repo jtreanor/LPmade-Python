@@ -60,6 +60,23 @@ std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
 	return vertices;
 }
 
+std::vector<double> LinkPredictor::allScores(unsigned int vertex) {
+	vertex_t intVertex = this->network.translateExtToInt(vertex);
+
+	int count = std::min( this->completeNetwork.vertexCount(), this->network.vertexCount() );
+	vector<double> vertices = vector<double>(count);
+
+	if (intVertex == INVALID_VERTEX) {
+		return vertices;
+	}
+
+	for (unsigned int i = 0; i < count; ++i) {
+		vertices.at(0) = generateScoreIfNotNeighborsInt(intVertex,i);
+	}
+
+	return vertices;
+}
+
 std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
 	std::priority_queue< std::tuple<double, int ,int> > q;
 	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {

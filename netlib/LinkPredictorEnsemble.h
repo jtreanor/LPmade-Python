@@ -15,13 +15,16 @@ class LinkPredictorEnsemble {
 		const AlgorithmManager& alg;
 		const std::vector<int>& degrees;
 		std::vector<LinkPredictor*> linkPredictors;
+		int ensembleType;
 	protected:
 	public:
-		LinkPredictorEnsemble( const WeightedNetwork&, const std::vector<int>&, const std::vector<int>&, const std::vector<double>&, const std::vector<int>&, const AlgorithmManager& );
+		enum {MEAN=0, BORDA, LOGISTIC_REGRESSION };
+		LinkPredictorEnsemble( const WeightedNetwork&, const std::vector<double>&, const std::vector<int>&, int, const AlgorithmManager& );
 		~LinkPredictorEnsemble();
-		std::vector<vertex_t> topNVertices(vertex_t, int);
-		std::vector<vertex_t> topNVerticesExt(vertex_t, int);
-		std::vector<vertex_t> topNVerticesExtBorda(vertex_t, int);
+		std::vector<vertex_t> topNVerticesExt(vertex_t, int) const;
+		std::vector<vertex_t> topNVerticesExtMean(vertex_t, int) const;
+		std::vector<vertex_t> topNVerticesExtBorda(vertex_t, int) const;
+		std::vector<vertex_t> topNVerticesExtLR(vertex_t, int) const;
 };
 
 #endif

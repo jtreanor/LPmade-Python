@@ -1,19 +1,32 @@
 #include "LinkPredictorEnsemble.h"
 #include <queue>
 #include <tuple>
+#include <math.h> 
 
-LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions, const std::vector<double>& weights, const std::vector<int>& degrees , const AlgorithmManager& alg ) : trainingNetwork(trainingNetwork), weights(weights), alg(alg), degrees(degrees) {
-	this->linkPredictors = std::vector<LinkPredictor*>();
-
-	for (unsigned int i = 0; i < algorithms.size(); i++) {
-		this->linkPredictors.push_back( this->alg.predictorForType(algorithms.at(i), directions.at(i) ) );
-	}
+LinkPredictorEnsemble::LinkPredictorEnsemble( const WeightedNetwork& trainingNetwork, const std::vector<double>& weights, const std::vector<int>& degrees , int ensembleType, const AlgorithmManager& alg ) : trainingNetwork(trainingNetwork), weights(weights), alg(alg), degrees(degrees), ensembleType(ensembleType) {
+	this->linkPredictors = alg.linkPredictors();
+	srand(time(NULL));
 }
 
 LinkPredictorEnsemble::~LinkPredictorEnsemble() {
+	for (LinkPredictor *lp : this->linkPredictors) {
+		delete lp;
+	}
 }
 
-std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtBorda(vertex_t vertexExt, int n) {
+std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt, int n) const {
+	switch (this->ensembleType) {
+		case MEAN:
+			return topNVerticesExtMean(vertexExt,n);
+		case BORDA:
+			return topNVerticesExtBorda(vertexExt,n);
+		case LOGISTIC_REGRESSION:
+			return topNVerticesExtLR(vertexExt,n);
+	}
+	return topNVerticesExtMean(vertexExt,n);
+}
+
+std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtBorda(vertex_t vertexExt, int n) const {
 	if (this->linkPredictors.size() == 1) {
 		if (this->degrees.at(0) == 0) {
 			return linkPredictors.at(0)->topNVerticesExt(vertexExt,n);
@@ -55,7 +68,7 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtBorda(vertex_t verte
 	return topVertices;
 }
 
-std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt, int n) {
+std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtMean(vertex_t vertexExt, int n) const {
 	if (this->linkPredictors.size() == 1) {
 		if (this->degrees.at(0) == 0) {
 			return linkPredictors.at(0)->topNVerticesExt(vertexExt,n);
@@ -96,33 +109,46 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExt(vertex_t vertexExt,
 	return topVertices;
 }
 
-std::vector<vertex_t> LinkPredictorEnsemble::topNVertices(vertex_t vertex, int n) {
+std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtLR(vertex_t vertexExt, int n) const {
 	if (this->linkPredictors.size() == 1) {
-		return this->linkPredictors.at(0)->topNVertices(vertex,n);
+		if (this->degrees.at(0) == 0) {
+			return linkPredictors.at(0)->topNVerticesExt(vertexExt,n);
+		} else {
+			return linkPredictors.at(0)->topNVerticesExt(vertexExt,n,this->degrees.at(0));
+		}
 	}
 
-	std::vector<double> averageScores = std::vector<double>( this->trainingNetwork.vertexCount() );
+	std::vector<double> averageScores = std::vector<double>( this->trainingNetwork.vertexCount());
 
-	double proportion = 1.0 / this->linkPredictors.size();
+	for ( unsigned int l = 0; l < this->linkPredictors.size(); l++ ) {
+		LinkPredictor *pred = this->linkPredictors.at(l);
 
-	for ( LinkPredictor *pred : this->linkPredictors ) {
-		std::vector<double> predictorScores = pred->allNormalised(vertex);
+		//Metric for every vertex
+		std::vector<double> predictorScores = pred->allScores(vertexExt);
+
+		//Weight for this predictor
+		double weight = this->weights.at(l);
+
 		for (size_t i = 0; i < averageScores.size(); ++i) {
-    		averageScores.at(i) += predictorScores.at(i) * proportion;
+    		averageScores.at(i) += predictorScores.at(i) * weight;
 		}
+	}
+
+	//From sklearn
+	for (size_t i = 0; i < averageScores.size(); ++i) {
+    	averageScores.at(i) = 1.0 / ( 1.0 + exp(averageScores.at(i) + /*Intercept*/this->weights.at(this->linkPredictors.size())) );
 	}
 
 	std::priority_queue< std::tuple<double, int ,int> > q;
 
 	for (size_t i = 0; i < averageScores.size(); ++i) {
-		double average = averageScores.at(i) / 2.0;
-		q.push( std::make_tuple( average, rand(), i ) );
+		q.push( std::make_tuple( averageScores.at(i), rand(), i ) );
 	}
 
 	std::vector<vertex_t> topVertices;
 
 	for (int i = 0; i < n; ++i) {
-		topVertices.push_back( std::get<2>(q.top()) );
+		topVertices.push_back( this->trainingNetwork.translateIntToExt( std::get<2>(q.top()) ) );
 		q.pop();
 	}
 

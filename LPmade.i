@@ -1,5 +1,7 @@
 %module LPmade
 %{
+	#define SWIG_FILE_WITH_INIT
+
 	#include "netlib/WeightedNetwork.h"
 	#include "netlib/Statistics.h"
 	#include "netlib/AlgorithmManager.h"
@@ -47,6 +49,19 @@
 %include "std_vector.i"
 %include "std_pair.i"
 %include "std_iostream.i"
+%include "numpy.i"
+%init %{
+import_array();
+%}
+
+%apply (int DIM1, double* ARGOUT_ARRAY1) {(int net, double *arr)};
+
+%inline %{
+void create_list(int net, double *arr){
+  for (int i=0; i<net; i++)
+    arr[i] = i;
+}
+%}
 
 namespace std {
    %template(IntVector) vector<int>;
