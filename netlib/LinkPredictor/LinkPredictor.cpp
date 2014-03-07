@@ -111,7 +111,7 @@ std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n,
 
 	//All nodes up to degree
 	for (int i = 2; i <= degree; i++) {
-		vector<vertex_t> verticesToPredict = this->network.findOutNeighbors( intVertex, degree );
+		vector<vertex_t> verticesToPredict = this->network.findOutNeighbors( intVertex, i );
 
 		for (vertex_t check: verticesToPredict) {
 			vertex_t extVertex = this->network.translateIntToExt(check);
