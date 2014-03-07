@@ -51,6 +51,7 @@
 
  // Get the STL typemaps
 %include "stl.i"
+%include "std_iostream.i"
 
 // Handle standard exceptions
 %include "exception.i"
