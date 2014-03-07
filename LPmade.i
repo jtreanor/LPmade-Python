@@ -46,15 +46,44 @@
 
 %}
 
-%include "std_vector.i"
-%include "std_pair.i"
-%include "std_iostream.i"
-%include "numpy.i"
+// Get the NumPy typemaps
+%include "../numpy.i"
+
+ // Get the STL typemaps
+%include "stl.i"
+
+// Handle standard exceptions
+%include "exception.i"
+%exception
+{
+  try
+  {
+    $action
+  }
+  catch (const std::invalid_argument& e)
+  {
+    SWIG_exception(SWIG_ValueError, e.what());
+  }
+  catch (const std::out_of_range& e)
+  {
+    SWIG_exception(SWIG_IndexError, e.what());
+  }
+}
 %init %{
-import_array();
+  import_array();
 %}
 
-%apply (int DIM1, double* ARGOUT_ARRAY1) {(int net, double *arr)};
+// Apply the 1D NumPy typemaps
+%apply (int DIM1  , long* INPLACE_ARRAY1)
+      {(int length, long* data          )};
+%apply (long** ARGOUTVIEW_ARRAY1, int* DIM1  )
+      {(long** data             , int* length)};
+
+// Apply the 2D NumPy typemaps
+%apply (int DIM1 , int DIM2 , long* INPLACE_ARRAY2)
+      {(int nrows, int ncols, long* data          )};
+%apply (int* DIM1 , int* DIM2 , long** ARGOUTVIEW_ARRAY2)
+      {(int* nrows, int* ncols, long** data             )};
 
 %inline %{
 void create_list(int net, double *arr){
