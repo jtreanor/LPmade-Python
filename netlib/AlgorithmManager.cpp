@@ -17,7 +17,7 @@
 #include "LinkPredictor/MutualityLinkPredictor.h"
 #include "LinkPredictor/TriangleLinkPredictor.h"
 
-AlgorithmManager::AlgorithmManager( const WeightedNetwork& network, const WeightedNetwork& undirectedNetwork, const WeightedNetwork& reversedNetwork, const std::vector<int>& algorithms, const std::vector<int>& directions ) : directedNetwork(network),  undirectedNetwork(undirectedNetwork), reversedNetwork(reversedNetwork), algorithms(algorithms), directions(directions) {	
+AlgorithmManager::AlgorithmManager( const WeightedNetwork& network, const std::vector<int>& algorithms, const std::vector<int>& directions ) : directedNetwork(network),  undirectedNetwork(this->directedNetwork.undirected()), reversedNetwork(this->directedNetwork.reverseEdges()), algorithms(algorithms), directions(directions) {	
 }
 
 AlgorithmManager::~AlgorithmManager() {
