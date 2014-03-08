@@ -124,7 +124,7 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtLR(vertex_t vertexEx
 		LinkPredictor *pred = this->linkPredictors.at(l);
 
 		//Metric for every vertex
-		std::vector<double> predictorScores = pred->allScores(vertexExt);
+		std::vector<double> predictorScores = pred->allNormalised(vertexExt);
 
 		//Weight for this predictor
 		double weight = this->weights.at(l);
