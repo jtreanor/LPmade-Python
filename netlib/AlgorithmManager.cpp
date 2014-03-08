@@ -34,44 +34,40 @@ const WeightedNetwork& AlgorithmManager::networkForDirection(int direction) cons
 }
 
 LinkPredictor* AlgorithmManager::predictorForType(int recommender, int direction) const {
-	LinkPredictor *lp;
-
 	switch (recommender) {
 		case COMMON_NEIGHBOURS:
-			lp = new CommonNeighborLinkPredictor(this->networkForDirection(direction), this->directedNetwork);
+			return new CommonNeighborLinkPredictor(this->networkForDirection(direction), this->directedNetwork);
 		case ADAMIC_ADAR:
-			lp = new AdamicAdarLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
+			return new AdamicAdarLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case PROP_FLOW:
-			lp = new PropFlowLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5 );
+			return new PropFlowLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5 );
 		case UNWEIGHTED_PROP_FLOW:
-			lp = new UnweightedPropFlowLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5 );
+			return new UnweightedPropFlowLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5 );
 		case GRAPH_DISTANCE:
-			lp = new DistanceLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5);
+			return new DistanceLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5);
 		case ROOTED_PAGE_RANK:
-			lp = new RootedPageRankLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 0.15 );
+			return new RootedPageRankLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 0.15 );
 		case JACCARD:
-			lp = new JaccardCoefficientLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
+			return new JaccardCoefficientLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case PREFERENTIAL_ATTACHMENT:
-			lp = new PreferentialAttachmentLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
+			return new PreferentialAttachmentLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case KATZ_MEASURE:
-			lp = new KatzLinkPredictor(this->undirectedNetwork,this->directedNetwork, 5, 0.005 );
+			return new KatzLinkPredictor(this->undirectedNetwork,this->directedNetwork, 5, 0.005 );
 		case WTF:
-			lp = new WTFLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 300 );
+			return new WTFLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 300 );
 		case IN_DEGREE:
-			lp = new InDegreeLinkPredictor(this->networkForDirection(direction),this->directedNetwork );
+			return new InDegreeLinkPredictor(this->networkForDirection(direction),this->directedNetwork );
 		case RANDOM:
-			lp = new OneLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
+			return new OneLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case SIM_RANK:
-			lp = new SimRankLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 0.8);
+			return new SimRankLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 0.8);
 		case MUTUALITY:
-			lp = new MutualityLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
+			return new MutualityLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case TRIANGLE:
-			lp = new TriangleLinkPredictor(this->networkForDirection(direction),this->directedNetwork, -1);
+			return new TriangleLinkPredictor(this->networkForDirection(direction),this->directedNetwork, -1);
 	}
 
-	lp->threshold = this->directedNetwork.translateExtToInt(200000);
-
-	return lp;
+	return NULL;
 }
 
 std::vector<LinkPredictor*> AlgorithmManager::linkPredictors() const {

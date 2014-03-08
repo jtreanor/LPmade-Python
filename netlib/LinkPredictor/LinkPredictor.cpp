@@ -25,7 +25,7 @@ double zScore(double value,double standard_deviation,double mean) {
 }
 
 LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : network(network), completeNetwork(completeNetwork), vertex(INVALID_VERTEX), neighbor(INVALID_VERTEX) {
-	this->threshold = network.vertexCount();
+	this->threshold = std::min( network.translateExtToInt(200000), this->network.vertexCount() );
 }
 
 LinkPredictor::~LinkPredictor() {
@@ -92,7 +92,7 @@ std::vector<vertex_t> LinkPredictor::topNVertices(unsigned int vertex, int n) {
 	return topVertices;
 }
 
-std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n) {	
+std::vector<vertex_t> LinkPredictor::topNVerticesExt(unsigned int vertex, int n) {
 	std::priority_queue< std::tuple<double, int ,int> > q;
 	vertex_t intVertex = this->network.translateExtToInt(vertex);
 
