@@ -24,7 +24,6 @@ class WTFLinkPredictor : public LinkPredictor {
 		WTFLinkPredictor( const WeightedNetwork&, const WeightedNetwork&, int );
 		~WTFLinkPredictor();
 		double generateScore( vertex_t, vertex_t );
-		std::vector<vertex_t> topNVerticesExt(vertex_t, int);
 };
 
 #endif
