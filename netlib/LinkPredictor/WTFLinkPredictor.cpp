@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <tuple>
 
-WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, int threshold, int hubSize ) : LinkPredictor(network, completeNetwork), threshold(this->network.translateExtToInt(threshold) ), hubSize(hubSize), salsaNetwork(network)
+WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, int hubSize ) : LinkPredictor(network, completeNetwork), hubSize(hubSize), salsaNetwork(network)
 {
     hubPredictor = new CommonNeighborLinkPredictor( this->network, this->completeNetwork );
 }
@@ -15,35 +15,9 @@ WTFLinkPredictor::~WTFLinkPredictor()
     delete this->hubPredictor;
 }
 
-std::vector<vertex_t> WTFLinkPredictor::topNVerticesExt(unsigned int vertex, int n) {  
-    std::priority_queue< std::tuple<double, int ,int> > q;
-    vertex_t intVertex = this->network.translateExtToInt(vertex);
-
-    std::vector<vertex_t> topVertices;
-
-    if (intVertex == INVALID_VERTEX) {
-        return topVertices;
-    }
-
-    for (unsigned int i = 0; i < this->threshold; ++i) { //Only recommend those below threshold
-        vertex_t extVertex = this->network.translateIntToExt(i);
-        q.push(std::make_tuple( generateScoreIfNotNeighbors(vertex,extVertex), rand(), extVertex ));
-    }
-
-    for (int i = 0; i < n; ++i) {
-        topVertices.push_back(  std::get<2>( q.top() )  );
-        q.pop();
-    }
-
-    return topVertices;
-}
-
 std::vector<vertex_t> WTFLinkPredictor::generateHubs(unsigned int vertex, int n) {
     std::priority_queue<std::tuple<double, int ,int>> q;
-    for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
-        if (i >= this->threshold) { //only include below threshold
-            break;
-        }
+    for (unsigned int i = 0; i < this->threshold; ++i) { //only include below threshold
         q.push(std::make_tuple(this->hubPredictor->generateScore(vertex,i), rand() ,i));
     }
 

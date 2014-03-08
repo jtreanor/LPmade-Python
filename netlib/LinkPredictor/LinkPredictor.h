@@ -28,6 +28,7 @@ class LinkPredictor {
 		vertex_t neighbor;
 		LinkPredictor();
 	public:
+		int threshold;
 		enum Direction { IN, OUT };
 		LinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		virtual ~LinkPredictor();
