@@ -124,7 +124,9 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtLR(vertex_t vertexEx
 		LinkPredictor *pred = this->linkPredictors.at(l);
 
 		//Metric for every vertex
-		std::vector<double> predictorScores = pred->allNormalised(vertexExt);
+		std::vector<double> predictorScores = pred->allScores(vertexExt);
+
+		// std::cout << l << " : " << predictorScores.at(0) << "\n";
 
 		//Weight for this predictor
 		double weight = this->weights.at(l);
@@ -136,8 +138,10 @@ std::vector<vertex_t> LinkPredictorEnsemble::topNVerticesExtLR(vertex_t vertexEx
 
 	//From sklearn
 	for (size_t i = 0; i < averageScores.size(); ++i) {
-    	averageScores.at(i) = 1.0 / ( 1.0 + exp(averageScores.at(i) + /*Intercept*/this->weights.at(this->linkPredictors.size())) );
+    	averageScores.at(i) = 1.0 - (1.0 / ( 1.0 + exp(averageScores.at(i) + /*Intercept*/this->weights.at(this->linkPredictors.size())) ));
 	}
+
+	// std::cout << " : " << averageScores.at(0) << "\n";
 
 	std::priority_queue< std::tuple<double, int ,int> > q;
 

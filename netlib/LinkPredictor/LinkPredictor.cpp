@@ -62,16 +62,14 @@ std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
 
 std::vector<double> LinkPredictor::allScores(unsigned int vertex) {
 	vertex_t intVertex = this->network.translateExtToInt(vertex);
-
-	int count = std::min( this->completeNetwork.vertexCount(), this->network.vertexCount() );
-	vector<double> vertices = vector<double>(count);
+	vector<double> vertices = vector<double>(this->network.vertexCount());
 
 	if (intVertex == INVALID_VERTEX) {
 		return vertices;
 	}
 
-	for (unsigned int i = 0; i < count; ++i) {
-		vertices.at(0) = generateScoreIfNotNeighborsInt(intVertex,i);
+	for (unsigned int i = 0; i < this->network.vertexCount(); ++i) {
+		vertices.at(i) = generateScoreIfNotNeighborsInt(intVertex,i);
 	}
 
 	return vertices;
