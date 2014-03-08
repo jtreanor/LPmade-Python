@@ -25,7 +25,7 @@ double zScore(double value,double standard_deviation,double mean) {
 }
 
 LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : network(network), completeNetwork(completeNetwork), vertex(INVALID_VERTEX), neighbor(INVALID_VERTEX) {
-	this->threshold = std::min( network.translateExtToInt(200000), this->network.vertexCount() );
+	this->threshold = std::min( network.translateExtToInt(200171), this->network.vertexCount() );
 }
 
 LinkPredictor::~LinkPredictor() {
