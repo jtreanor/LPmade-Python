@@ -42,9 +42,8 @@ class WeightedNetwork {
 		void compact();
 		void addEdge( vertex_t, vertex_t, weight_t );
 		static neighbor_set_t intersect( const neighbor_set_t&, const neighbor_set_t& );
-		WeightedNetwork();
-
 	public:
+		WeightedNetwork();
 		WeightedNetwork( const WeightedNetwork& );
 		WeightedNetwork& operator=( const WeightedNetwork& );
 		~WeightedNetwork();
