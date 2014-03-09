@@ -7,6 +7,7 @@
 
 WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, int hubSize ) : LinkPredictor(network, completeNetwork), hubSize(hubSize), salsaNetwork(network)
 {
+    std::cout << "WTF" << "\n";
     hubPredictor = new CommonNeighborLinkPredictor( this->network, this->completeNetwork );
 }
 
