@@ -80,11 +80,8 @@ LinkPredictor* AlgorithmManager::predictorForType(int recommender, int direction
 std::vector<LinkPredictor*> AlgorithmManager::linkPredictors() const {
 	std::vector<LinkPredictor*> linkPredictors = std::vector<LinkPredictor*>();
 
-	std::cout << algorithms.size() << "\n";
-	
 	for (unsigned int i = 0; i < algorithms.size(); i++) {
 		linkPredictors.push_back( this->predictorForType(this->algorithms.at(i), this->directions.at(i) ) );
-		std::cout << typeid(*linkPredictors.at(i)).name() << "\n";
 	}
 	return linkPredictors;
 }
