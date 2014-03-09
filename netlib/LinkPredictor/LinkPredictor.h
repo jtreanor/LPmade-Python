@@ -26,9 +26,12 @@ class LinkPredictor {
 		const WeightedNetwork& completeNetwork;
 		vertex_t vertex;
 		vertex_t neighbor;
+		vertex_t threshold;
 		LinkPredictor();
 	public:
-		int threshold;
+		static vertex_t cutoff;
+		static vertex_t getCutOff();
+		static vertex_t setCutOff(vertex_t);
 		enum Direction { IN, OUT };
 		LinkPredictor( const WeightedNetwork&, const WeightedNetwork& );
 		virtual ~LinkPredictor();

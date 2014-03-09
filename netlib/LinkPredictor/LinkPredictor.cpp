@@ -21,15 +21,25 @@ using std::cerr;
 using std::scientific;
 using std::ios_base;
 
+vertex_t LinkPredictor::cutoff = INVALID_VERTEX;
+
 double zScore(double value,double standard_deviation,double mean) {
 	return standard_deviation > 0 ? (value - mean)/standard_deviation : 0;
 }
 
 LinkPredictor::LinkPredictor( const WeightedNetwork& network, const WeightedNetwork& completeNetwork ) : network(network), completeNetwork(completeNetwork), vertex(INVALID_VERTEX), neighbor(INVALID_VERTEX) {
-	this->threshold = std::min( network.translateExtToInt(200171), this->network.vertexCount() );
+	this->threshold = std::min( LinkPredictor::cutoff, this->network.vertexCount() );
 }
 
 LinkPredictor::~LinkPredictor() {
+}
+
+vertex_t LinkPredictor::getCutOff() {
+	return LinkPredictor::cutoff;
+}
+
+vertex_t LinkPredictor::setCutOff(vertex_t v) {
+	LinkPredictor::cutoff = v;
 }
 
 std::vector<double> LinkPredictor::allNormalised(unsigned int vertex) {
