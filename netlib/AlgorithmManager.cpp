@@ -59,7 +59,7 @@ LinkPredictor* AlgorithmManager::predictorForType(int recommender, int direction
 		case PREFERENTIAL_ATTACHMENT:
 			return new PreferentialAttachmentLinkPredictor(this->networkForDirection(direction),this->directedNetwork);
 		case KATZ_MEASURE:
-			return new KatzLinkPredictor(this->undirectedNetwork,this->directedNetwork, 5, 0.005 );
+			return new KatzLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 5, 0.005 );
 		case WTF:
 			return new WTFLinkPredictor(this->networkForDirection(direction),this->directedNetwork, 300 );
 		case IN_DEGREE:
