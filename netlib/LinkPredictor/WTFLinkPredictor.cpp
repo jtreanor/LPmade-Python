@@ -7,7 +7,6 @@
 
 WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, int hubSize ) : LinkPredictor(network, completeNetwork), hubSize(hubSize), salsaNetwork(network)
 {
-    std::cout << "WTF" << "\n";
     hubPredictor = new CommonNeighborLinkPredictor( this->network, this->completeNetwork );
 }
 
@@ -17,20 +16,7 @@ WTFLinkPredictor::~WTFLinkPredictor()
 }
 
 std::vector<vertex_t> WTFLinkPredictor::generateHubs(unsigned int vertex, int n) {
-    std::priority_queue<std::tuple<double, int ,int>> q;
-    for (unsigned int i = 0; i < this->threshold; ++i) { //only include below threshold
-        q.push(std::make_tuple(this->hubPredictor->generateScore(vertex,i), rand() ,i));
-    }
-
-    std::vector<vertex_t> circleOfTrust;
-      
-    for (int i = 0; i < n; ++i) {
-        vertex_t index = std::get<2>(q.top());
-        circleOfTrust.push_back(index);
-        q.pop();
-    }
-
-    return circleOfTrust;
+    return this->hubPredictor->topNVertices(vertex,n);
 }
 
 std::vector<vertex_t> WTFLinkPredictor::generateAuthorities() {
