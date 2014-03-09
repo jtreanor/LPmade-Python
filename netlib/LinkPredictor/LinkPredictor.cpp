@@ -13,6 +13,7 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 #include "LinkPredictor.h"
 #include <math.h>
 #include <tuple>
+#include <typeinfo>
 
 using std::numeric_limits;
 using std::cout;
