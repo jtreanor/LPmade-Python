@@ -7,7 +7,7 @@
 
 WTFLinkPredictor::WTFLinkPredictor( const WeightedNetwork &network, const WeightedNetwork &completeNetwork, int hubSize ) : LinkPredictor(network, completeNetwork), hubSize(hubSize), salsaNetwork(network)
 {
-    hubPredictor = new CommonNeighborLinkPredictor( this->network, this->completeNetwork );
+    hubPredictor = new RootedPageRankLinkPredictor( this->network, this->completeNetwork, 0.15 );
 }
 
 WTFLinkPredictor::~WTFLinkPredictor()
