@@ -2,11 +2,13 @@
 
 This project provides a simple SWIG wrapper for the excellent network library provided as part of [LPmade](https://github.com/rlichtenwalter/LPmade). LPmade is an extensive software solution for link prediction and related tasks. 
 
-Although the SWIG swrapper was made for Python it should be easy to modify for any of SWIG's supported languages.
+Although the SWIG wrapper was made for Python it should be easy to modify for any of SWIG's supported languages.
 
 I created the wrapper to use LPmade through Python as part of my final year project for Computer Science at UCC.
 
 ##Usage
+
+There are no dependencies apart from SWIG and a C++11 compiler.
 
 To install the Python module simply run the following command:
 
@@ -55,6 +57,8 @@ recommenderResult = RecommenderResult( test_network,
                                        ensemble )
 precision_at_10 = recommenderResult.evaluate(50,0,test_network.vertexCount() )
 ```
+
+Please contact me if you have any questions at all.
 
 ## License
 
