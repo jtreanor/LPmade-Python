@@ -46,9 +46,6 @@
 
 %}
 
-// Get the NumPy typemaps
-%include "numpy.i"
-
  // Get the STL typemaps
 %include "stl.i"
 %include "std_iostream.i"
@@ -70,28 +67,6 @@
     SWIG_exception(SWIG_IndexError, e.what());
   }
 }
-%init %{
-  import_array();
-%}
-
-// Apply the 1D NumPy typemaps
-%apply (int DIM1  , long* INPLACE_ARRAY1)
-      {(int length, long* data          )};
-%apply (long** ARGOUTVIEW_ARRAY1, int* DIM1  )
-      {(long** data             , int* length)};
-
-// Apply the 2D NumPy typemaps
-%apply (int DIM1 , int DIM2 , long* INPLACE_ARRAY2)
-      {(int nrows, int ncols, long* data          )};
-%apply (int* DIM1 , int* DIM2 , long** ARGOUTVIEW_ARRAY2)
-      {(int* nrows, int* ncols, long** data             )};
-
-%inline %{
-void create_list(int net, double *arr){
-  for (int i=0; i<net; i++)
-    arr[i] = i;
-}
-%}
 
 namespace std {
    %template(IntVector) vector<int>;

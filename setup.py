@@ -3,7 +3,6 @@ setup.py file for LPmade netlib
 """
 
 from distutils.core import setup, Extension
-import numpy
 
 net_lib_module = Extension('_LPmade',
                            sources=['LPmade.i',
@@ -47,8 +46,7 @@ net_lib_module = Extension('_LPmade',
 									# "netlib/LinkPredictor/WeightedTriangleLinkPredictor.cpp",
 									],
 			                       swig_opts=['-c++'],
-			                       extra_compile_args=["-std=c++0x"],
-			                       include_dirs = [numpy.get_include()]
+			                       extra_compile_args=["-std=c++0x"]
                            )
 
 setup (name = '	LPmade',
