@@ -18,7 +18,7 @@ struct DetailedNeighbors;
 
 class MRLPLinkPredictor : public LinkPredictor {
 	private:
-		const static unsigned long graphlets = 32;
+		static const unsigned long graphlets = 32;
 		unsigned long unidirectional;
 		unsigned long bidirectional;
 		double counts[graphlets];

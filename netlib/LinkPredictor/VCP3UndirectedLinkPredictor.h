@@ -18,7 +18,7 @@ struct DetailedNeighbors;
 
 class VCP3UndirectedLinkPredictor : public LinkPredictor {
 	private:
-		const static unsigned long graphlets = 8;
+		static const unsigned long graphlets = 8;
 		double counts[graphlets];
 		struct DetailedNeighbors {
 			vector<vertex_t> either;

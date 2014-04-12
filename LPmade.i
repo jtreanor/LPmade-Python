@@ -24,8 +24,6 @@
 	#include "netlib/LinkPredictor/TriangleLinkPredictor.h"
 	#include "netlib/LinkPredictor/SimRankLinkPredictor.h"
 	#include "netlib/LinkPredictor/MutualityLinkPredictor.h" 
-
-	/*
 	#include "netlib/LinkPredictor/JVolumeLinkPredictor.h"                 
 	#include "netlib/LinkPredictor/ShortestPathCountLinkPredictor.h"
 	#include "netlib/LinkPredictor/ClusteringCoefficientLinkPredictor.h"  
@@ -40,9 +38,8 @@
 	#include "netlib/LinkPredictor/VCP4UndirectedLinkPredictor.h"
 	#include "netlib/LinkPredictor/JDegreeLinkPredictor.h"                
 	#include "netlib/LinkPredictor/WeightedRootedPageRankLinkPredictor.h"
-	#include "netlib/LinkPredictor/JPageRankLinkPredictor.h"              	    
+	#include "netlib/LinkPredictor/JPageRankLinkPredictor.h"
 	#include "netlib/LinkPredictor/WeightedTriangleLinkPredictor.h"
-	*/
 
 %}
 
@@ -100,8 +97,6 @@ namespace std {
 %include "netlib/LinkPredictor/TriangleLinkPredictor.h"
 %include "netlib/LinkPredictor/SimRankLinkPredictor.h"
 %include "netlib/LinkPredictor/MutualityLinkPredictor.h"  
-
-/*
 %include "netlib/LinkPredictor/JVolumeLinkPredictor.h"                 
 %include "netlib/LinkPredictor/ShortestPathCountLinkPredictor.h"
 %include "netlib/LinkPredictor/ClusteringCoefficientLinkPredictor.h"  
@@ -116,7 +111,5 @@ namespace std {
 %include "netlib/LinkPredictor/VCP4UndirectedLinkPredictor.h"
 %include "netlib/LinkPredictor/JDegreeLinkPredictor.h"                
 %include "netlib/LinkPredictor/WeightedRootedPageRankLinkPredictor.h"
-%include "netlib/LinkPredictor/JPageRankLinkPredictor.h"              	    
+%include "netlib/LinkPredictor/JPageRankLinkPredictor.h"               
 %include "netlib/LinkPredictor/WeightedTriangleLinkPredictor.h"
-*/
-

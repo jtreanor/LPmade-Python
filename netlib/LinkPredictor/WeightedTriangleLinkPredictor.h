@@ -18,7 +18,7 @@ struct DetailedNeighbors;
 
 class WeightedTriangleLinkPredictor : public LinkPredictor {
 	private:
-		const static unsigned long graphlets = 32;
+		static const unsigned long graphlets = 32;
 		int selection;
 		weight_t counts[graphlets];
 		struct DetailedNeighbors {

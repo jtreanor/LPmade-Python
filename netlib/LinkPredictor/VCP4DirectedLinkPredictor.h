@@ -17,9 +17,9 @@ LPmade is free software: you can redistribute it and/or modify it under the term
 
 class VCP4DirectedLinkPredictor : public LinkPredictor {
 	private:
-		const static size_t graphlets = 2048;
-		const static size_t map[graphlets];
-		const static size_t elements = 1056;
+		static const size_t graphlets = 2048;
+		static const size_t map[graphlets];
+		static const size_t elements = 1056;
 		unsigned long connectedPairs;
 		unsigned long amutualPairs;
 		unsigned long mutualPairs;
